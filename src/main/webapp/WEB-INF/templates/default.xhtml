@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <style type="text/css">
+            html { height: 100% }
+            body { height: 100%; margin: 0; padding: 0 }
+            #map_canvas { height: 100% }
+        </style>
+
+        <!--        <script type="text/javascript"
+                        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDCkSq894sFExwnQXsNZWTFRZoH39aJT4I&amp;sensor=true">
+                </script>-->
+
+        <!--        <script type="text/javascript">
+                    function initialize() {
+                        var mapOptions = {
+                            center: new google.maps.LatLng(-34.397, 150.644),
+                            zoom: 20,
+                            mapTypeId: google.maps.MapTypeId.HYBRID
+        
+                        };
+                        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        
+                    }
+        
+                </script>-->
+
+        <title>Elite-FLE :<ui:insert name="title"></ui:insert></title>
+
+        <link href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
+        <script type="text/javascript" src="#{request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            $('.collapse').collapse();
+        </script>
+    </h:head>
+
+    <h:body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner " id="navbar-top">
+                <div class="container">
+
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="#">Elite-FLE</a>
+
+                    <div class="nav-collapse">
+                        <ui:fragment rendered="#{teacherBean.loggedIn}">
+<!--                            <ul class="nav pull-left">
+                                <li><a href="#">¿Quiénes Somos?</a></li>
+                                <li><a href="#">Sucursales</a></li>
+                                <li><a href="#">Precios</a></li>
+                                <li><a href="#">Encomiendas</a></li>
+                            </ul> -->
+                            <ul class="nav pull-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <h:outputText value="#{teacherBean.username}" />
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!--<li><a href="#">Éditer</a></li>-->
+                                        <li class="divider"></li>
+                                        <li>
+                                            <h:form class="navbar-form">
+                                                <h:commandLink action="#{teacherBean.logOut()}" value="Se déconnecter." />
+                                            </h:form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+
+<!--                            <form class="navbar-search pull-right">
+                                <input type="text" class="search-query" placeholder="Buscar"/>
+                                <button type="submit" class="btn"><i class="icon-search" /></button>
+                            </form>-->
+                        </ui:fragment>          
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ui:insert name="content">
+
+        </ui:insert>
+    </h:body>
+
+</html>
