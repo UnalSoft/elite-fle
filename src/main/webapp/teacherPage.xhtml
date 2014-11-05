@@ -1,14 +1,25 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="./WEB-INF/templates/default.xhtml">
+                template="./WEB-INF/templates/default.xhtml"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="title">
         title
     </ui:define>
 
-    <ui:define name="content">
-        <!--Teacher's Page-->
+    <ui:define name="content">             
+        <p class="text-justify">
+            Afin de créer une séquence il suffit d'utiliser les icônes qui sont dans la partie « séquences »et de suivre les instructions en cas de besoin d'aide, vous pouvez accéder à de l'aide en ligne. Vous pouvez :
+        </p>
+        <ul>
+            <li>Créer une séquence ;</li>
+            <li>La tester;</li>
+            <li>la modifier;</li>
+            <li>la supprimer ;</li>
+            <li>l’exécuter en l'envoyant à vos étudiants.</li>                    
+        </ul>
+        <p:separator style="width:970px;height:5px" />
     </ui:define>
 
 </ui:composition>
