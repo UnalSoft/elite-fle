@@ -2,7 +2,8 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./WEB-INF/templates/default.xhtml"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="title">
         title
@@ -20,6 +21,23 @@
             <li>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
         <p:separator style="width:970px;height:5px" />
+        <p:dataTable var="Sequence" value="sequences">
+            <p:column headerText="Sequence">
+                <h:outputText value="Sequence 1" />
+            </p:column>
+
+            <p:column headerText="Explication">
+                <h:outputText value="Explication Link" />
+            </p:column>
+
+            <p:column headerText="Actions">
+                <h:outputText value="List of actions" />
+            </p:column>
+        </p:dataTable>
+        <div class="form-actions">
+            <h:commandButton  action="#{loginBean.login()}" value="Nouvelle Séquence" class="btn btn-danger" />            
+        </div>
+
     </ui:define>
 
 </ui:composition>
