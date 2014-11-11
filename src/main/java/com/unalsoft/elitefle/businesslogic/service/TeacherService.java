@@ -6,9 +6,9 @@ package com.unalsoft.elitefle.businesslogic.service;
 
 import com.unalsoft.elitefle.dao.TeacherDAO;
 import com.unalsoft.elitefle.dao.DAOFactory;
-import com.unalsoft.elitefle.dao.PersonDAO;
+import com.unalsoft.elitefle.dao.UserDAO;
 import com.unalsoft.elitefle.entity.Teacher;
-import com.unalsoft.elitefle.entity.Person;
+import com.unalsoft.elitefle.entity.User;
 import com.unalsoft.elitefle.vo.TeacherVo;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +31,11 @@ public class TeacherService implements IService<TeacherVo> {
 
     @Override
     public void persist(TeacherVo vo, EntityManager em) {
-        PersonDAO persondao = DAOFactory.getInstance().getPersonDAO(); 
+        UserDAO persondao = DAOFactory.getInstance().getUserDAO(); 
         Teacher teacher =  new Teacher();
         teacher.setIdTeacher(vo.getIdTeacher());
-        Person person = persondao.find(vo.getPersonidPerson(), em);
-        teacher.setPersonidPerson(person);
-        teacher.setPassword(vo.getPassword());
-        teacher.setUsername(vo.getUsername());
+        User person = persondao.find(vo.getPersonidPerson(), em);
+        teacher.setUser(person);
 
         DAOFactory.getInstance().getTeacherDAO().persist(teacher, em);
         
@@ -55,10 +53,8 @@ public class TeacherService implements IService<TeacherVo> {
         
         Teacher teacher =  new Teacher();
         teacher.setIdTeacher(vo.getIdTeacher());
-        Person person = DAOFactory.getInstance().getPersonDAO().find(vo.getPersonidPerson(), em);
-        teacher.setPersonidPerson(person);
-        teacher.setPassword(vo.getPassword());
-        teacher.setUsername(vo.getUsername());
+        User person = DAOFactory.getInstance().getUserDAO().find(vo.getPersonidPerson(), em);
+        teacher.setUser(person);
     
         DAOFactory.getInstance().getTeacherDAO().update(teacher, em);
     }
@@ -82,9 +78,6 @@ public class TeacherService implements IService<TeacherVo> {
     
     public TeacherVo login(TeacherVo teacherVo, EntityManager em) {
         Teacher entity = new Teacher();
-        
-        entity.setUsername(teacherVo.getUsername());
-        entity.setPassword(teacherVo.getPassword());
         
         Teacher teacher = DAOFactory.getInstance().getTeacherDAO().login(entity, em);
         return teacher != null? teacher.toVo():null;

@@ -26,7 +26,7 @@ public class FacadeFactory {
         return new TeacherFacade(PU, ServiceFactory.getInstance().getTeacherService());
     }
 
-    public PersonFacade getPersonFacade() {
-        return new PersonFacade(PU, ServiceFactory.getInstance().getPersonService());
+    public UserFacade getUserFacade() {
+        return new UserFacade(PU, ServiceFactory.getInstance().getUserService());
     }
 }

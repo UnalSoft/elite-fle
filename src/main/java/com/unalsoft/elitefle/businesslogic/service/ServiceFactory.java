@@ -23,7 +23,7 @@ public class ServiceFactory {
         return TeacherService.getInstance();
     }
 
-    public PersonService getPersonService() {
-        return PersonService.getInstance();
+    public UserService getUserService() {
+        return UserService.getInstance();
     }
 }

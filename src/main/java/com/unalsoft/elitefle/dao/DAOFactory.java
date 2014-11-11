@@ -23,7 +23,7 @@ public class DAOFactory {
         return TeacherDAO.getInstance();
     }
 
-    public PersonDAO getPersonDAO() {
-        return PersonDAO.getInstance();
+    public UserDAO getUserDAO() {
+        return UserDAO.getInstance();
     }
 }

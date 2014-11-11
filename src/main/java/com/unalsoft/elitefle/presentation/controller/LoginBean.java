@@ -6,7 +6,9 @@ package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.TeacherFacade;
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
+import com.unalsoft.elitefle.businesslogic.facade.UserFacade;
 import com.unalsoft.elitefle.vo.TeacherVo;
+import com.unalsoft.elitefle.vo.UserVo;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -55,23 +57,26 @@ public class LoginBean implements Serializable {
     }
 
     public String login() {
-        TeacherVo teacherVo = new TeacherVo();
-        TeacherFacade teacherFacade = FacadeFactory.getInstance().getTeacherFacade();
+        UserVo administratorVo = new UserVo();
+        UserFacade administratorFacade = FacadeFactory.getInstance().getUserFacade();
 
-        teacherVo.setUsername(getUsername());
-        teacherVo.setPassword(getPassword());
+        administratorVo.setUserName(getUsername());
+        administratorVo.setPassword(getPassword());
 
-        TeacherVo login = teacherFacade.login(teacherVo);
+        UserVo login = administratorFacade.login(administratorVo);
 
         if (login != null) {
-            user.setUsername(login.getUsername());
-            user.setPersonidPerson(login.getPersonidPerson());
+            user.setUsername(login.getUserName());
+            user.setPersonidPerson(login.getIdUser());
             user.setLoggedIn(true);
             return "success";
-        } else {
+        } else {        
             FacesContext.getCurrentInstance().addMessage(
-                    "loginForm:idUser", new FacesMessage(
-                            "¡Id de usuario o contraseña inválidos!"));
+                    "loginForm:username", new FacesMessage(
+                    "Nombre de usuario o contraseña inválidos"));
+            FacesContext.getCurrentInstance().addMessage(
+                    "loginForm:password", new FacesMessage(
+                    "Nombre de usuario o contraseña inválidos"));
             return "failure";
         }
     }
