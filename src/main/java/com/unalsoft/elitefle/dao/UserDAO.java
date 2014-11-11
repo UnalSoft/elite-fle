@@ -58,20 +58,19 @@ public class UserDAO implements IDAO<User> {
     }
 
     public User login(User entity, EntityManager em) {
-        User administrator;
-        Query q = em.createQuery("SELECT u FROM User u where u.idUser=0");
-        //+ "AND u.password LIKE :password")
-//                .setParameter("username", entity.getUsername())
-//                .setParameter("password", entity.getPassword());
+        User user;
+        Query q = em.createQuery("SELECT u FROM User u "
+                + "WHERE u.username LIKE :username AND u.password LIKE :password")
+                .setParameter("username", entity.getUsername())
+                .setParameter("password", entity.getPassword());
         try {
-//            System.out.println("q.getSingleResult().toStrin÷g() = " + q.getSingleResult().toString());
-            administrator = (User) q.getSingleResult();
+            user = (User) q.getSingleResult();
         } catch (NonUniqueResultException e) {
-            administrator = (User) q.getResultList().get(0);
+            user = (User) q.getResultList().get(0);
         } catch (NoResultException e) {
-            administrator = null;
+            user = null;
         }
-        return administrator;
+        return user;
     }
 
 }

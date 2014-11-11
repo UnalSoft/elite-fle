@@ -57,13 +57,13 @@ public class LoginBean implements Serializable {
     }
 
     public String login() {
-        UserVo administratorVo = new UserVo();
-        UserFacade administratorFacade = FacadeFactory.getInstance().getUserFacade();
+        UserVo userVo = new UserVo();
+        UserFacade userFacade = FacadeFactory.getInstance().getUserFacade();
 
-        administratorVo.setUserName(getUsername());
-        administratorVo.setPassword(getPassword());
+        userVo.setUserName(getUsername());
+        userVo.setPassword(getPassword());
 
-        UserVo login = administratorFacade.login(administratorVo);
+        UserVo login = userFacade.login(userVo);
 
         if (login != null) {
             user.setUsername(login.getUserName());

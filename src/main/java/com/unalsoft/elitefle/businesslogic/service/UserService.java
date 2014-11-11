@@ -76,11 +76,11 @@ public class UserService implements IService<UserVo> {
         return list;
     }
 
-    public UserVo login(UserVo administratorVo, EntityManager em) {
+    public UserVo login(UserVo userVo, EntityManager em) {
         User entity = new User();
-        
-//        entity.setUsername(administratorVo.getUserName());
-//        entity.setPassword(administratorVo.getPassword());
+        //TODO: encrypt passwd
+        entity.setUsername(userVo.getUserName());
+        entity.setPassword(userVo.getPassword());
         
         User administrator = DAOFactory.getInstance().getUserDAO().login(entity, em);
         return administrator != null? administrator.toVo():null;

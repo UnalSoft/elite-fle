@@ -17,18 +17,16 @@ public class UserFacade extends Facade<UserVo> {
         super(PUName, service);
     }
 
-    public UserVo login(UserVo administratorVo) {
+    public UserVo login(UserVo userVo) {
 
-        em = emf.createEntityManager();
-        return ((UserService) service).login(administratorVo, em);
-
-//        try {
-//            
-//        } finally {
-//            if (em != null) { 
-//                em.clear();
-//                em.close();
-//            }
-//        }
+        try {
+            em = emf.createEntityManager();
+            return ((UserService) service).login(userVo, em);
+        } finally {
+            if (em != null) { 
+                em.clear();
+                em.close();
+            }
+        }
     }
 }
