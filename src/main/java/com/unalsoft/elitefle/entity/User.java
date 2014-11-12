@@ -1,25 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.unalsoft.elitefle.entity;
 
 import com.unalsoft.elitefle.vo.UserVo;
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Edward
+ * @author Jummartinezro
  */
 @Entity
-@Table(name = "user")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@DiscriminatorColumn(name = "DTYPE")
+@Table(name = "User")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findByIdUser", query = "SELECT u FROM User u WHERE u.idUser = :idUser"),
@@ -28,6 +36,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "User.findByMail", query = "SELECT u FROM User u WHERE u.mail = :mail"),
     @NamedQuery(name = "User.findByName", query = "SELECT u FROM User u WHERE u.name = :name")})
 public class User implements Serializable, IEntity<UserVo> {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -54,10 +63,6 @@ public class User implements Serializable, IEntity<UserVo> {
     @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Student student;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private Teacher teacher;
 
     public User() {
     }
@@ -66,7 +71,7 @@ public class User implements Serializable, IEntity<UserVo> {
         this.idUser = idUser;
     }
 
-    public User(Integer idUser, String username, String password, String mail, String name) {
+    public User(Integer idUser, String username, String password, String mail, String name, String dtype) {
         this.idUser = idUser;
         this.username = username;
         this.password = password;
@@ -114,22 +119,6 @@ public class User implements Serializable, IEntity<UserVo> {
         this.name = name;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
-    public Teacher getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -165,5 +154,5 @@ public class User implements Serializable, IEntity<UserVo> {
         vo.setPassword(getPassword());
         return vo;
     }
-    
+
 }

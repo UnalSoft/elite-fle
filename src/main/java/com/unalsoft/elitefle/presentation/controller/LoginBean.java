@@ -4,10 +4,8 @@
  */
 package com.unalsoft.elitefle.presentation.controller;
 
-import com.unalsoft.elitefle.businesslogic.facade.TeacherFacade;
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.businesslogic.facade.UserFacade;
-import com.unalsoft.elitefle.vo.TeacherVo;
 import com.unalsoft.elitefle.vo.UserVo;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
