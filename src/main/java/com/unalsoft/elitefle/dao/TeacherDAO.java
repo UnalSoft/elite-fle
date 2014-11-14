@@ -35,10 +35,7 @@ public class TeacherDAO implements IDAO<Teacher> {
 
     @Override
     public Teacher find(Object id, EntityManager em) {
-        Query query = em.createQuery("SELECT adm FROM Teacher adm "
-                + "WHERE adm.personidPerson.idPerson =:idPerson")
-                .setParameter("idPerson", id);
-        return (Teacher) query.getSingleResult();
+        return (Teacher) em.find(Teacher.class, id);
     }
 
     @Override

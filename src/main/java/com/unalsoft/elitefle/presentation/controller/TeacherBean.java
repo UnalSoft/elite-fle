@@ -13,14 +13,13 @@ import javax.faces.bean.SessionScoped;
 * @author FAMILIA
 */
 
-@ManagedBean
+@ManagedBean(name="teacherBean")
 @SessionScoped
 public class TeacherBean implements Serializable {
-    private Integer idTeacher;
     private String username;
     //private String password;
     private String type;
-    private Integer personidPerson;
+    private Integer idTeacher;
     private boolean loggedIn;
     
     public Integer getIdTeacher() {
@@ -56,17 +55,6 @@ this.password = password;
         this.type = type;
     }
 
-    public Integer getPersonidPerson() {
-        return personidPerson;
-    }
-
-    /**
-* @param personidPerson the personidPerson to set
-*/
-    public void setPersonidPerson(Integer personidPerson) {
-        this.personidPerson = personidPerson;
-    }
-
     public boolean isLoggedIn() {
         return loggedIn;
     }
@@ -76,10 +64,9 @@ this.password = password;
     }
     
     public String logOut() {
-        idTeacher = null;
         type = null;
         username = null;
-        personidPerson = null;
+        idTeacher = null;
         loggedIn = false;
         return "logout";
     }

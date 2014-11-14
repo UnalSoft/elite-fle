@@ -29,4 +29,8 @@ public class FacadeFactory {
     public UserFacade getUserFacade() {
         return new UserFacade(PU, ServiceFactory.getInstance().getUserService());
     }
+    
+    public SupportFacade getSupportFacade() {
+        return new SupportFacade(PU, ServiceFactory.getInstance().getSupportService());
+    }
 }

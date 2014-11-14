@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./WEB-INF/templates/default.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        Supports
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Supports</h2>
+        <h:form>
+            <p:dataTable var="support" value="#{supportBean.supportList}" widgetVar="supportsTable"
+                         emptyMessage="Aucun support trouvé!" filteredValue="#{supportBean.filteredSupports}">
+
+                <f:facet name="header">
+                    <p:outputPanel>
+                        <h:outputText value="Chercher:" />
+                        <p:inputText id="globalFilter" onkeyup="PF('supportsTable').filter()" style="width:150px" placeholder="Mot clé"/>                        
+                    </p:outputPanel>                    
+                </f:facet>
+
+                <p:column filterBy="#{support.title}" headerText="Titre" filterMatchMode="contains">
+                    <h:outputText value="#{support.title}" />
+                </p:column> 
+                <p:column filterBy="#{support.type}" headerText="Type" filterMatchMode="contains">
+                    <h:outputText value="#{support.type}" />
+                </p:column> 
+                <p:column filterBy="#{support.notion}" headerText="Notion" filterMatchMode="contains">
+                    <h:outputText value="#{support.notion}" />
+                </p:column> 
+                <p:column filterBy="#{support.subNotion}" headerText="Sous-Notion" filterMatchMode="contains">
+                    <h:outputText value="#{support.subNotion}" />
+                </p:column> 
+                <p:column filterBy="#{support.authorName}" headerText="Auteur" filterMatchMode="contains">
+                    <h:outputText value="#{support.authorName}" />
+                </p:column> 
+
+            </p:dataTable>
+            <p:separator/>
+            
+            <a data-toggle="modal" href="#shareModal" class="btn btn-danger">Ajouter Support</a>
+        </h:form>
+        <h:form id="shareForm" class="form-horizontal form-no-margin">
+            <div id="shareModal" class="modal hide fade">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h2>Ajouter Support:</h2>
+                </div>
+                <h:panelGrid id="grid" columns="3">
+                    <p:outputLabel for="title" value="Titre: " />
+                    <p:inputText id="title" required="true" value="#{supportBean.title}" 
+                                 requiredMessage="Veuillez compléter le champ" />
+                    <p:message id="titleMessage" for="title" />
+                    
+                    <p:outputLabel for="type" value="Type: " />
+                    <h:selectOneMenu id="type" value="#{supportBean.type}">
+                        <f:selectItem itemLabel="Linguistique" itemValue="Linguistique" />
+                        <f:selectItem itemLabel="Didactique" itemValue="Didactique" />
+                    </h:selectOneMenu>
+                    <p:message id="typeMessage" for="type" />
+
+                    <p:outputLabel for="notion" value="Notion: " />
+                    <h:selectOneMenu id="notion" value="#{supportBean.notion}">
+                        <!-- TODO: Get this information from... somewhere  -->
+                        <f:selectItem itemLabel="N1" itemValue="N1" />
+                        <f:selectItem itemLabel="N2" itemValue="N2" />
+                        <f:selectItem itemLabel="N3" itemValue="N3" />
+                    </h:selectOneMenu>
+                    <p:message id="notionMessage" for="notion" />
+
+                    <p:outputLabel for="subNotion" value="Sous-notion: " />
+                    <h:selectOneMenu id="subNotion" value="#{supportBean.subNotion}">
+                        <!-- TODO: Get this information from... somewhere  -->
+                        <f:selectItem itemLabel="SN1.1" itemValue="SN1.1" />
+                        <f:selectItem itemLabel="SN2.1" itemValue="SN2.1" />
+                        <f:selectItem itemLabel="SN3.1" itemValue="SN3.1" />
+                    </h:selectOneMenu>
+                    <p:message id="subNotionMessage" for="subNotion" />
+
+                    <p:outputLabel for="author" value="Author: " />
+                    <p:inputText id="author" required="true" value="#{teacherBean.username}" readonly="true"
+                                 requiredMessage="Veuillez compléter le champ" />
+                    <p:message id="authorMessage" for="author" />
+                    
+                    <p:fileUpload value="#{supportBean.urlSupport}" label="Joindre Support" mode="simple"/>
+
+                </h:panelGrid>
+                <div class="form-actions">
+                    <p:commandButton actionListener="#{supportBean.addSupport()}" value="Ajouter" validateClient="true" update="grid" styleClass="btn btn-danger" />
+                </div>
+            </div>
+        </h:form>
+        
+    </ui:define>
+
+</ui:composition>

@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.unalsoft.elitefle.entity;
 
+import com.unalsoft.elitefle.vo.SupportVo;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,7 +30,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Support.findByType", query = "SELECT s FROM Support s WHERE s.type = :type"),
     @NamedQuery(name = "Support.findByNotion", query = "SELECT s FROM Support s WHERE s.notion = :notion"),
     @NamedQuery(name = "Support.findBySubNotion", query = "SELECT s FROM Support s WHERE s.subNotion = :subNotion")})
-public class Support implements Serializable {
+public class Support implements Serializable, IEntity<SupportVo> {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -66,7 +62,7 @@ public class Support implements Serializable {
     private List<Sequence> sequenceList;
     @JoinColumn(name = "idAuthor", referencedColumnName = "idTeacher")
     @ManyToOne(optional = false)
-    private Teacher idAuthor;
+    private Teacher author;
 
     public Support() {
     }
@@ -131,12 +127,12 @@ public class Support implements Serializable {
         this.sequenceList = sequenceList;
     }
 
-    public Teacher getIdAuthor() {
-        return idAuthor;
+    public Teacher getAuthor() {
+        return author;
     }
 
-    public void setIdAuthor(Teacher idAuthor) {
-        this.idAuthor = idAuthor;
+    public void setAuthor(Teacher author) {
+        this.author = author;
     }
 
     @Override
@@ -162,6 +158,28 @@ public class Support implements Serializable {
     @Override
     public String toString() {
         return "com.unalsoft.elitefle.entity.Support[ urlSupport=" + urlSupport + " ]";
+    }
+
+    @Override
+    public SupportVo toVo() {
+        SupportVo vo = new SupportVo();
+        
+        vo.setUrlSupport(getUrlSupport());
+        vo.setTitle(getTitle());
+        vo.setType(getType());
+        vo.setNotion(getNotion());
+        vo.setSubNotion(getSubNotion());
+        if (getAuthor() != null) {
+            vo.setIdAuthor(getAuthor().getIdTeacher());
+            vo.setAuthorName(getAuthor().getName());
+        }
+        List<Integer> sequenceIdList = new ArrayList<Integer>();
+        for (Sequence seq : getSequenceList()) {
+            sequenceIdList.add(seq.getIdSequence());
+        }
+        vo.setSequenceIdList(sequenceIdList);
+                
+        return vo;
     }
     
 }

@@ -27,7 +27,7 @@ public class Teacher extends User implements Serializable/*, IEntity<TeacherVo>*
     @NotNull
     @Column(name = "idTeacher")
     private Integer idTeacher;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAuthor")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
     private List<Support> supportList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAuthor")
     private List<Sequence> sequenceList;

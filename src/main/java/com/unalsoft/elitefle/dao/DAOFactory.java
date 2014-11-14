@@ -26,4 +26,8 @@ public class DAOFactory {
     public UserDAO getUserDAO() {
         return UserDAO.getInstance();
     }
+    
+    public SupportDAO getSupportDAO() {
+        return SupportDAO.getInstance();
+    }
 }
