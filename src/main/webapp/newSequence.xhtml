@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./WEB-INF/templates/default.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+        title
+    </ui:define>
+
+    <ui:define name="head">
+        <!--        <f:metadata>
+                    <f:viewParam name="productId" value="#{productDetailView.productId}" />
+                </f:metadata>-->
+    </ui:define>
+
+    <ui:define name="content">
+        <!--form-no-margin-->
+
+        <h:form id="newSequenceForm" class="form-horizontal">
+            <div class="form-group">
+                <div class="modal-header">
+                    <h2>Nouvelle Séquence</h2>
+                </div>
+            </div>
+            <!--TODO:Add subtitle Activité de repérage-->
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:outputLabel for="seqName" value="Nom" />
+                <p:inputText id="seqName" required="true" value="#{sequenceBean.seqName}" 
+                             requiredMessage="Veuillez compléter le champ" />
+                <p:watermark for="seqName" value="Donnez un nom à la séquence" />
+                <p:message id="seqNameMessage" for="seqName" /> 
+
+                <p:outputLabel for="seqNotion" value="Notion" />
+                <p:selectOneMenu id="seqNotion" value="#{sequenceBean.seqNotion}">
+                    <f:selectItems value="#{sequenceBean.notions}" />
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+
+            <div class="form-actions">
+                <h:commandButton action="#{loginBean.login()}" value="Accéder" class="btn btn-danger" />
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
