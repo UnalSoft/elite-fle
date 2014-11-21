@@ -5,6 +5,7 @@
  */
 package com.unalsoft.elitefle.presentation.controller;
 
+import com.unalsoft.elitefle.entity.Notion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -23,19 +24,14 @@ public class SequenceBean {
     private String seqName;
     private String seqNotion;
     private List<SelectItem> notions;
-    
-    
+
     @PostConstruct
     public void init() {
         //TODO: Change to the correct notions
         notions = new ArrayList<SelectItem>();
-        notions.add(new SelectItem("San Francisco"));
-        notions.add(new SelectItem("San Francisco1"));
-        notions.add(new SelectItem("San Francisco2"));
-        notions.add(new SelectItem("San Francisco3"));
-        notions.add(new SelectItem("San Francisco4"));
-        notions.add(new SelectItem("San Francisco5"));
-        notions.add(new SelectItem("San Francisco6"));
+        for (Notion notion : Notion.values()) {
+            notions.add(new SelectItem(notion, notion.getDescription()));
+        }
     }
 
     /**
