@@ -5,9 +5,11 @@
  */
 package com.unalsoft.elitefle.presentation.controller;
 
+import com.unalsoft.elitefle.entity.Level;
 import com.unalsoft.elitefle.entity.Notion;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -22,28 +24,41 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class SequenceBean {
 
-    private boolean seqAreSupports;
-    private String seqName;
+    private boolean supports;
+    private String name;
     //@TODO: Change if necessary for objects
-    private String seqSpottingText;
-    private String seqSpottingActivity;
-    private String seqSystematisationText;
-    private String seqSystematisationActivity;
-    private String seqKnowledgeApp;
-    private Notion seqNotion;
-    private Notion.SubNotion seqSubNotion;
+    private Level level;
+    private String spottingText;
+    private String spottingActivity;
+    private String systematisationText;
+    private String systematisationActivity;
+    private String knowledgeApp;
+    private Notion notion;
+    private Notion.SubNotion subNotion;
+    private List<SelectItem> levels;
     private List<SelectItem> notions;
     private List<SelectItem> subNotions;
+    //@TODO change for the activities obtained from the db;
+    private TreeSet<String> activities;
+    private TreeSet<String> texts;
 
     @PostConstruct
     public void init() {
-        setSeqNotion(Notion.textualStructuring);
+        setNotion(Notion.textualStructuring);
         setNotions(new ArrayList<SelectItem>());
+        setLevels(new ArrayList<SelectItem>());
 
-        for (Notion notion : Notion.values()) {
-            getNotions().add(new SelectItem(notion, notion.getDescription()));
+        for (Notion n : Notion.values()) {
+            getNotions().add(new SelectItem(n, n.getDescription()));
         }
         setSubNotions();
+
+        for (Level l : Level.values()) {
+            getLevels().add(new SelectItem(l,l.getLevel()));
+        }
+
+        //@TODO get a list of activities;
+        //@TODO extract the selected activity from the treeset;
     }
 
     /**
@@ -52,7 +67,7 @@ public class SequenceBean {
      * @param e
      */
     public void changeSubNotions(ValueChangeEvent e) {
-        setSeqNotion((Notion) e.getNewValue());
+        setNotion((Notion) e.getNewValue());
         setSubNotions();
     }
 
@@ -61,73 +76,87 @@ public class SequenceBean {
      */
     private void setSubNotions() {
         setSubNotions(new ArrayList<SelectItem>());
-        for (Notion.SubNotion subNotion : getSeqNotion().getSubNotions()) {
+        for (Notion.SubNotion subNotion : getNotion().getSubNotions()) {
             getSubNotions().add(new SelectItem(
                     subNotion, subNotion.getDescription()));
         }
     }
 
     /**
-     * @return the seqAreSupports
+     * @return the supports
      */
-    public boolean isSeqAreSupports() {
-        return seqAreSupports;
+    public boolean isSupports() {
+        return supports;
     }
 
     /**
-     * @return the seqName
+     * @return the name
      */
-    public String getSeqName() {
-        return seqName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @return the seqSpottingText
+     * @return the level
      */
-    public String getSeqSpottingText() {
-        return seqSpottingText;
+    public Level getLevel() {
+        return level;
     }
 
     /**
-     * @return the seqSpottingActivity
+     * @return the spottingText
      */
-    public String getSeqSpottingActivity() {
-        return seqSpottingActivity;
+    public String getSpottingText() {
+        return spottingText;
     }
 
     /**
-     * @return the seqSystematisationText
+     * @return the spottingActivity
      */
-    public String getSeqSystematisationText() {
-        return seqSystematisationText;
+    public String getSpottingActivity() {
+        return spottingActivity;
     }
 
     /**
-     * @return the seqSystematisationActivity
+     * @return the systematisationText
      */
-    public String getSeqSystematisationActivity() {
-        return seqSystematisationActivity;
+    public String getSystematisationText() {
+        return systematisationText;
     }
 
     /**
-     * @return the seqKnowledgeApp
+     * @return the systematisationActivity
      */
-    public String getSeqKnowledgeApp() {
-        return seqKnowledgeApp;
+    public String getSystematisationActivity() {
+        return systematisationActivity;
     }
 
     /**
-     * @return the seqNotion
+     * @return the knowledgeApp
      */
-    public Notion getSeqNotion() {
-        return seqNotion;
+    public String getKnowledgeApp() {
+        return knowledgeApp;
     }
 
     /**
-     * @return the seqSubNotion
+     * @return the notion
      */
-    public Notion.SubNotion getSeqSubNotion() {
-        return seqSubNotion;
+    public Notion getNotion() {
+        return notion;
+    }
+
+    /**
+     * @return the subNotion
+     */
+    public Notion.SubNotion getSubNotion() {
+        return subNotion;
+    }
+
+    /**
+     * @return the levels
+     */
+    public List<SelectItem> getLevels() {
+        return levels;
     }
 
     /**
@@ -145,66 +174,94 @@ public class SequenceBean {
     }
 
     /**
-     * @param seqAreSupports the seqAreSupports to set
+     * @return the activities
      */
-    public void setSeqAreSupports(boolean seqAreSupports) {
-        this.seqAreSupports = seqAreSupports;
+    public TreeSet<String> getActivities() {
+        return activities;
     }
 
     /**
-     * @param seqName the seqName to set
+     * @return the texts
      */
-    public void setSeqName(String seqName) {
-        this.seqName = seqName;
+    public TreeSet<String> getTexts() {
+        return texts;
     }
 
     /**
-     * @param seqSpottingText the seqSpottingText to set
+     * @param supports the supports to set
      */
-    public void setSeqSpottingText(String seqSpottingText) {
-        this.seqSpottingText = seqSpottingText;
+    public void setSupports(boolean supports) {
+        this.supports = supports;
     }
 
     /**
-     * @param seqSpottingActivity the seqSpottingActivity to set
+     * @param name the name to set
      */
-    public void setSeqSpottingActivity(String seqSpottingActivity) {
-        this.seqSpottingActivity = seqSpottingActivity;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * @param seqSystematisationText the seqSystematisationText to set
+     * @param level the level to set
      */
-    public void setSeqSystematisationText(String seqSystematisationText) {
-        this.seqSystematisationText = seqSystematisationText;
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     /**
-     * @param seqSystematisationActivity the seqSystematisationActivity to set
+     * @param spottingText the spottingText to set
      */
-    public void setSeqSystematisationActivity(String seqSystematisationActivity) {
-        this.seqSystematisationActivity = seqSystematisationActivity;
+    public void setSpottingText(String spottingText) {
+        this.spottingText = spottingText;
     }
 
     /**
-     * @param seqKnowledgeApp the seqKnowledgeApp to set
+     * @param spottingActivity the spottingActivity to set
      */
-    public void setSeqKnowledgeApp(String seqKnowledgeApp) {
-        this.seqKnowledgeApp = seqKnowledgeApp;
+    public void setSpottingActivity(String spottingActivity) {
+        this.spottingActivity = spottingActivity;
     }
 
     /**
-     * @param seqNotion the seqNotion to set
+     * @param systematisationText the systematisationText to set
      */
-    public void setSeqNotion(Notion seqNotion) {
-        this.seqNotion = seqNotion;
+    public void setSystematisationText(String systematisationText) {
+        this.systematisationText = systematisationText;
     }
 
     /**
-     * @param seqSubNotion the seqSubNotion to set
+     * @param systematisationActivity the systematisationActivity to set
      */
-    public void setSeqSubNotion(Notion.SubNotion seqSubNotion) {
-        this.seqSubNotion = seqSubNotion;
+    public void setSystematisationActivity(String systematisationActivity) {
+        this.systematisationActivity = systematisationActivity;
+    }
+
+    /**
+     * @param knowledgeApp the knowledgeApp to set
+     */
+    public void setKnowledgeApp(String knowledgeApp) {
+        this.knowledgeApp = knowledgeApp;
+    }
+
+    /**
+     * @param notion the notion to set
+     */
+    public void setNotion(Notion notion) {
+        this.notion = notion;
+    }
+
+    /**
+     * @param subNotion the subNotion to set
+     */
+    public void setSubNotion(Notion.SubNotion subNotion) {
+        this.subNotion = subNotion;
+    }
+
+    /**
+     * @param levels the levels to set
+     */
+    public void setLevels(List<SelectItem> levels) {
+        this.levels = levels;
     }
 
     /**
@@ -220,4 +277,19 @@ public class SequenceBean {
     public void setSubNotions(List<SelectItem> subNotions) {
         this.subNotions = subNotions;
     }
+
+    /**
+     * @param activities the activities to set
+     */
+    public void setActivities(TreeSet<String> activities) {
+        this.activities = activities;
+    }
+
+    /**
+     * @param texts the texts to set
+     */
+    public void setTexts(TreeSet<String> texts) {
+        this.texts = texts;
+    }
+
 }

@@ -34,7 +34,7 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:inputText id="seqName" required="true" 
-                                         value="#{sequenceBean.seqName}" 
+                                         value="#{sequenceBean.name}" 
                                          requiredMessage="Veuillez compléter le champ" />
                             <p:watermark for="seqName" 
                                          value="Donnez un nom à la séquence" />
@@ -51,7 +51,7 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqNotion" 
-                                             value="#{sequenceBean.seqNotion}" 
+                                             value="#{sequenceBean.notion}" 
                                              onchange="submit()" 
                                              valueChangeListener="#{sequenceBean.changeSubNotions}">
                                 <f:selectItems value="#{sequenceBean.notions}" />
@@ -62,8 +62,17 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSubNotion" 
-                                             value="#{sequenceBean.seqSubNotion}">
+                                             value="#{sequenceBean.subNotion}">
                                 <f:selectItems value="#{sequenceBean.subNotions}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqLevel" value="Niveau" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqLevel" 
+                                             value="#{sequenceBean.level}">
+                                <f:selectItems value="#{sequenceBean.levels}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -72,8 +81,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSpottingText" 
-                                             value="#{sequenceBean.seqSpottingText}">
-                                <f:selectItems value="#{sequenceBean.seqSpottingText}" />
+                                             value="#{sequenceBean.spottingText}">
+                                <f:selectItems value="#{sequenceBean.spottingText}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -82,8 +91,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSpottingActivity" 
-                                             value="#{sequenceBean.seqSpottingActivity}">
-                                <f:selectItems value="#{sequenceBean.seqSpottingActivity}" />
+                                             value="#{sequenceBean.spottingActivity}">
+                                <f:selectItems value="#{sequenceBean.spottingActivity}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -102,7 +111,7 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectBooleanButton id="seqSupport" 
-                                                   value="#{sequenceBean.seqAreSupports}" 
+                                                   value="#{sequenceBean.supports}" 
                                                    onLabel="Oui" offLabel="No" />
                         </h:panelGroup>
 
@@ -120,9 +129,9 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationText" 
-                                             value="#{sequenceBean.seqSystematisationText}">
+                                             value="#{sequenceBean.systematisationText}">
                                 <f:selectItems 
-                                    value="#{sequenceBean.seqSystematisationText}" />
+                                    value="#{sequenceBean.systematisationText}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -131,8 +140,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationActivity" 
-                                             value="#{sequenceBean.seqSystematisationActivity}">
-                                <f:selectItems value="#{sequenceBean.seqSystematisationActivity}" />
+                                             value="#{sequenceBean.systematisationActivity}">
+                                <f:selectItems value="#{sequenceBean.systematisationActivity}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -146,7 +155,7 @@
                 </h:panelGroup> 
                 <h:panelGroup>
                     <p:inputTextarea id="seqKnowledgeApp" required="false" 
-                                     value="#{sequenceBean.seqKnowledgeApp}" 
+                                     value="#{sequenceBean.knowledgeApp}" 
                                      style="width: 100%"
                                      autoResize="false"/>
                     <p:watermark for="seqKnowledgeApp" 
