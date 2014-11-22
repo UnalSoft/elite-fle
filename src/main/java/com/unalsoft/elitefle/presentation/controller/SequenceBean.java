@@ -22,7 +22,14 @@ import javax.faces.model.SelectItem;
 @ViewScoped
 public class SequenceBean {
 
+    private boolean seqAreSupports;
     private String seqName;
+    //@TODO: Change if necessary for objects
+    private String seqSpottingText;
+    private String seqSpottingActivity;
+    private String seqSystematisationText;
+    private String seqSystematisationActivity;
+    private String seqKnowledgeApp;
     private Notion seqNotion;
     private Notion.SubNotion seqSubNotion;
     private List<SelectItem> notions;
@@ -30,13 +37,41 @@ public class SequenceBean {
 
     @PostConstruct
     public void init() {
-        seqNotion = Notion.textualStructuring;
-        notions = new ArrayList<SelectItem>();
-        
+        setSeqNotion(Notion.textualStructuring);
+        setNotions(new ArrayList<SelectItem>());
+
         for (Notion notion : Notion.values()) {
-            notions.add(new SelectItem(notion, notion.getDescription()));
+            getNotions().add(new SelectItem(notion, notion.getDescription()));
         }
         setSubNotions();
+    }
+
+    /**
+     * Change the Sub-Notions list according to the selected Notion
+     *
+     * @param e
+     */
+    public void changeSubNotions(ValueChangeEvent e) {
+        setSeqNotion((Notion) e.getNewValue());
+        setSubNotions();
+    }
+
+    /**
+     * Refills the Sub-Notions Array List according to the selected Notion
+     */
+    private void setSubNotions() {
+        setSubNotions(new ArrayList<SelectItem>());
+        for (Notion.SubNotion subNotion : getSeqNotion().getSubNotions()) {
+            getSubNotions().add(new SelectItem(
+                    subNotion, subNotion.getDescription()));
+        }
+    }
+
+    /**
+     * @return the seqAreSupports
+     */
+    public boolean isSeqAreSupports() {
+        return seqAreSupports;
     }
 
     /**
@@ -44,6 +79,41 @@ public class SequenceBean {
      */
     public String getSeqName() {
         return seqName;
+    }
+
+    /**
+     * @return the seqSpottingText
+     */
+    public String getSeqSpottingText() {
+        return seqSpottingText;
+    }
+
+    /**
+     * @return the seqSpottingActivity
+     */
+    public String getSeqSpottingActivity() {
+        return seqSpottingActivity;
+    }
+
+    /**
+     * @return the seqSystematisationText
+     */
+    public String getSeqSystematisationText() {
+        return seqSystematisationText;
+    }
+
+    /**
+     * @return the seqSystematisationActivity
+     */
+    public String getSeqSystematisationActivity() {
+        return seqSystematisationActivity;
+    }
+
+    /**
+     * @return the seqKnowledgeApp
+     */
+    public String getSeqKnowledgeApp() {
+        return seqKnowledgeApp;
     }
 
     /**
@@ -75,10 +145,52 @@ public class SequenceBean {
     }
 
     /**
+     * @param seqAreSupports the seqAreSupports to set
+     */
+    public void setSeqAreSupports(boolean seqAreSupports) {
+        this.seqAreSupports = seqAreSupports;
+    }
+
+    /**
      * @param seqName the seqName to set
      */
     public void setSeqName(String seqName) {
         this.seqName = seqName;
+    }
+
+    /**
+     * @param seqSpottingText the seqSpottingText to set
+     */
+    public void setSeqSpottingText(String seqSpottingText) {
+        this.seqSpottingText = seqSpottingText;
+    }
+
+    /**
+     * @param seqSpottingActivity the seqSpottingActivity to set
+     */
+    public void setSeqSpottingActivity(String seqSpottingActivity) {
+        this.seqSpottingActivity = seqSpottingActivity;
+    }
+
+    /**
+     * @param seqSystematisationText the seqSystematisationText to set
+     */
+    public void setSeqSystematisationText(String seqSystematisationText) {
+        this.seqSystematisationText = seqSystematisationText;
+    }
+
+    /**
+     * @param seqSystematisationActivity the seqSystematisationActivity to set
+     */
+    public void setSeqSystematisationActivity(String seqSystematisationActivity) {
+        this.seqSystematisationActivity = seqSystematisationActivity;
+    }
+
+    /**
+     * @param seqKnowledgeApp the seqKnowledgeApp to set
+     */
+    public void setSeqKnowledgeApp(String seqKnowledgeApp) {
+        this.seqKnowledgeApp = seqKnowledgeApp;
     }
 
     /**
@@ -107,19 +219,5 @@ public class SequenceBean {
      */
     public void setSubNotions(List<SelectItem> subNotions) {
         this.subNotions = subNotions;
-    }
-
-    public void changeSubNotions(ValueChangeEvent e) {
-        seqNotion=(Notion)e.getNewValue();
-        System.out.println("The selected Notion is "+seqNotion);
-        setSubNotions();
-    }
-    
-    private void setSubNotions() {
-        subNotions = new ArrayList<SelectItem>();
-        for (Notion.SubNotion subNotion : seqNotion.getSubNotions()) {
-            subNotions.add(new SelectItem(
-                    subNotion, subNotion.getDescription()));
-        }
     }
 }

@@ -11,48 +11,158 @@
     </ui:define>
 
     <ui:define name="head">
-        <!--        <f:metadata>
-                    <f:viewParam name="productId" value="#{productDetailView.productId}" />
-                </f:metadata>-->
+
     </ui:define>
 
     <ui:define name="content">
         <!--form-no-margin-->
 
         <h:form id="newSequenceForm" class="form-horizontal">
-            <div class="form-group">
-                <div class="modal-header">
-                    <h2>Nouvelle Séquence</h2>
-                </div>
-            </div>
-            <!--TODO:Add subtitle Activité de repérage-->
-            <h:panelGrid columns="2" cellpadding="5">
+            <h:panelGrid columns="1" cellpadding="5">
+                <h:panelGroup> 
+                    <div class="form-group" id="titleClass">
+                        <div class="modal-header">
+                            <h2>Composez votre séquence didactique</h2>
+                        </div>
+                    </div>
+                </h:panelGroup> 
+                <h:panelGroup> 
+                    <h:panelGrid columns="2" cellpadding="5" width="100%">
+                        <h:panelGroup id="panelSeqName">
+                            <p:outputLabel for="seqName" value="Nom" 
+                                           style="font-weight:bold"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:inputText id="seqName" required="true" 
+                                         value="#{sequenceBean.seqName}" 
+                                         requiredMessage="Veuillez compléter le champ" />
+                            <p:watermark for="seqName" 
+                                         value="Donnez un nom à la séquence" />
+                            <p:message id="seqNameMessage" for="seqName" /> 
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="modal-header">
+                                <h3>Activité de repérage</h3>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqNotion" value="Notion" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqNotion" 
+                                             value="#{sequenceBean.seqNotion}" 
+                                             onchange="submit()" 
+                                             valueChangeListener="#{sequenceBean.changeSubNotions}">
+                                <f:selectItems value="#{sequenceBean.notions}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqSubNotion" value="Sous-notion" />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqSubNotion" 
+                                             value="#{sequenceBean.seqSubNotion}">
+                                <f:selectItems value="#{sequenceBean.subNotions}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqSpottingText" 
+                                           value="Texte de repérage"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqSpottingText" 
+                                             value="#{sequenceBean.seqSpottingText}">
+                                <f:selectItems value="#{sequenceBean.seqSpottingText}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqSpottingActivity" 
+                                           value="Activité de repérage"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqSpottingActivity" 
+                                             value="#{sequenceBean.seqSpottingActivity}">
+                                <f:selectItems value="#{sequenceBean.seqSpottingActivity}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
 
-                <p:outputLabel for="seqName" value="Nom" />
-                <p:inputText id="seqName" required="true" value="#{sequenceBean.seqName}" 
-                             requiredMessage="Veuillez compléter le champ" />
-                <p:watermark for="seqName" value="Donnez un nom à la séquence" />
-                <p:message id="seqNameMessage" for="seqName" /> 
+                        <h:panelGroup>
+                            <div class="modal-header">
+                                <h3>Support linguistique et didactique</h3>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup/>
 
-                <p:outputLabel for="seqNotion" value="Notion" />
-                <p:selectOneMenu id="seqNotion" 
-                                 value="#{sequenceBean.seqNotion}" 
-                                 onchange="submit()" 
-                                 valueChangeListener="#{sequenceBean.changeSubNotions}">
-                    <f:selectItems value="#{sequenceBean.notions}" />
-                </p:selectOneMenu>
-                
-                <p:outputLabel for="seqSubNotion" value="Sous-notion" />
-                <p:selectOneMenu id="seqSubNotion" value="#{sequenceBean.seqSubNotion}">
-                    <f:selectItems value="#{sequenceBean.subNotions}" />
-                </p:selectOneMenu>
 
+                        <h:panelGroup>
+                            <h:outputText 
+                                value="Souhaitez-vous utiliser des supports 
+                                linguistiques et/ou didactiques ? " />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectBooleanButton id="seqSupport" 
+                                                   value="#{sequenceBean.seqAreSupports}" 
+                                                   onLabel="Oui" offLabel="No" />
+                        </h:panelGroup>
+
+
+                        <h:panelGroup id="systematisationActivityPanel">
+                            <div class="modal-header">
+                                <h3>Activité de systématisation</h3>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup/>
+
+                        <h:panelGroup>
+                            <p:outputLabel for="seqSystematisationText" 
+                                           value="Texte de systématisation"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqSystematisationText" 
+                                             value="#{sequenceBean.seqSystematisationText}">
+                                <f:selectItems 
+                                    value="#{sequenceBean.seqSystematisationText}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:outputLabel for="seqSystematisationActivity" 
+                                           value="Activité de systématisation"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:selectOneMenu id="seqSystematisationActivity" 
+                                             value="#{sequenceBean.seqSystematisationActivity}">
+                                <f:selectItems value="#{sequenceBean.seqSystematisationActivity}" />
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+
+                        <h:panelGroup id="applicationActivityPanel">
+                            <div class="modal-header">
+                                <h3>Activité d'application de connaissances</h3>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup/> 
+                    </h:panelGrid>
+                </h:panelGroup> 
+                <h:panelGroup>
+                    <p:inputTextarea id="seqKnowledgeApp" required="false" 
+                                     value="#{sequenceBean.seqKnowledgeApp}" 
+                                     style="width: 100%"
+                                     autoResize="false"/>
+                    <p:watermark for="seqKnowledgeApp" 
+                                 value="Écrivez dans cette zone vos consignes de travail." />
+                </h:panelGroup>
+                <h:panelGroup>
+                    <div class="form-actions">
+                        
+                            <h:commandButton action="#{loginBean.login()}" 
+                                             value="Accéder" class="btn btn-danger"/>
+                    </div>
+                </h:panelGroup>
             </h:panelGrid>
 
+            <!--@TODO: Change the button "support" if necessary or not kute ;)-->
 
-            <div class="form-actions">
-                <h:commandButton action="#{loginBean.login()}" value="Accéder" class="btn btn-danger" />
-            </div>
         </h:form>
     </ui:define>
 
