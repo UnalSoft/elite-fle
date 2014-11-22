@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -26,20 +27,16 @@ public class SequenceBean {
     private Notion.SubNotion seqSubNotion;
     private List<SelectItem> notions;
     private List<SelectItem> subNotions;
-    
 
     @PostConstruct
     public void init() {
-        seqNotion=Notion.textualStructuring;
-        notions=new ArrayList<SelectItem>();
-        subNotions=new ArrayList<SelectItem>();
+        seqNotion = Notion.textualStructuring;
+        notions = new ArrayList<SelectItem>();
+        
         for (Notion notion : Notion.values()) {
             notions.add(new SelectItem(notion, notion.getDescription()));
         }
-        for(Notion.SubNotion subNotion:seqNotion.getSubNotions()){
-            subNotions.add(new SelectItem(
-                    subNotion,subNotion.getDescription()));
-        }
+        setSubNotions();
     }
 
     /**
@@ -112,4 +109,17 @@ public class SequenceBean {
         this.subNotions = subNotions;
     }
 
+    public void changeSubNotions(ValueChangeEvent e) {
+        seqNotion=(Notion)e.getNewValue();
+        System.out.println("The selected Notion is "+seqNotion);
+        setSubNotions();
+    }
+    
+    private void setSubNotions() {
+        subNotions = new ArrayList<SelectItem>();
+        for (Notion.SubNotion subNotion : seqNotion.getSubNotions()) {
+            subNotions.add(new SelectItem(
+                    subNotion, subNotion.getDescription()));
+        }
+    }
 }

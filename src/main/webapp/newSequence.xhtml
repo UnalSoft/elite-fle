@@ -35,7 +35,10 @@
                 <p:message id="seqNameMessage" for="seqName" /> 
 
                 <p:outputLabel for="seqNotion" value="Notion" />
-                <p:selectOneMenu id="seqNotion" value="#{sequenceBean.seqNotion}">
+                <p:selectOneMenu id="seqNotion" 
+                                 value="#{sequenceBean.seqNotion}" 
+                                 onchange="submit()" 
+                                 valueChangeListener="#{sequenceBean.changeSubNotions}">
                     <f:selectItems value="#{sequenceBean.notions}" />
                 </p:selectOneMenu>
                 
