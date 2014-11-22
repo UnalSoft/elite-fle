@@ -22,76 +22,94 @@ import javax.faces.model.SelectItem;
 public class SequenceBean {
 
     private String seqName;
-    private String seqNotion;
+    private Notion seqNotion;
+    private Notion.SubNotion seqSubNotion;
     private List<SelectItem> notions;
+    private List<SelectItem> subNotions;
+    
 
     @PostConstruct
     public void init() {
-        //TODO: Change to the correct notions
-        notions = new ArrayList<SelectItem>();
+        seqNotion=Notion.textualStructuring;
+        notions=new ArrayList<SelectItem>();
+        subNotions=new ArrayList<SelectItem>();
         for (Notion notion : Notion.values()) {
             notions.add(new SelectItem(notion, notion.getDescription()));
+        }
+        for(Notion.SubNotion subNotion:seqNotion.getSubNotions()){
+            subNotions.add(new SelectItem(
+                    subNotion,subNotion.getDescription()));
         }
     }
 
     /**
-     * Get the value of notions
-     *
-     * @return the value of notions
-     */
-    public List getNotions() {
-        return notions;
-    }
-
-    /**
-     * Set the value of notions
-     *
-     * @param notions new value of notions
-     */
-    public void setNotions(List<SelectItem> notions) {
-        this.notions = notions;
-    }
-
-    /**
-     * Get the value of seqNotion
-     *
-     * @return the value of seqNotion
-     */
-    public String getSeqNotion() {
-        return seqNotion;
-    }
-
-    /**
-     * Set the value of seqNotion
-     *
-     * @param seqNotion new value of seqNotion
-     */
-    public void setSeqNotion(String seqNotion) {
-        this.seqNotion = seqNotion;
-    }
-
-    /**
-     * Get the value of seqName
-     *
-     * @return the value of seqName
+     * @return the seqName
      */
     public String getSeqName() {
         return seqName;
     }
 
     /**
-     * Set the value of seqName
-     *
-     * @param seqName new value of seqName
+     * @return the seqNotion
+     */
+    public Notion getSeqNotion() {
+        return seqNotion;
+    }
+
+    /**
+     * @return the seqSubNotion
+     */
+    public Notion.SubNotion getSeqSubNotion() {
+        return seqSubNotion;
+    }
+
+    /**
+     * @return the notions
+     */
+    public List<SelectItem> getNotions() {
+        return notions;
+    }
+
+    /**
+     * @return the subNotions
+     */
+    public List<SelectItem> getSubNotions() {
+        return subNotions;
+    }
+
+    /**
+     * @param seqName the seqName to set
      */
     public void setSeqName(String seqName) {
         this.seqName = seqName;
     }
 
     /**
-     * Creates a new instance of SequenceBean
+     * @param seqNotion the seqNotion to set
      */
-    public SequenceBean() {
+    public void setSeqNotion(Notion seqNotion) {
+        this.seqNotion = seqNotion;
+    }
+
+    /**
+     * @param seqSubNotion the seqSubNotion to set
+     */
+    public void setSeqSubNotion(Notion.SubNotion seqSubNotion) {
+        this.seqSubNotion = seqSubNotion;
+    }
+
+    /**
+     * @param notions the notions to set
+     */
+    public void setNotions(List<SelectItem> notions) {
+        this.notions = notions;
+    }
+
+    /**
+     * @param subNotions the subNotions to set
+     */
+    public void setSubNotions(List<SelectItem> subNotions) {
+        this.subNotions = subNotions;
     }
 
 }

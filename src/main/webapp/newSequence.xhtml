@@ -38,6 +38,11 @@
                 <p:selectOneMenu id="seqNotion" value="#{sequenceBean.seqNotion}">
                     <f:selectItems value="#{sequenceBean.notions}" />
                 </p:selectOneMenu>
+                
+                <p:outputLabel for="seqSubNotion" value="Sous-notion" />
+                <p:selectOneMenu id="seqSubNotion" value="#{sequenceBean.seqSubNotion}">
+                    <f:selectItems value="#{sequenceBean.subNotions}" />
+                </p:selectOneMenu>
 
             </h:panelGrid>
 
