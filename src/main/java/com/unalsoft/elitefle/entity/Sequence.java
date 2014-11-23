@@ -71,7 +71,7 @@ public class Sequence implements Serializable {
     @NotNull
     @Column(name = "supports")
     private short supports;
-    @Size(max = 500)
+    @Size(max = 1250)
     @Column(name = "applicationActivity")
     private String applicationActivity;
     @Basic(optional = false)

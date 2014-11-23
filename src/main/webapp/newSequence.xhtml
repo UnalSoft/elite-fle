@@ -161,13 +161,16 @@
                     </h:panelGrid>
                 </h:panelGroup> 
                 <h:panelGroup>
-                    <p:inputTextarea id="seqKnowledgeApp" required="false" 
+                    <p:inputTextarea id="seqKnowledgeApp" required="true" 
                                      value="#{sequenceBean.knowledgeApp}" 
-                                     style="width: 100%"
+                                     requiredMessage="Veuillez compléter le champ"
+                                     style="width: 100%; color: black"
                                      autoResize="false"
-                                     maxlength="500"/>
+                                     maxlength="1250"
+                                     />
                     <p:watermark for="seqKnowledgeApp" 
                                  value="Écrivez dans cette zone vos consignes de travail. (500 caractères)" />
+                    <p:message id="seqKnowledgeAppMessage" for="seqKnowledgeApp" /> 
                 </h:panelGroup>
                 <h:panelGroup>
                     <div class="form-actions">
