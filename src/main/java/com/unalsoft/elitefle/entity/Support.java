@@ -35,7 +35,7 @@ public class Support implements Serializable, IEntity<SupportVo> {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 200)
     @Column(name = "urlSupport")
     private String urlSupport;
     @Basic(optional = false)
