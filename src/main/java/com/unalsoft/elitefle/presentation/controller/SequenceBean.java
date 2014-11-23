@@ -7,9 +7,10 @@ package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.entity.Level;
 import com.unalsoft.elitefle.entity.Notion;
+import com.unalsoft.elitefle.entity.Text;
+import com.unalsoft.elitefle.entity.TypeOfActivity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeSet;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -28,37 +29,71 @@ public class SequenceBean {
     private String name;
     //@TODO: Change if necessary for objects
     private Level level;
-    private String spottingText;
-    private String spottingActivity;
-    private String systematisationText;
-    private String systematisationActivity;
+    private Text spottingText;
+    private TypeOfActivity spottingActivity;
+    private Text systematisationText;
+    private TypeOfActivity systematisationActivity;
     private String knowledgeApp;
     private Notion notion;
     private Notion.SubNotion subNotion;
     private List<SelectItem> levels;
     private List<SelectItem> notions;
     private List<SelectItem> subNotions;
-    //@TODO change for the activities obtained from the db;
-    private TreeSet<String> activities;
-    private TreeSet<String> texts;
+    //@TODO change for the spottingActivities obtained from the db;
+    private List<SelectItem> spottingActivities;
+    private List<SelectItem> spottingTexts;
+    private List<SelectItem> systematisationActivities;
+    private List<SelectItem> systematisationTexts;
 
     @PostConstruct
     public void init() {
+        setInitialValues();
+        allocateLists();
+        fillFields();
+    }
+
+    /**
+     * Set the initial values to the Notion, texts and activities
+     */
+    private void setInitialValues() {
         setNotion(Notion.textualStructuring);
+        setSpottingActivity(TypeOfActivity.activity1);
+        setSpottingText(Text.text1);
+        setSystematisationActivity(TypeOfActivity.activity2);
+        setSystematisationText(Text.text2);
+    }
+
+    /**
+     * Allocate the arrayLists
+     */
+    private void allocateLists() {
         setNotions(new ArrayList<SelectItem>());
         setLevels(new ArrayList<SelectItem>());
+        setSpottingActivities(new ArrayList<SelectItem>());
+        setSpottingTexts(new ArrayList<SelectItem>());
+        setSystematisationActivities(new ArrayList<SelectItem>());
+        setSystematisationTexts(new ArrayList<SelectItem>());
+    }
 
+    /**
+     * Fill the bean fields
+     */
+    private void fillFields() {
+        // Fill the Notions and SubNotions list
         for (Notion n : Notion.values()) {
             getNotions().add(new SelectItem(n, n.getDescription()));
         }
-        setSubNotions();
 
+        fillSubNotions();
+        fillSpottingActivities(spottingActivity);
+        fillSpottingTexts(spottingText);
+        fillSystematisationActivities(systematisationActivity);
+        fillSystematisationTextList(systematisationText);
+
+        // Fill the levels list
         for (Level l : Level.values()) {
-            getLevels().add(new SelectItem(l,l.getLevel()));
+            getLevels().add(new SelectItem(l, l.getLevel()));
         }
-
-        //@TODO get a list of activities;
-        //@TODO extract the selected activity from the treeset;
     }
 
     /**
@@ -68,20 +103,127 @@ public class SequenceBean {
      */
     public void changeSubNotions(ValueChangeEvent e) {
         setNotion((Notion) e.getNewValue());
-        setSubNotions();
+        fillSubNotions();
     }
 
     /**
      * Refills the Sub-Notions Array List according to the selected Notion
      */
-    private void setSubNotions() {
+    private void fillSubNotions() {
         setSubNotions(new ArrayList<SelectItem>());
-        for (Notion.SubNotion subNotion : getNotion().getSubNotions()) {
+        for (Notion.SubNotion s : getNotion().getSubNotions()) {
             getSubNotions().add(new SelectItem(
-                    subNotion, subNotion.getDescription()));
+                    s, s.getDescription()));
         }
     }
 
+    /**
+     * Change the Systematisation Texts list according to the selected Notion
+     *
+     * @param e
+     */
+    public void changeSystematisationTexts(ValueChangeEvent e) {
+        Text selectedText = (Text) e.getNewValue();
+        setSystematisationText(selectedText);
+        fillSystematisationTextList(selectedText);
+    }
+
+    /**
+     * Clear and set the systematisation text list
+     *
+     * @param selectedText
+     */
+    private void fillSystematisationTextList(Text selectedText) {
+        setSystematisationTexts(new ArrayList<SelectItem>());
+        for (Text t : Text.values()) {
+            if (!t.equals(selectedText)) {
+                getSystematisationTexts().add(new SelectItem(t, t.getText()));
+            }
+        }
+    }
+
+    /**
+     * Change the Systematisation Activities list according to the selected
+     * Notion
+     *
+     * @param e
+     */
+    public void changeSystematisationActivities(ValueChangeEvent e) {
+        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
+        setSystematisationActivity(selectedActivity);
+        fillSystematisationActivities(selectedActivity);
+    }
+
+    /**
+     * Clear and set the systematisation activities list
+     *
+     * @param selectedActivity
+     */
+    private void fillSystematisationActivities(TypeOfActivity selectedActivity) {
+        setSystematisationActivities(new ArrayList<SelectItem>());
+        for (TypeOfActivity t : TypeOfActivity.values()) {
+            if (!t.equals(selectedActivity)) {
+                getSystematisationActivities().add(new SelectItem(t, t.getActivityName()));
+            }
+        }
+    }
+
+    /**
+     * Change the Spotting Texts list according to the selected Notion
+     *
+     * @param e
+     */
+    public void changeSpottingTexts(ValueChangeEvent e) {
+        Text selectedText = (Text) e.getNewValue();
+        setSpottingText(selectedText);
+        fillSpottingTexts(selectedText);
+    }
+
+    /**
+     * Clear and set the Spotting Text list
+     *
+     * @param selectedActivity
+     */
+    private void fillSpottingTexts(Text selectedText) {
+        setSpottingTexts(new ArrayList<SelectItem>());
+        for (Text t : Text.values()) {
+            if (!t.equals(selectedText)) {
+                getSpottingTexts().add(new SelectItem(t, t.getText()));
+            }
+        }
+    }
+
+    /**
+     * Change the Spotting Activities list according to the selected Notion
+     *
+     * @param e
+     */
+    public void changeSpottingActivities(ValueChangeEvent e) {
+        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
+        setSpottingActivity(selectedActivity);
+        fillSpottingActivities(selectedActivity);
+    }
+
+    /**
+     * Clear and set the Spotting Activities list
+     *
+     * @param selectedActivity
+     */
+    private void fillSpottingActivities(TypeOfActivity selectedActivity) {
+        setSpottingActivities(new ArrayList<SelectItem>());
+        for (TypeOfActivity t : TypeOfActivity.values()) {
+            if (!t.equals(selectedActivity)) {
+                getSpottingActivities().add(new SelectItem(t, t.getActivityName()));
+            }
+        }
+    }
+
+    public boolean validateSequence(){
+        //@TODO: Change to save sequence or add supports
+        //@TODO: If saves without supports ?
+        return isSupports();
+    }
+    
     /**
      * @return the supports
      */
@@ -106,28 +248,28 @@ public class SequenceBean {
     /**
      * @return the spottingText
      */
-    public String getSpottingText() {
+    public Text getSpottingText() {
         return spottingText;
     }
 
     /**
      * @return the spottingActivity
      */
-    public String getSpottingActivity() {
+    public TypeOfActivity getSpottingActivity() {
         return spottingActivity;
     }
 
     /**
      * @return the systematisationText
      */
-    public String getSystematisationText() {
+    public Text getSystematisationText() {
         return systematisationText;
     }
 
     /**
      * @return the systematisationActivity
      */
-    public String getSystematisationActivity() {
+    public TypeOfActivity getSystematisationActivity() {
         return systematisationActivity;
     }
 
@@ -174,17 +316,31 @@ public class SequenceBean {
     }
 
     /**
-     * @return the activities
+     * @return the spottingActivities
      */
-    public TreeSet<String> getActivities() {
-        return activities;
+    public List<SelectItem> getSpottingActivities() {
+        return spottingActivities;
     }
 
     /**
-     * @return the texts
+     * @return the spottingTexts
      */
-    public TreeSet<String> getTexts() {
-        return texts;
+    public List<SelectItem> getSpottingTexts() {
+        return spottingTexts;
+    }
+
+    /**
+     * @return the systematisationActivities
+     */
+    public List<SelectItem> getSystematisationActivities() {
+        return systematisationActivities;
+    }
+
+    /**
+     * @return the systematisationTexts
+     */
+    public List<SelectItem> getSystematisationTexts() {
+        return systematisationTexts;
     }
 
     /**
@@ -211,28 +367,28 @@ public class SequenceBean {
     /**
      * @param spottingText the spottingText to set
      */
-    public void setSpottingText(String spottingText) {
+    public void setSpottingText(Text spottingText) {
         this.spottingText = spottingText;
     }
 
     /**
      * @param spottingActivity the spottingActivity to set
      */
-    public void setSpottingActivity(String spottingActivity) {
+    public void setSpottingActivity(TypeOfActivity spottingActivity) {
         this.spottingActivity = spottingActivity;
     }
 
     /**
      * @param systematisationText the systematisationText to set
      */
-    public void setSystematisationText(String systematisationText) {
+    public void setSystematisationText(Text systematisationText) {
         this.systematisationText = systematisationText;
     }
 
     /**
      * @param systematisationActivity the systematisationActivity to set
      */
-    public void setSystematisationActivity(String systematisationActivity) {
+    public void setSystematisationActivity(TypeOfActivity systematisationActivity) {
         this.systematisationActivity = systematisationActivity;
     }
 
@@ -279,17 +435,31 @@ public class SequenceBean {
     }
 
     /**
-     * @param activities the activities to set
+     * @param spottingActivities the spottingActivities to set
      */
-    public void setActivities(TreeSet<String> activities) {
-        this.activities = activities;
+    public void setSpottingActivities(List<SelectItem> spottingActivities) {
+        this.spottingActivities = spottingActivities;
     }
 
     /**
-     * @param texts the texts to set
+     * @param spottingTexts the spottingTexts to set
      */
-    public void setTexts(TreeSet<String> texts) {
-        this.texts = texts;
+    public void setSpottingTexts(List<SelectItem> spottingTexts) {
+        this.spottingTexts = spottingTexts;
+    }
+
+    /**
+     * @param systematisationActivities the systematisationActivities to set
+     */
+    public void setSystematisationActivities(List<SelectItem> systematisationActivities) {
+        this.systematisationActivities = systematisationActivities;
+    }
+
+    /**
+     * @param systematisationTexts the systematisationTexts to set
+     */
+    public void setSystematisationTexts(List<SelectItem> systematisationTexts) {
+        this.systematisationTexts = systematisationTexts;
     }
 
 }

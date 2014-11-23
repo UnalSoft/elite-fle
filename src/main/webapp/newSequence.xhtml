@@ -49,7 +49,7 @@
                         <h:panelGroup>
                             <p:outputLabel for="seqNotion" value="Notion" />
                         </h:panelGroup>
-                        <h:panelGroup>
+                        <h:panelGroup id="notionPanel">
                             <p:selectOneMenu id="seqNotion" 
                                              value="#{sequenceBean.notion}" 
                                              onchange="submit()" 
@@ -79,10 +79,12 @@
                             <p:outputLabel for="seqSpottingText" 
                                            value="Texte de repérage"/>
                         </h:panelGroup>
-                        <h:panelGroup>
+                        <h:panelGroup id="spottingTextPanel">
                             <p:selectOneMenu id="seqSpottingText" 
-                                             value="#{sequenceBean.spottingText}">
-                                <f:selectItems value="#{sequenceBean.spottingText}" />
+                                             value="#{sequenceBean.spottingText}"
+                                             onchange="submit()"
+                                             valueChangeListener="#{sequenceBean.changeSystematisationTexts}">
+                                <f:selectItems value="#{sequenceBean.spottingTexts}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -91,11 +93,12 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSpottingActivity" 
-                                             value="#{sequenceBean.spottingActivity}">
-                                <f:selectItems value="#{sequenceBean.spottingActivity}" />
+                                             value="#{sequenceBean.spottingActivity}"
+                                             onchange="submit()"
+                                             valueChangeListener="#{sequenceBean.changeSystematisationActivities}">
+                                <f:selectItems value="#{sequenceBean.spottingActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
-
                         <h:panelGroup>
                             <div class="modal-header">
                                 <h3>Support linguistique et didactique</h3>
@@ -129,9 +132,11 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationText" 
-                                             value="#{sequenceBean.systematisationText}">
+                                             value="#{sequenceBean.systematisationText}"
+                                             onchange="submit()"
+                                             valueChangeListener="#{sequenceBean.changeSpottingTexts}">
                                 <f:selectItems 
-                                    value="#{sequenceBean.systematisationText}" />
+                                    value="#{sequenceBean.systematisationTexts}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
                         <h:panelGroup>
@@ -140,8 +145,10 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationActivity" 
-                                             value="#{sequenceBean.systematisationActivity}">
-                                <f:selectItems value="#{sequenceBean.systematisationActivity}" />
+                                             value="#{sequenceBean.systematisationActivity}"
+                                             onchange="submit()"
+                                             valueChangeListener="#{sequenceBean.changeSpottingActivities}">
+                                <f:selectItems value="#{sequenceBean.systematisationActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
 
@@ -157,21 +164,21 @@
                     <p:inputTextarea id="seqKnowledgeApp" required="false" 
                                      value="#{sequenceBean.knowledgeApp}" 
                                      style="width: 100%"
-                                     autoResize="false"/>
+                                     autoResize="false"
+                                     maxlength="500"/>
                     <p:watermark for="seqKnowledgeApp" 
-                                 value="Écrivez dans cette zone vos consignes de travail." />
+                                 value="Écrivez dans cette zone vos consignes de travail. (500 caractères)" />
                 </h:panelGroup>
                 <h:panelGroup>
                     <div class="form-actions">
-                        
-                            <h:commandButton action="#{loginBean.login()}" 
-                                             value="Accéder" class="btn btn-danger"/>
+                        <h:commandButton action="#{sequenceBean.validateSequence()}" 
+                                         value="Validez votre séquence" 
+                                         class="btn btn-danger"/>
                     </div>
                 </h:panelGroup>
             </h:panelGrid>
-
-            <!--@TODO: Change the button "support" if necessary or not kute ;)-->
-
+            <!--@TODO: Change the button "support" if necessary or not cute ;)-->
+            <!--@TODO: Add button go back if necessary -->
         </h:form>
     </ui:define>
 
