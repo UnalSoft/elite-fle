@@ -1,18 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//@TODO: Add a preview of the selected text
+//@TODO: Add a preview of the sequence when created
+//@TODO: Add onFocus Tutorial text
+//@TODO: Add the creation data of the sequence in the BD
+//@TODO: Add the explication box in the view (And persist it)
+//@TODO: Add a preview of the text
+//@TODO: Add actions buttons
+//@TODO: Add icons in the buttons
+//@TODO: Validation screen, came back and confirm button 
+//@TODO: Change checkbox button
 package com.unalsoft.elitefle.presentation.controller;
 
+import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
+import com.unalsoft.elitefle.dao.DAOFactory;
+import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.entity.Level;
 import com.unalsoft.elitefle.entity.Notion;
 import com.unalsoft.elitefle.entity.Text;
 import com.unalsoft.elitefle.entity.TypeOfActivity;
+import com.unalsoft.elitefle.vo.ActivityVo;
+import com.unalsoft.elitefle.vo.SequenceVo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
@@ -27,7 +38,6 @@ public class SequenceBean {
 
     private boolean supports;
     private String name;
-    //@TODO: Change if necessary for objects
     private Level level;
     private Text spottingText;
     private TypeOfActivity spottingActivity;
@@ -36,10 +46,11 @@ public class SequenceBean {
     private String knowledgeApp;
     private Notion notion;
     private Notion.SubNotion subNotion;
+    @ManagedProperty(value = "#{teacherBean}")
+    private TeacherBean author;
     private List<SelectItem> levels;
     private List<SelectItem> notions;
     private List<SelectItem> subNotions;
-    //@TODO change for the spottingActivities obtained from the db;
     private List<SelectItem> spottingActivities;
     private List<SelectItem> spottingTexts;
     private List<SelectItem> systematisationActivities;
@@ -85,10 +96,10 @@ public class SequenceBean {
         }
 
         fillSubNotions();
-        fillSpottingActivities(spottingActivity);
-        fillSpottingTexts(spottingText);
-        fillSystematisationActivities(systematisationActivity);
-        fillSystematisationTextList(systematisationText);
+        fillSpottingActivities(getSpottingActivity());
+        fillSpottingTexts(getSpottingText());
+        fillSystematisationActivities(getSystematisationActivity());
+        fillSystematisationTextList(getSystematisationText());
 
         // Fill the levels list
         for (Level l : Level.values()) {
@@ -218,12 +229,40 @@ public class SequenceBean {
         }
     }
 
-    public boolean validateSequence(){
+    public boolean validateSequence() {
         //@TODO: Change to save sequence or add supports
+        SequenceVo sv = new SequenceVo();
+        sv.setName(name);
+        sv.setNotion(notion.getDescription());
+        sv.setSubNotion(subNotion.getDescription());
+        sv.setLevel(level.getLevel());
+        sv.setSupports(isSupports());
+
+        ActivityVo spottingActivityVo = new ActivityVo();
+        spottingActivityVo.setTextName(spottingText.getText());
+        spottingActivityVo.setUrl(spottingText.getUrl());
+        spottingActivityVo.setType(spottingActivity.getActivityName());
+        Integer idSpottingActivity = FacadeFactory.getInstance().
+                getActivityFacade().findOrCreate(spottingActivityVo);
+        //@TODO If null, then persist, if not save the sequence
+        sv.setIdSpottingActivity(idSpottingActivity);
+
+        ActivityVo systematisationActivityVo = new ActivityVo();
+        systematisationActivityVo.setTextName(systematisationText.getText());
+        systematisationActivityVo.setUrl(systematisationText.getUrl());
+        systematisationActivityVo.setType(systematisationActivity.getActivityName());
+        Integer idSystematisationActivity = FacadeFactory.getInstance().
+                getActivityFacade().findOrCreate(systematisationActivityVo);
+        //@TODO If null, then persist, if not save the sequence
+        sv.setIdSystematisationActivity(idSystematisationActivity);
+
+        sv.setApplicationActivity(knowledgeApp);
+        sv.setIdAuthor(author.getIdTeacher());
+        //@TODO: Change urlExplication to explication (including length in BD)
         //@TODO: If saves without supports ?
         return isSupports();
     }
-    
+
     /**
      * @return the supports
      */
@@ -292,6 +331,13 @@ public class SequenceBean {
      */
     public Notion.SubNotion getSubNotion() {
         return subNotion;
+    }
+
+    /**
+     * @return the author
+     */
+    public TeacherBean getAuthor() {
+        return author;
     }
 
     /**
@@ -414,6 +460,13 @@ public class SequenceBean {
     }
 
     /**
+     * @param author the author to set
+     */
+    public void setAuthor(TeacherBean author) {
+        this.author = author;
+    }
+
+    /**
      * @param levels the levels to set
      */
     public void setLevels(List<SelectItem> levels) {
@@ -461,5 +514,4 @@ public class SequenceBean {
     public void setSystematisationTexts(List<SelectItem> systematisationTexts) {
         this.systematisationTexts = systematisationTexts;
     }
-
 }

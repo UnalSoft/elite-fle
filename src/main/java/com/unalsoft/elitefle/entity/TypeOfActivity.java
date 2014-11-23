@@ -11,10 +11,10 @@ package com.unalsoft.elitefle.entity;
  */
 public enum TypeOfActivity {
 
-    activity1("Activity 1"),
-    activity2("Activity 2"),
-    activity3("Activity 3"),
-    activity4("Activity 4");
+    activity1("Activité 1"),
+    activity2("Activité 2"),
+    activity3("Activité 3"),
+    activity4("Activité 4");
 
     private final String activity;
 

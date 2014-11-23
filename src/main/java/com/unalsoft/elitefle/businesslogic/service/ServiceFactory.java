@@ -30,4 +30,12 @@ public class ServiceFactory {
     public SupportService getSupportService() {
         return SupportService.getInstance();
     }
+
+    public SequenceService getSequenceService() {
+        return SequenceService.getInstance();
+    }
+
+    public ActivityService getActivityService() {
+        return ActivityService.getInstance();
+    }
 }

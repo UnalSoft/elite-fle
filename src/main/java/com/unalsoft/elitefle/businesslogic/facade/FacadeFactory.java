@@ -29,8 +29,16 @@ public class FacadeFactory {
     public UserFacade getUserFacade() {
         return new UserFacade(PU, ServiceFactory.getInstance().getUserService());
     }
-    
+
     public SupportFacade getSupportFacade() {
         return new SupportFacade(PU, ServiceFactory.getInstance().getSupportService());
+    }
+
+    public SequenceFacade getSequenceFacade() {
+        return new SequenceFacade(PU, ServiceFactory.getInstance().getSequenceService());
+    }
+
+    public ActivityFacade getActivityFacade() {
+        return new ActivityFacade(PU,ServiceFactory.getInstance().getActivityService());
     }
 }

@@ -13,13 +13,13 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Edward
  */
-@ManagedBean(name="supportBean")
+@ManagedBean(name = "supportBean")
 @ViewScoped
 public class SupportBean implements Serializable {
-    
-    private List <SupportVo> supportList;
-    private List <SupportVo> filteredSupports;    
-    
+
+    private List<SupportVo> supportList;
+    private List<SupportVo> filteredSupports;
+
     private String urlSupport;
     private String title;
     private String type;
@@ -27,12 +27,12 @@ public class SupportBean implements Serializable {
     private String subNotion;
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean user;
-    
+
     @PostConstruct
-    public void init() {        
+    public void init() {
         supportList = FacadeFactory.getInstance().getSupportFacade().getList();
     }
-    
+
     public void addSupport() {
         SupportVo vo = new SupportVo();
         vo.setTitle(getTitle());
@@ -41,7 +41,9 @@ public class SupportBean implements Serializable {
         vo.setSubNotion(getSubNotion());
         vo.setIdAuthor(getUser().getIdTeacher());
         FacadeFactory.getInstance().getSupportFacade().persist(vo);
-        //TODO: Errors?
+        //@TODO: Errors? Oui (NullPointerException)
+        //@TODO: Possibility to add .doc, .pdf, .odt or .ppt
+        //@TODO: Add creation date
     }
 
     public List<SupportVo> getSupportList() {
@@ -102,6 +104,6 @@ public class SupportBean implements Serializable {
 
     public void setUser(TeacherBean user) {
         this.user = user;
-    }       
-    
+    }
+
 }
