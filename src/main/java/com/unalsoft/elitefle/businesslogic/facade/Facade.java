@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.validation.ConstraintViolationException;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 public class Facade<VO> {
 
@@ -20,18 +21,18 @@ public class Facade<VO> {
         this.service = service;
     }
 
-    public void persist(VO vo) {
+    public void persist(VO vo) throws PersistException {
         EntityTransaction tx = null;
         try {
             tx = em.getTransaction();
             tx.begin();
             service.persist(vo, em);
             tx.commit();
-        } catch (ConstraintViolationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {            
             if (em != null && tx != null) {
                 tx.rollback();
             }
+            throw new PersistException(e.getMessage());
         } finally {
             if (em != null) {
                 em.clear();

@@ -14,6 +14,14 @@
             <from-action>#{loginBean.login()}</from-action>
             <from-outcome>failure</from-outcome>
             <to-view-id>/noLogin.xhtml</to-view-id>
+        </navigation-case>        
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/support.xhtml</from-view-id>    
+        <navigation-case>
+            <from-action>#{supportBean.addSupport()}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/support.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
