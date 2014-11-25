@@ -30,4 +30,8 @@ public class DAOFactory {
     public SupportDAO getSupportDAO() {
         return SupportDAO.getInstance();
     }
+
+    public ActivityDAO getActivityDAO() {
+            return ActivityDAO.getInstance();
+    }
 }

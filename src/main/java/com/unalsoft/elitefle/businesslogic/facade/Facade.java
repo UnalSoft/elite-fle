@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.validation.ConstraintViolationException;
-import org.eclipse.persistence.exceptions.DatabaseException;
 
 public class Facade<VO> {
 
@@ -50,7 +48,6 @@ public class Facade<VO> {
                 em.close();
             }
         }
-
     }
 
     public boolean update(VO vo) {

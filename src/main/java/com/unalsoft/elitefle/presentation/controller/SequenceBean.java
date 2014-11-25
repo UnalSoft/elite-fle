@@ -8,11 +8,11 @@
 //@TODO: Add icons in the buttons
 //@TODO: Validation screen, came back and confirm button 
 //@TODO: Change checkbox button
+//@TODO: Add date field
 package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
-import com.unalsoft.elitefle.dao.DAOFactory;
-import com.unalsoft.elitefle.entity.Activity;
+import com.unalsoft.elitefle.businesslogic.facade.PersistException;
 import com.unalsoft.elitefle.entity.Level;
 import com.unalsoft.elitefle.entity.Notion;
 import com.unalsoft.elitefle.entity.Text;
@@ -238,22 +238,10 @@ public class SequenceBean {
         sv.setLevel(level.getLevel());
         sv.setSupports(isSupports());
 
-        ActivityVo spottingActivityVo = new ActivityVo();
-        spottingActivityVo.setTextName(spottingText.getText());
-        spottingActivityVo.setUrl(spottingText.getUrl());
-        spottingActivityVo.setType(spottingActivity.getActivityName());
-        Integer idSpottingActivity = FacadeFactory.getInstance().
-                getActivityFacade().findOrCreate(spottingActivityVo);
-        //@TODO If null, then persist, if not save the sequence
+        Integer idSpottingActivity = getActivityId(spottingText.getText(), spottingText.getUrl(), spottingActivity.getActivityName());
         sv.setIdSpottingActivity(idSpottingActivity);
 
-        ActivityVo systematisationActivityVo = new ActivityVo();
-        systematisationActivityVo.setTextName(systematisationText.getText());
-        systematisationActivityVo.setUrl(systematisationText.getUrl());
-        systematisationActivityVo.setType(systematisationActivity.getActivityName());
-        Integer idSystematisationActivity = FacadeFactory.getInstance().
-                getActivityFacade().findOrCreate(systematisationActivityVo);
-        //@TODO If null, then persist, if not save the sequence
+        Integer idSystematisationActivity = getActivityId(systematisationText.getText(), systematisationText.getUrl(), systematisationActivity.getActivityName());
         sv.setIdSystematisationActivity(idSystematisationActivity);
 
         sv.setApplicationActivity(knowledgeApp);
@@ -261,6 +249,31 @@ public class SequenceBean {
         //@TODO: Change urlExplication to explication (including length in BD)
         //@TODO: If saves without supports ?
         return isSupports();
+    }
+
+    /**
+     * Get an activity by all his fields
+     *
+     * @param text
+     * @param url
+     * @param activityName
+     * @return
+     * @throws PersistException
+     */
+    private Integer getActivityId(String text, String url, String activityName) throws PersistException {
+        ActivityVo activityVo = new ActivityVo();
+        activityVo.setTextName(text);
+        activityVo.setUrl(url);
+        activityVo.setType(activityName);
+
+        Integer idActivity = FacadeFactory.getInstance().
+                getActivityFacade().findByAll(activityVo);
+        if (idActivity == null) {
+            FacadeFactory.getInstance().getActivityFacade().persist(activityVo);
+            idActivity = FacadeFactory.getInstance().
+                    getActivityFacade().findByAll(activityVo);
+        }
+        return idActivity;
     }
 
     /**

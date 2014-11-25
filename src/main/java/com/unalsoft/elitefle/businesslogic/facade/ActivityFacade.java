@@ -6,9 +6,9 @@
 
 package com.unalsoft.elitefle.businesslogic.facade;
 
+import com.unalsoft.elitefle.businesslogic.service.ActivityService;
 import com.unalsoft.elitefle.businesslogic.service.IService;
 import com.unalsoft.elitefle.vo.ActivityVo;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * 
@@ -19,7 +19,20 @@ public class ActivityFacade extends Facade<ActivityVo>{
     public ActivityFacade(String PUName, IService service) {
         super(PUName, service);
     }
-    public Integer findOrCreate(ActivityVo activityVo){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Try to find an activity by all his fields, if it doesn't exist, then 
+     * creates an activity and return his id
+     * @param activityVo
+     * @return 
+     */
+    public Integer findByAll(ActivityVo activityVo){
+        try {
+            return ((ActivityService)service).findByAll(activityVo, em);
+        } finally {
+            if (em != null) {
+                em.clear();
+                em.close();
+            }
+        }
     }
 }
