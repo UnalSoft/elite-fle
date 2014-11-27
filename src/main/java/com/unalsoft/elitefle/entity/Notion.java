@@ -58,6 +58,13 @@ public enum Notion {
         return subNotions;
     }
 
+    @Override
+    public String toString() {
+        return getDescription();
+    }
+    
+    
+
     public enum SubNotion {
 
         keyPhrases("Phrases principales"),
@@ -87,5 +94,11 @@ public enum Notion {
         public String getDescription() {
             return description;
         }
+
+        @Override
+        public String toString() {
+            return getDescription();
+        }
+                
     }
 }

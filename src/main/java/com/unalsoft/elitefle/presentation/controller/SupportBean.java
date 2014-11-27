@@ -2,6 +2,8 @@ package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.businesslogic.facade.PersistException;
+import com.unalsoft.elitefle.entity.Notion;
+import com.unalsoft.elitefle.entity.Notion.SubNotion;
 import com.unalsoft.elitefle.vo.SupportVo;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -26,15 +29,20 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class SupportBean implements Serializable {
 
+    private final String SUPORTED_FORMAT = "^.*(pdf|docx?|odt|pptx?)$";
+
     private List<SupportVo> supportList;
     private List<SupportVo> filteredSupports;
     private List<SupportVo> selectedSupports;
 
+    private List<Notion> notions;
+    private List<SubNotion> subNotions;
+
     private UploadedFile file;
     private String title;
     private String type;
-    private String notion;
-    private String subNotion;
+    private Notion notion;
+    private SubNotion subNotion;
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean user;
     String sRootPath;
@@ -43,37 +51,45 @@ public class SupportBean implements Serializable {
     public void init() {
         supportList = FacadeFactory.getInstance().getSupportFacade().getList();
         sRootPath = new File("").getAbsolutePath() + File.separator + "support";
+        notions = Arrays.asList(Notion.values());
+        subNotions = getNotions().get(0).getSubNotions();
     }
 
     public String addSupport() {
         SupportVo vo = new SupportVo();
         vo.setTitle(getTitle());
         vo.setType(getType());
-        vo.setNotion(getNotion());
-        vo.setSubNotion(getSubNotion());
+        vo.setNotion(getNotion().getDescription());
+        vo.setSubNotion(getSubNotion().getDescription());
         vo.setIdAuthor(getUser().getIdTeacher());
         if (getFile() != null) {
-            try {
-                String pathFile = uploadFile(getFile().getFileName(), getFile().getInputstream());
-                vo.setUrlSupport(pathFile);
-                FacadeFactory.getInstance().getSupportFacade().persist(vo);
-                init();
-            } catch (IOException ex) {
-                FacesMessage message = new FacesMessage("Wrong", "Error uploading file");
-                FacesContext.getCurrentInstance().addMessage(null, message);
-            } catch (PersistException ex) {
-                FacesMessage message = new FacesMessage("Wrong", "Database Error: " + ex.getMessage());
+            if (getFile().getFileName().matches(SUPORTED_FORMAT)) {
+                try {
+                    String pathFile = uploadFile(getFile().getFileName(), getFile().getInputstream());
+                    vo.setUrlSupport(pathFile);
+                    FacadeFactory.getInstance().getSupportFacade().persist(vo);
+                    init();
+                } catch (IOException ex) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Error uploading file");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                } catch (PersistException ex) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Database Erreur: " + ex.getMessage());
+                    FacesContext.getCurrentInstance().addMessage(null, message);
+                }
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Type de fichier invalide");
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
         } else {
-            //TODO: Errors?
-            //@TODO: Possibility to add .doc, .pdf, .odt or .ppt
-            //@TODO: Add creation date
-            FacesMessage message = new FacesMessage("Wrong", "Invalid file");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Fichier invalide");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "failure";
         }
         return "success";
+    }
+
+    public void onNotionChange() {
+        setSubNotions(getNotion().getSubNotions());
     }
 
     public String selectSupports() {
@@ -116,22 +132,6 @@ public class SupportBean implements Serializable {
         this.type = type;
     }
 
-    public String getNotion() {
-        return notion;
-    }
-
-    public void setNotion(String notion) {
-        this.notion = notion;
-    }
-
-    public String getSubNotion() {
-        return subNotion;
-    }
-
-    public void setSubNotion(String subNotion) {
-        this.subNotion = subNotion;
-    }
-
     public TeacherBean getUser() {
         return user;
     }
@@ -165,6 +165,38 @@ public class SupportBean implements Serializable {
         } catch (IOException e) {
             throw e;
         }
+    }
+
+    public List<Notion> getNotions() {
+        return notions;
+    }
+
+    public void setNotions(List<Notion> notions) {
+        this.notions = notions;
+    }
+
+    public List<SubNotion> getSubNotions() {
+        return subNotions;
+    }
+
+    public void setSubNotions(List<SubNotion> subNotions) {
+        this.subNotions = subNotions;
+    }
+
+    public Notion getNotion() {
+        return notion;
+    }
+
+    public void setNotion(Notion notion) {
+        this.notion = notion;
+    }
+
+    public SubNotion getSubNotion() {
+        return subNotion;
+    }
+
+    public void setSubNotion(SubNotion subNotion) {
+        this.subNotion = subNotion;
     }
 
 }

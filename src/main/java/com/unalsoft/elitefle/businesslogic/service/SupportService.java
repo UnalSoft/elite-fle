@@ -5,6 +5,7 @@ import com.unalsoft.elitefle.entity.Support;
 import com.unalsoft.elitefle.entity.Teacher;
 import com.unalsoft.elitefle.vo.SupportVo;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -34,6 +35,7 @@ public class SupportService implements IService<SupportVo>{
         entity.setNotion(vo.getNotion());
         entity.setSubNotion(vo.getSubNotion());
         entity.setType(vo.getType());
+        entity.setDate(new GregorianCalendar().getTime());
         
         Teacher author = DAOFactory.getInstance().getTeacherDAO().find(vo.getIdAuthor(), em);
         author.getSupportList().add(entity);

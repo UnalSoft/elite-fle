@@ -13,6 +13,7 @@ public class SupportVo implements IValueObject {
     private String type;
     private String notion;
     private String subNotion;
+    private String date;
     private List<Integer> sequenceIdList;
     private Integer idAuthor;
     private String authorName;
@@ -91,5 +92,13 @@ public class SupportVo implements IValueObject {
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
     }    
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
     
 }

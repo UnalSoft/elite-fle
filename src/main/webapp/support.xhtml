@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
                 template="./WEB-INF/templates/default.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
@@ -14,12 +15,13 @@
         <h2>Supports</h2>
         <h:form>            
             <a data-toggle="modal" href="#addSupportModal" class="btn btn-danger">Ajouter Support</a>
+            <p:messages id="messages" showDetail="true" autoUpdate="false" closable="true" />
             <p:separator/>
 
             <p:dataTable id="supports" var="support" value="#{supportBean.supportList}" widgetVar="supportsTable"
                          emptyMessage="Aucun support trouvé!" filteredValue="#{supportBean.filteredSupports}"
                          selection="#{supportBean.selectedSupports}" rowKey="#{support.urlSupport}"
-                         scrollable="true" scrollHeight="300">
+                         scrollable="true" scrollHeight="200">
 
                 <f:facet name="header">
                     <p:outputPanel>
@@ -29,7 +31,7 @@
                 </f:facet>
 
                 <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
-                <p:column filterBy="#{support.title}" headerText="Titre" filterMatchMode="contains">
+                <p:column filterBy="#{support.title}" sortBy="#{support.title}" headerText="Titre" filterMatchMode="contains">
                     <h:outputText value="#{support.title}" />
                 </p:column> 
                 <p:column filterBy="#{support.type}" headerText="Type" filterMatchMode="equals">
@@ -42,20 +44,29 @@
                     </f:facet>
                     <h:outputText value="#{support.type}" />
                 </p:column> 
-                <p:column filterBy="#{support.notion}" headerText="Notion" filterMatchMode="contains">
+                <p:column filterBy="#{support.notion}" sortBy="#{support.notion}" headerText="Notion" filterMatchMode="contains">
                     <h:outputText value="#{support.notion}" />
                 </p:column> 
-                <p:column filterBy="#{support.subNotion}" headerText="Sous-Notion" filterMatchMode="contains">
+                <p:column filterBy="#{support.subNotion}" sortBy="#{support.subNotion}" headerText="Sous-Notion" filterMatchMode="contains">
                     <h:outputText value="#{support.subNotion}" />
                 </p:column> 
-                <p:column filterBy="#{support.authorName}" headerText="Auteur" filterMatchMode="contains">
+                <p:column filterBy="#{support.authorName}" sortBy="#{support.authorName}" headerText="Auteur" filterMatchMode="contains">
                     <h:outputText value="#{support.authorName}" />
+                </p:column>
+                <p:column filterBy="#{support.date}" sortBy="#{support.date}" headerText="Date" filterMatchMode="contains">
+                    <h:outputText value="#{support.date}" />
                 </p:column> 
 
             </p:dataTable>
             <p:separator/>
-            <p:commandButton id="selectSupport" actionListener="#{supportBean.selectSupports()}" value="Valider vos choix" styleClass="btn btn-danger" />
-
+            <div class="row">
+                <div class="span2">
+                    <p:link id="back" outcome="newSequence" value="Précedent" styleClass="btn btn-danger" />
+                </div>
+                <div class="span2 offset6">
+                    <p:link id="next" outcome="summary" value="Suivant" styleClass="btn btn-danger" />
+                </div>
+            </div>
         </h:form>
         <h:form id="addSupportForm" class="form-horizontal" enctype="multipart/form-data">
             <div id="addSupportModal" class="modal hide fade">
@@ -64,47 +75,47 @@
                     <h2>Ajouter Support:</h2>
                 </div>
                 <h:panelGrid id="grid" columns="3">
-                    <p:outputLabel for="title" value="Titre: " />
+                    <p:outputLabel for="title" value="Titre: " styleClass="control-label"/>
                     <p:inputText id="title" required="true" value="#{supportBean.title}" 
-                                 requiredMessage="Veuillez compléter le champ" styleClass="form-control"/>
+                                 requiredMessage="Veuillez spécifier un titre" styleClass="form-control"/>
                     <p:message id="titleMessage" for="title" />
 
-                    <p:outputLabel for="type" value="Type: " />
+                    <p:outputLabel for="type" value="Type: " styleClass="control-label"/>
                     <h:selectOneMenu id="type" value="#{supportBean.type}">
                         <f:selectItem itemLabel="Linguistique" itemValue="Linguistique" />
                         <f:selectItem itemLabel="Didactique" itemValue="Didactique" />
                     </h:selectOneMenu>
                     <p:message id="typeMessage" for="type" />
 
-                    <p:outputLabel for="notion" value="Notion: " />
-                    <h:selectOneMenu id="notion" value="#{supportBean.notion}">
-                        <!-- TODO: Get this information from... somewhere  -->
-                        <f:selectItem itemLabel="N1" itemValue="N1" />
-                        <f:selectItem itemLabel="N2" itemValue="N2" />
-                        <f:selectItem itemLabel="N3" itemValue="N3" />
+                    <p:outputLabel for="notion" value="Notion: " styleClass="control-label"/>
+                    <h:selectOneMenu id="notion" value="#{supportBean.notion}" styleClass="form-control">
+                        <p:ajax listener="#{supportBean.onNotionChange()}" update="subNotion" />
+                        <f:selectItems value="#{supportBean.notions}" />
                     </h:selectOneMenu>
                     <p:message id="notionMessage" for="notion" />
 
-                    <p:outputLabel for="subNotion" value="Sous-notion: " />
-                    <h:selectOneMenu id="subNotion" value="#{supportBean.subNotion}">
-                        <!-- TODO: Get this information from... somewhere  -->
-                        <f:selectItem itemLabel="SN1.1" itemValue="SN1.1" />
-                        <f:selectItem itemLabel="SN2.1" itemValue="SN2.1" />
-                        <f:selectItem itemLabel="SN3.1" itemValue="SN3.1" />
+                    <p:outputLabel for="subNotion" value="Sous-notion: " styleClass="control-label"/>
+                    <h:selectOneMenu id="subNotion" value="#{supportBean.subNotion}" styleClass="form-control">
+                        <f:selectItems value="#{supportBean.subNotions}" />
                     </h:selectOneMenu>
                     <p:message id="subNotionMessage" for="subNotion" />
 
-                    <p:outputLabel for="author" value="Author: " />
-                    <p:inputText id="author" required="true" value="#{teacherBean.username}" readonly="true"
-                                 requiredMessage="Veuillez compléter le champ" />
-                    <p:message id="authorMessage" for="author" />
-
-                    <p:fileUpload id="selectFile" value="#{supportBean.file}" label="Joindre Support" mode="simple" required="true"/>
-                    <p:message id="selectFileMessage" for="selectFile" />
+                    <p:outputLabel for="author" value="Author: " styleClass="control-label"/>
+                    <p:inputText id="author" required="true" value="#{teacherBean.username}" styleClass="form-control"
+                                 readonly="true" requiredMessage="Veuillez compléter le champ" />
+                    <p:message id="authorMessage" for="author" />                   
 
                 </h:panelGrid>
+                <p:fileUpload id="selectFile" value="#{supportBean.file}" label="Sélectionner fichier" mode="simple"
+                              allowTypes="/(\.|\/)(pdf|docx?|odt|pptx?)$/" invalidFileMessage="Type de fichier invalide"  
+                              fileLimit="1" fileLimitMessage="Nombre maximum de fichiers dépassé"
+                              required="true" requiredMessage="Veuillez selectionner un fichier"
+                              uploadLabel="Créer Support" cancelLabel="Annuler"
+                              fileUploadListener="#{supportBean.addSupport}"/>
+                <p:message id="selectFileMessage" for="selectFile" />                   
                 <div class="form-actions">
-                    <p:commandButton id="addSupportBtn" ajax="false" actionListener="#{supportBean.addSupport()}" value="Ajouter" validateClient="true" update="supports" styleClass="btn btn-danger" />
+                    <p:commandButton value="Ajouter" id="addSupportBtn" update="grid, messages, supports" 
+                                     actionListener="#{supportBean.addSupport}" ajax="false" styleClass="btn btn-danger"/>
                 </div>
             </div>
         </h:form>
