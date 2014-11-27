@@ -25,7 +25,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -110,10 +109,8 @@ public class SequenceBean {
     /**
      * Change the Sub-Notions list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSubNotions(ValueChangeEvent e) {
-        setNotion((Notion) e.getNewValue());
+    public void changeSubNotions() {
         fillSubNotions();
     }
 
@@ -131,12 +128,9 @@ public class SequenceBean {
     /**
      * Change the Systematisation Texts list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSystematisationTexts(ValueChangeEvent e) {
-        Text selectedText = (Text) e.getNewValue();
-        setSystematisationText(selectedText);
-        fillSystematisationTextList(selectedText);
+    public void changeSystematisationTexts() {
+        fillSystematisationTextList(spottingText);
     }
 
     /**
@@ -157,12 +151,9 @@ public class SequenceBean {
      * Change the Systematisation Activities list according to the selected
      * Notion
      *
-     * @param e
      */
-    public void changeSystematisationActivities(ValueChangeEvent e) {
-        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
-        setSystematisationActivity(selectedActivity);
-        fillSystematisationActivities(selectedActivity);
+    public void changeSystematisationActivities() {
+        fillSystematisationActivities(spottingActivity);
     }
 
     /**
@@ -182,12 +173,9 @@ public class SequenceBean {
     /**
      * Change the Spotting Texts list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSpottingTexts(ValueChangeEvent e) {
-        Text selectedText = (Text) e.getNewValue();
-        setSpottingText(selectedText);
-        fillSpottingTexts(selectedText);
+    public void changeSpottingTexts() {
+        fillSpottingTexts(systematisationText);
     }
 
     /**
@@ -207,12 +195,9 @@ public class SequenceBean {
     /**
      * Change the Spotting Activities list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSpottingActivities(ValueChangeEvent e) {
-        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
-        setSpottingActivity(selectedActivity);
-        fillSpottingActivities(selectedActivity);
+    public void changeSpottingActivities() {
+        fillSpottingActivities(systematisationActivity);
     }
 
     /**

@@ -51,9 +51,8 @@
                         </h:panelGroup>
                         <h:panelGroup id="notionPanel">
                             <p:selectOneMenu id="seqNotion" 
-                                             value="#{sequenceBean.notion}" 
-                                             onchange="submit()" 
-                                             valueChangeListener="#{sequenceBean.changeSubNotions}">
+                                             value="#{sequenceBean.notion}">
+                                <p:ajax listener="#{sequenceBean.changeSubNotions}" update="seqSubNotion" />
                                 <f:selectItems value="#{sequenceBean.notions}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -81,9 +80,8 @@
                         </h:panelGroup>
                         <h:panelGroup id="spottingTextPanel">
                             <p:selectOneMenu id="seqSpottingText" 
-                                             value="#{sequenceBean.spottingText}"
-                                             onchange="submit()"
-                                             valueChangeListener="#{sequenceBean.changeSystematisationTexts}">
+                                             value="#{sequenceBean.spottingText}">
+                                <p:ajax listener="#{sequenceBean.changeSystematisationTexts}" update="seqSystematisationText" />
                                 <f:selectItems value="#{sequenceBean.spottingTexts}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -93,9 +91,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSpottingActivity" 
-                                             value="#{sequenceBean.spottingActivity}"
-                                             onchange="submit()"
-                                             valueChangeListener="#{sequenceBean.changeSystematisationActivities}">
+                                             value="#{sequenceBean.spottingActivity}">
+                                <p:ajax listener="#{sequenceBean.changeSystematisationActivities}" update="seqSystematisationActivity" />
                                 <f:selectItems value="#{sequenceBean.spottingActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -132,9 +129,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationText" 
-                                             value="#{sequenceBean.systematisationText}"
-                                             onchange="submit()"
-                                             valueChangeListener="#{sequenceBean.changeSpottingTexts}">
+                                             value="#{sequenceBean.systematisationText}">
+                                <p:ajax listener="#{sequenceBean.changeSpottingTexts}" update="seqSpottingText" />
                                 <f:selectItems 
                                     value="#{sequenceBean.systematisationTexts}" />
                             </p:selectOneMenu>
@@ -145,9 +141,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationActivity" 
-                                             value="#{sequenceBean.systematisationActivity}"
-                                             onchange="submit()"
-                                             valueChangeListener="#{sequenceBean.changeSpottingActivities}">
+                                             value="#{sequenceBean.systematisationActivity}">
+                                <p:ajax listener="#{sequenceBean.changeSpottingActivities}" update="seqSpottingActivity" />
                                 <f:selectItems value="#{sequenceBean.systematisationActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
