@@ -3,33 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.unalsoft.elitefle.vo;
+
+import java.util.List;
 
 /**
  *
  * @author Jummartinezro
  */
-public class SequenceVo implements IValueObject{
-private String name;
-private String notion;
-private String subNotion;
-private String level;
-private boolean supports;
-private String applicationActivity;
-private String urlExplication;
-//@TODO link between Sequence and supports
-private Integer idAuthor;
-private Integer idSpottingActivity;
-private Integer idSystematisationActivity;
-//@TODO persist spotting and systematization activities
-//@TODO persist link between sequence and student when necessary
+public class SequenceVo implements IValueObject {
+
+    private String nameSequence;
+    private String notion;
+    private String subNotion;
+    private String level;
+    private boolean supports;
+    private String applicationActivity;
+    private String explication;
+    private String creationDate;
+    private Integer idAuthor;
+    private Integer idSpottingActivity;
+    private Integer idSystematisationActivity;
+    private List<String> supportIdList;
+    private int[][] studentHasSequencePKs;
 
     /**
-     * @return the name
+     * @return the nameSequence
      */
-    public String getName() {
-        return name;
+    public String getNameSequence() {
+        return nameSequence;
     }
 
     /**
@@ -68,10 +70,17 @@ private Integer idSystematisationActivity;
     }
 
     /**
-     * @return the urlExplication
+     * @return the explication
      */
-    public String getUrlExplication() {
-        return urlExplication;
+    public String getExplication() {
+        return explication;
+    }
+
+    /**
+     * @return the creationDate
+     */
+    public String getCreationDate() {
+        return creationDate;
     }
 
     /**
@@ -96,10 +105,24 @@ private Integer idSystematisationActivity;
     }
 
     /**
-     * @param name the name to set
+     * @return the supportIdList
      */
-    public void setName(String name) {
-        this.name = name;
+    public List<String> getSupportIdList() {
+        return supportIdList;
+    }
+
+    /**
+     * @return the studentHasSequencePKs
+     */
+    public int[][] getStudentHasSequencePKs() {
+        return studentHasSequencePKs;
+    }
+
+    /**
+     * @param nameSequence the nameSequence to set
+     */
+    public void setNameSequence(String nameSequence) {
+        this.nameSequence = nameSequence;
     }
 
     /**
@@ -138,10 +161,17 @@ private Integer idSystematisationActivity;
     }
 
     /**
-     * @param urlExplication the urlExplication to set
+     * @param explication the explication to set
      */
-    public void setUrlExplication(String urlExplication) {
-        this.urlExplication = urlExplication;
+    public void setExplication(String explication) {
+        this.explication = explication;
+    }
+
+    /**
+     * @param creationDate the creationDate to set
+     */
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**
@@ -165,5 +195,17 @@ private Integer idSystematisationActivity;
         this.idSystematisationActivity = idSystematisationActivity;
     }
 
+    /**
+     * @param supportIdList the supportIdList to set
+     */
+    public void setSupportIdList(List<String> supportIdList) {
+        this.supportIdList = supportIdList;
+    }
 
+    /**
+     * @param studentHasSequencePKs the studentHasSequencePKs to set
+     */
+    public void setStudentHasSequencePKs(int[][] studentHasSequencePKs) {
+        this.studentHasSequencePKs = studentHasSequencePKs;
+    }
 }

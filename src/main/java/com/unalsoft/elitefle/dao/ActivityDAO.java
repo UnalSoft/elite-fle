@@ -7,6 +7,7 @@ package com.unalsoft.elitefle.dao;
 
 import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.vo.ActivityVo;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -16,7 +17,7 @@ import javax.persistence.Query;
  *
  * @author Jummartinezro
  */
-public class ActivityDAO {
+public class ActivityDAO implements IDAO<Activity> {
 
     private static ActivityDAO instance;
 
@@ -29,6 +30,7 @@ public class ActivityDAO {
 
     /**
      * Try to find an activity by all his fields
+     *
      * @param vo
      * @param em
      * @return
@@ -51,7 +53,28 @@ public class ActivityDAO {
         return id;
     }
 
-    public void persist(Activity entity, EntityManager em) {        
+    @Override
+    public void persist(Activity entity, EntityManager em) {
         em.persist(entity);
+    }
+
+    @Override
+    public Activity find(Object id, EntityManager em) {
+        return (Activity) em.find(Activity.class, id);
+    }
+
+    @Override
+    public void update(Activity entity, EntityManager em) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void delete(Object id, EntityManager em) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Activity> getList(EntityManager em) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -43,6 +43,7 @@ public class SequenceBean {
     private Text systematisationText;
     private TypeOfActivity systematisationActivity;
     private String knowledgeApp;
+    private String explication;
     private Notion notion;
     private Notion.SubNotion subNotion;
     @ManagedProperty(value = "#{teacherBean}")
@@ -130,7 +131,7 @@ public class SequenceBean {
      *
      */
     public void changeSystematisationTexts() {
-        fillSystematisationTextList(spottingText);
+        fillSystematisationTextList(getSpottingText());
     }
 
     /**
@@ -153,7 +154,7 @@ public class SequenceBean {
      *
      */
     public void changeSystematisationActivities() {
-        fillSystematisationActivities(spottingActivity);
+        fillSystematisationActivities(getSpottingActivity());
     }
 
     /**
@@ -175,7 +176,7 @@ public class SequenceBean {
      *
      */
     public void changeSpottingTexts() {
-        fillSpottingTexts(systematisationText);
+        fillSpottingTexts(getSystematisationText());
     }
 
     /**
@@ -197,7 +198,7 @@ public class SequenceBean {
      *
      */
     public void changeSpottingActivities() {
-        fillSpottingActivities(systematisationActivity);
+        fillSpottingActivities(getSystematisationActivity());
     }
 
     /**
@@ -217,21 +218,24 @@ public class SequenceBean {
     public boolean validateSequence() {
         //@TODO: Change to save sequence or add supports
         SequenceVo sv = new SequenceVo();
-        sv.setName(name);
-        sv.setNotion(notion.getDescription());
-        sv.setSubNotion(subNotion.getDescription());
-        sv.setLevel(level.getLevel());
+        sv.setNameSequence(getName());
+        sv.setNotion(getNotion().getDescription());
+        sv.setSubNotion(getSubNotion().getDescription());
+        sv.setLevel(getLevel().getLevel());
         sv.setSupports(isSupports());
 
-        Integer idSpottingActivity = getActivityId(spottingText.getText(), spottingText.getUrl(), spottingActivity.getActivityName());
+        Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
         sv.setIdSpottingActivity(idSpottingActivity);
 
-        Integer idSystematisationActivity = getActivityId(systematisationText.getText(), systematisationText.getUrl(), systematisationActivity.getActivityName());
+        Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
         sv.setIdSystematisationActivity(idSystematisationActivity);
 
-        sv.setApplicationActivity(knowledgeApp);
-        sv.setIdAuthor(author.getIdTeacher());
-        //@TODO: Change urlExplication to explication (including length in BD)
+        sv.setApplicationActivity(getKnowledgeApp());
+        sv.setIdAuthor(getAuthor().getIdTeacher());
+        sv.setExplication(explication);
+        
+        FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+        
         //@TODO: If saves without supports ?
         return isSupports();
     }
@@ -315,6 +319,13 @@ public class SequenceBean {
      */
     public String getKnowledgeApp() {
         return knowledgeApp;
+    }
+
+    /**
+     * @return the explication
+     */
+    public String getExplication() {
+        return explication;
     }
 
     /**
@@ -441,6 +452,13 @@ public class SequenceBean {
      */
     public void setKnowledgeApp(String knowledgeApp) {
         this.knowledgeApp = knowledgeApp;
+    }
+
+    /**
+     * @param explication the explication to set
+     */
+    public void setExplication(String explication) {
+        this.explication = explication;
     }
 
     /**
