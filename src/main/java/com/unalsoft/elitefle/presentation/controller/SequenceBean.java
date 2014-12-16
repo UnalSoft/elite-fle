@@ -214,29 +214,41 @@ public class SequenceBean {
     }
 
     public boolean validateSequence() {
+        boolean persisted=false;
         if (!isSupports()) {
             //@TODO: Change to save sequence or add supports
-            SequenceVo sv = new SequenceVo();
-            sv.setNameSequence(getName());
-            sv.setNotion(getNotion().getDescription());
-            sv.setSubNotion(getSubNotion().getDescription());
-            sv.setLevel(getLevel().getLevel());
-            sv.setSupports(isSupports());
-
-            Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
-            sv.setIdSpottingActivity(idSpottingActivity);
-
-            Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
-            sv.setIdSystematisationActivity(idSystematisationActivity);
-
-            sv.setApplicationActivity(getKnowledgeApp());
-            sv.setIdAuthor(getAuthor().getIdTeacher());
-            sv.setExplication(explication);
-
-            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+            try {
+                SequenceVo sv = new SequenceVo();
+                sv.setNameSequence(getName());
+                sv.setNotion(getNotion().getDescription());
+                sv.setSubNotion(getSubNotion().getDescription());
+                sv.setLevel(getLevel().getLevel());
+                sv.setSupports(isSupports());
+                
+                Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
+                sv.setIdSpottingActivity(idSpottingActivity);
+                
+                Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
+                sv.setIdSystematisationActivity(idSystematisationActivity);
+                
+                String cuttedAppAct = getKnowledgeApp().length() <= 1250
+                        ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
+                String cuttedexp = explication.length() <= 1250
+                        ? explication : explication.substring(0, 1249);
+                
+                sv.setApplicationActivity(cuttedAppAct);
+                sv.setIdAuthor(getAuthor().getIdTeacher());
+                sv.setExplication(cuttedexp);
+                
+                FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+                persisted=true;
+            } catch (PersistException persistException) {
+                persisted=false;
+                //@TODO Handle exception (If exists)
+            }
         }
-        //@TODO: If saves without supports ?
-        return isSupports();
+        //@TODO: link the supports
+        return persisted;
     }
 
     /**

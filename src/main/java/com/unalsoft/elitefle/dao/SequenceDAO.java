@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -45,7 +47,7 @@ public class SequenceDAO implements IDAO<Sequence> {
 //                System.out.println(cv.getRootBeanClass().getSimpleName() + "." + cv.getPropertyPath() + " " + cv.getMessage());
 //            }
 //        } else {
-            em.persist(entity);
+        em.persist(entity);
 //        }
 
     }
@@ -67,7 +69,10 @@ public class SequenceDAO implements IDAO<Sequence> {
 
     @Override
     public List<Sequence> getList(EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Sequence.class));
+        Query q = em.createQuery(cq);
+        return q.getResultList();
     }
 
 }

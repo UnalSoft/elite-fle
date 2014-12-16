@@ -21,6 +21,7 @@ public class SequenceVo implements IValueObject {
     private String applicationActivity;
     private String explication;
     private String creationDate;
+    private String author;
     private Integer idAuthor;
     private Integer idSpottingActivity;
     private Integer idSystematisationActivity;
@@ -81,6 +82,13 @@ public class SequenceVo implements IValueObject {
      */
     public String getCreationDate() {
         return creationDate;
+    }
+
+    /**
+     * @return the author
+     */
+    public String getAuthor() {
+        return author;
     }
 
     /**
@@ -172,6 +180,13 @@ public class SequenceVo implements IValueObject {
      */
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
+    }
+
+    /**
+     * @param author the author to set
+     */
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     /**

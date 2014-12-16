@@ -21,15 +21,35 @@
             <li>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
         <p:separator style="width:970px;height:5px" />
-        <p:dataTable var="Sequence" value="sequences">
+        <p:dataTable var="Sequence" value="#{allSequencesBean.sequences}">
             <p:column headerText="Sequence">
-                <h:outputText value="Sequence 1" />
+                <h:outputText value="#{Sequence.nameSequence}" />
             </p:column>
 
-            <p:column headerText="Explication">
-                <h:outputText value="Explication Link" />
+            <p:column headerText="Auteur">
+                <h:outputText value="#{Sequence.author}" />
             </p:column>
-
+            
+            <p:column headerText="Date de création">
+                <h:outputText value="#{Sequence.creationDate}" />
+            </p:column>
+            
+            <p:column headerText="Niveau">
+                <h:outputText value="#{Sequence.level}" />
+            </p:column>
+            
+            <p:column headerText="Notion">
+                <h:outputText value="#{Sequence.notion}" />
+            </p:column>
+            
+            <p:column headerText="Sous-notion">
+                <h:outputText value="#{Sequence.subNotion}" />
+            </p:column>
+            
+            <p:column headerText="Sous-notion">
+                <h:outputText value="#{Sequence.supports?'Oui':'Non'}" />
+            </p:column>
+            
             <p:column headerText="Actions">
                 <h:outputText value="List of actions" />
             </p:column>

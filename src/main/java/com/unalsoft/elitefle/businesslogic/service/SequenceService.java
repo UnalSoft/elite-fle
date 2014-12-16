@@ -10,6 +10,7 @@ import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.entity.Sequence;
 import com.unalsoft.elitefle.entity.Teacher;
 import com.unalsoft.elitefle.vo.SequenceVo;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -41,7 +42,7 @@ public class SequenceService implements IService<SequenceVo> {
         Activity spActivity = DAOFactory.getInstance().getActivityDAO()
                 .find(vo.getIdSpottingActivity(), em);
         Activity sysActivity = DAOFactory.getInstance().getActivityDAO()
-                .find(vo.getIdSpottingActivity(), em);
+                .find(vo.getIdSystematisationActivity(), em);
         
         sequence.setSpottingActivity(spActivity);
         sequence.setSystematizationActivity(sysActivity);
@@ -74,7 +75,11 @@ public class SequenceService implements IService<SequenceVo> {
     
     @Override
     public List<SequenceVo> getList(EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<SequenceVo> list = new ArrayList<SequenceVo>();
+        for (Sequence sequence : DAOFactory.getInstance().getSequenceDAO().getList(em)) {
+            list.add(sequence.toVo());
+        }
+        return list;
     }
     
 }

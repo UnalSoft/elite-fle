@@ -14,7 +14,7 @@
         <!--form-no-margin-->
 
         <h:form id="newSequenceForm" class="form-horizontal">
-            <h:panelGrid columns="1" cellpadding="5">
+            <h:panelGrid columns="1" cellpadding="5" style="table-layout:fixed;">
                 <h:panelGroup> 
                     <div class="form-group" id="titleClass">
                         <div class="modal-header">
@@ -23,7 +23,8 @@
                     </div>
                 </h:panelGroup> 
                 <h:panelGroup> 
-                    <h:panelGrid columns="2" cellpadding="5" width="100%">
+                    <h:panelGrid columns="2" cellpadding="5" width="100%" 
+                                 style="table-layout:fixed;">
                         <h:panelGroup id="panelSeqName">
                             <p:outputLabel for="seqName" value="Nom" 
                                            style="font-weight:bold"/>
@@ -122,8 +123,11 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:outputLabel id="seqKnowledgeApp"
-                                     value="#{sequenceBean.knowledgeApp}"/>
+                    <p:outputPanel id="seqKnowledgeApp" deferred="true"
+                                   style="white-space: pre-line;
+                                   word-break: break-all;">
+                        #{sequenceBean.knowledgeApp}"
+                    </p:outputPanel>
                 </h:panelGroup>
                 <h:panelGroup id="explicationPanel">
                     <div class="modal-header">
@@ -131,8 +135,11 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:outputLabel  id="seqExplication"
-                                     value="#{sequenceBean.explication}"/>
+                    <p:outputPanel  id="seqExplication" deferred="true" 
+                                    style="white-space: pre-line;
+                                    word-break: break-all;">
+                        #{sequenceBean.explication}
+                    </p:outputPanel>
                 </h:panelGroup>
                 <h:panelGroup>
                     <div class="form-actions">
@@ -144,7 +151,7 @@
             </h:panelGrid>
             <!--@TODO: Change the button "support" if necessary or not cute ;)-->
             <!--@TODO: Add button go back if necessary -->
-        </h:form>
+        </h:form>     
     </ui:define>
 
 </ui:composition>

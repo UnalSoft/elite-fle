@@ -37,4 +37,22 @@
             <to-view-id>/newSequenceValidation.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/newSequenceValidation.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{sequenceBean.validateSequence()}</from-action>
+            <from-outcome>true</from-outcome>
+            <to-view-id>/teacherPage.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-action>#{sequenceBean.validateSequence()}</from-action>
+            <from-outcome>false</from-outcome>
+            <to-view-id>/noLogin.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>allSequencesBean</managed-bean-name>
+        <managed-bean-class>com.unalsoft.elitefle.presentation.controller.allSequencesBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
 </faces-config>
