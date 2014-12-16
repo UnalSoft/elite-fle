@@ -7,16 +7,18 @@ package com.unalsoft.elitefle.dao;
 
 import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.vo.ActivityVo;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *
  * @author Jummartinezro
  */
-public class ActivityDAO {
+public class ActivityDAO implements IDAO<Activity>{
 
     private static ActivityDAO instance;
 
@@ -50,8 +52,33 @@ public class ActivityDAO {
         }
         return id;
     }
-
+    
+    @Override
     public void persist(Activity entity, EntityManager em) {        
         em.persist(entity);
+    }
+
+    @Override
+    public Activity find(Object id, EntityManager em) {
+        return (Activity) em.find(Activity.class, id);
+    }
+
+    @Override
+    public void update(Activity entity, EntityManager em) {
+        em.merge(entity);
+    }
+
+    @Override
+    public void delete(Object id, EntityManager em) {
+        Activity support = (Activity) em.getReference(Activity.class, id);
+        em.remove(support);
+    }
+
+    @Override
+    public List<Activity> getList(EntityManager em) {
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Activity.class));
+        Query q = em.createQuery(cq);
+        return q.getResultList();
     }
 }

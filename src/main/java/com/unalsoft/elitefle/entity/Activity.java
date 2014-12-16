@@ -6,6 +6,7 @@
 
 package com.unalsoft.elitefle.entity;
 
+import com.unalsoft.elitefle.vo.ActivityVo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -34,7 +35,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Activity.findByNameText", query = "SELECT a FROM Activity a WHERE a.nameText = :nameText"),
     @NamedQuery(name = "Activity.findByUrlText", query = "SELECT a FROM Activity a WHERE a.urlText = :urlText"),
     @NamedQuery(name = "Activity.findByType", query = "SELECT a FROM Activity a WHERE a.type = :type")})
-public class Activity implements Serializable {
+public class Activity implements Serializable, IEntity<ActivityVo> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -146,6 +147,16 @@ public class Activity implements Serializable {
     @Override
     public String toString() {
         return "com.unalsoft.elitefle.entity.Activity[ idActivity=" + idActivity + " ]";
+    }
+
+    @Override
+    public ActivityVo toVo() {
+        ActivityVo vo = new ActivityVo();
+        vo.setId(getIdActivity());
+        vo.setTextName(getNameText());
+        vo.setType(getType());
+        vo.setUrl(getUrlText());
+        return vo;
     }
     
 }

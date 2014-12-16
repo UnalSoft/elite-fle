@@ -11,6 +11,8 @@ package com.unalsoft.elitefle.vo;
  * @author Jummartinezro
  */
 public class ActivityVo implements IValueObject{
+    
+    private Integer id;
     private String name;
     private String url;
     private String type;
@@ -55,6 +57,14 @@ public class ActivityVo implements IValueObject{
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
     
