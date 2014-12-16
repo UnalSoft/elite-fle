@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
     "niveau"
 })
 @XmlRootElement(name = "ENTETE")
-public class Entete {
+public class Entete extends ElementXML {
 
     @XmlElement(name = "titre_doc", required = true)
     protected String titreDoc;
@@ -42,6 +42,10 @@ public class Entete {
     protected String type;
     @XmlElement(required = true)
     protected String niveau;
+
+    public Entete() {
+        this.tag = "ENTETE";
+    }
 
     /**
      * Gets the value of the titreDoc property.

@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "element"
 })
 @XmlRootElement(name = "coreferent")
-public class Coreferent {
+public class Coreferent extends ElementXML {
 
     @XmlAttribute
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -54,6 +54,12 @@ public class Coreferent {
     @XmlIDREF
     protected Object reference;
     protected List<Element> element;
+
+    public Coreferent() {
+        this.tag = "coreferent";
+        this.coreferent = true;
+    }
+
 
     /**
      * Gets the value of the type property.
@@ -224,15 +230,15 @@ public class Coreferent {
     }
 
     /**
-     * Gets the value of the element property.
+     * Gets the value of the elem property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the element property.
-     * 
-     * <p>
+     * This is why there is not a <CODE>set</CODE> method for the elem property.
+ 
+ <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getElement().add(newItem);

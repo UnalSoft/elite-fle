@@ -140,12 +140,4 @@ public class ObjectFactory {
         return new Paragraphe();
     }
 
-    /**
-     * Create an instance of {@link Activite }
-     * 
-     */
-    public Activite createActivite() {
-        return new Activite();
-    }
-
 }

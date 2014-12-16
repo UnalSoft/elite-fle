@@ -27,14 +27,18 @@ import javax.xml.bind.annotation.XmlType;
     "sousTitreOrParagraphe"
 })
 @XmlRootElement(name = "CONTENU")
-public class Contenu {
+public class Contenu extends ElementXML {
 
     protected Titre titre;
     @XmlElements({
         @XmlElement(name = "sous-titre", type = SousTitre.class),
         @XmlElement(name = "paragraphe", type = Paragraphe.class)
     })
-    protected List<Object> sousTitreOrParagraphe;
+    protected List<ElementXML> sousTitreOrParagraphe;
+
+    public Contenu() {
+        this.tag = "CONTENU";
+    }        
 
     /**
      * Gets the value of the titre property.
@@ -83,9 +87,9 @@ public class Contenu {
      * 
      * 
      */
-    public List<Object> getSousTitreOrParagraphe() {
+    public List<ElementXML> getSousTitreOrParagraphe() {
         if (sousTitreOrParagraphe == null) {
-            sousTitreOrParagraphe = new ArrayList<Object>();
+            sousTitreOrParagraphe = new ArrayList<ElementXML>();
         }
         return this.sousTitreOrParagraphe;
     }

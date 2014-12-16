@@ -25,10 +25,15 @@ import javax.xml.bind.annotation.XmlType;
     "phrase"
 })
 @XmlRootElement(name = "sous-titre")
-public class SousTitre {
+public class SousTitre extends ElementXML {
 
     @XmlElement(required = true)
     protected List<Phrase> phrase;
+
+    public SousTitre() {
+        this.tag = "sous-titre";
+        this.sousTitre = true;
+    }
 
     /**
      * Gets the value of the phrase property.

@@ -26,13 +26,18 @@ import javax.xml.bind.annotation.XmlType;
     "phraseOrElement"
 })
 @XmlRootElement(name = "paragraphe")
-public class Paragraphe {
+public class Paragraphe extends ElementXML {
 
     @XmlElements({
         @XmlElement(name = "phrase", type = Phrase.class),
         @XmlElement(name = "element", type = Element.class)
     })
-    protected List<Object> phraseOrElement;
+    protected List<ElementXML> phraseOrElement;
+
+    public Paragraphe() {
+        this.tag = "paragraphe";
+        this.paragraphe = true;
+    }
 
     /**
      * Gets the value of the phraseOrElement property.
@@ -57,9 +62,9 @@ public class Paragraphe {
      * 
      * 
      */
-    public List<Object> getPhraseOrElement() {
+    public List<ElementXML> getPhraseOrElement() {
         if (phraseOrElement == null) {
-            phraseOrElement = new ArrayList<Object>();
+            phraseOrElement = new ArrayList<ElementXML>();
         }
         return this.phraseOrElement;
     }

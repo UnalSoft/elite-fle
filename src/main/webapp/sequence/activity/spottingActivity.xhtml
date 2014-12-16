@@ -6,7 +6,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <f:metadata>
         <f:viewParam name="idActivity" value="#{spottingActivityBean.idActivity}"/>
         <f:event type="preRenderView" listener="#{spottingActivityBean.preRenderView()}" />
@@ -16,7 +16,14 @@
         Activité de Repérage
     </ui:define>
 
-    <ui:define name="head">        
+    <ui:define name="head">      
+        <link href="#{request.contextPath}/resources/css/activityCSS.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript">
+            function color(n) {
+                var colors = ['red', 'green'];
+                return colors[n];
+            }
+        </script>
     </ui:define>
 
     <ui:define name="content">
@@ -25,11 +32,94 @@
             Trouvez l'élément ou le groupe manquant selon la liste ci-dessous.
         </p>
         <h:form>
+            <p:separator/>
+            <h:panelGrid id="grid" columns="2">
+                <p:outputLabel for="title" value="Titre: " styleClass="control-label"/>
+                <p:outputLabel id="title" value="#{spottingActivityBean.text.entete.titreDoc}"/>
+                <p:outputLabel for="author" value="Auteur: " styleClass="control-label"/>
+                <p:outputLabel id="author" value="#{spottingActivityBean.text.entete.auteur}"/>
+                <p:outputLabel for="source" value="Source: " styleClass="control-label"/>
+                <p:outputLabel id="source" value="#{spottingActivityBean.text.entete.source.value}"/>
+                <p:outputLabel for="date" value="Date: " styleClass="control-label"/>
+                <p:outputLabel id="date" value="#{spottingActivityBean.text.entete.date}"/>
+                <p:outputLabel for="type" value="Type: " styleClass="control-label"/>
+                <p:outputLabel id="type" value="#{spottingActivityBean.text.entete.type}"/>
+                <p:outputLabel for="level" value="Niveau: " styleClass="control-label"/>
+                <p:outputLabel id="level" value="#{spottingActivityBean.text.entete.niveau}"/>
+            </h:panelGrid>
             <p:panel>
-                
+                <div class="title">
+                    <ui:repeat value="#{spottingActivityBean.titleElems}" var="elem">
+                        <ui:fragment rendered="#{elem.elem}">
+                            #{elem.value}
+                        </ui:fragment>
+                        <ui:fragment rendered="#{elem.referent}">
+                            <div class="referent" draggable="true" style="color:#{spottingActivityBean.getRefColor(elem.idn)}">
+                                <ui:repeat value="#{elem.element}" var="el">
+                                    #{el.value}
+                                </ui:repeat>
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{elem.coreferent}">
+                            <div class="coreferent" draggable="true" style="color:#{spottingActivityBean.getCoRefColor(elem.chaine)}">
+                                <ui:repeat value="#{elem.element}" var="el">
+                                    #{el.value}
+                                </ui:repeat>
+                            </div>
+                        </ui:fragment>
+                    </ui:repeat>
+                </div>
+                <ui:repeat value="#{spottingActivityBean.text.contenu.sousTitreOrParagraphe}" var="element">
+                    <ui:fragment rendered="#{element.sousTitre}">
+                        <div class="subtitle">
+                            <ui:repeat value="#{spottingActivityBean.getSubtitleElems(element)}" var="elem">
+                                <ui:fragment rendered="#{elem.elem}">
+                                    #{elem.value}
+                                </ui:fragment>
+                                <ui:fragment rendered="#{elem.referent}">
+                                    <div class="referent" draggable="true" style="color:#{spottingActivityBean.getRefColor(elem.idn)}">
+                                        <ui:repeat value="#{elem.element}" var="el">
+                                            #{el.value}
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{elem.coreferent}">
+                                    <div class="coreferent" draggable="true" style="color:#{spottingActivityBean.getCoRefColor(elem.chaine)}">
+                                        <ui:repeat value="#{elem.element}" var="el">
+                                            #{el.value}
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                            </ui:repeat>
+                        </div>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{element.paragraphe}">
+                        <div class="paragraph">
+                            <ui:repeat value="#{spottingActivityBean.getParagraphElems(element)}" var="elem">
+                                <ui:fragment rendered="#{elem.elem}">
+                                    #{elem.value}
+                                </ui:fragment>
+                                <ui:fragment rendered="#{elem.referent}">
+                                    <div class="referent" draggable="true" style="color:#{spottingActivityBean.getRefColor(elem.idn)}">
+                                        <ui:repeat value="#{elem.element}" var="el">
+                                            #{el.value}
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{elem.coreferent}">
+                                    <div class="coreferent" draggable="true" style="color:#{spottingActivityBean.getCoRefColor(elem.chaine)}">
+                                        <ui:repeat value="#{elem.element}" var="el">
+                                            #{el.value}
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                            </ui:repeat>
+                        </div>                            
+                    </ui:fragment>
+                </ui:repeat>
             </p:panel>
         </h:form> 
-            
+
     </ui:define>
 
 </ui:composition>

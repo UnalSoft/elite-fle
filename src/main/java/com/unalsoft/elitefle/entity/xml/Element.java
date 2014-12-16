@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "value"
 })
 @XmlRootElement(name = "element")
-public class Element {
+public class Element extends ElementXML {
 
     @XmlAttribute(name = "type", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -51,6 +51,11 @@ public class Element {
     protected String nombre;
     @XmlValue
     protected String value;
+
+    public Element() {
+        this.tag = "element";
+        this.elem = true;
+    }
 
     /**
      * Gets the value of the type property.

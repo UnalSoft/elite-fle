@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "referentOrCoreferentOrElementOrProp"
 })
 @XmlRootElement(name = "prop")
-public class Prop {
+public class Prop extends ElementXML {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -43,7 +43,12 @@ public class Prop {
         @XmlElement(name = "element", type = Element.class),
         @XmlElement(name = "prop", type = Prop.class)
     })
-    protected List<Object> referentOrCoreferentOrElementOrProp;
+    protected List<ElementXML> referentOrCoreferentOrElementOrProp;
+
+    public Prop() {
+        this.tag = "prop";
+        this.prop = true;
+    }
 
     /**
      * Gets the value of the type property.
@@ -118,9 +123,9 @@ public class Prop {
      * 
      * 
      */
-    public List<Object> getReferentOrCoreferentOrElementOrProp() {
+    public List<ElementXML> getReferentOrCoreferentOrElementOrProp() {
         if (referentOrCoreferentOrElementOrProp == null) {
-            referentOrCoreferentOrElementOrProp = new ArrayList<Object>();
+            referentOrCoreferentOrElementOrProp = new ArrayList<ElementXML>();
         }
         return this.referentOrCoreferentOrElementOrProp;
     }

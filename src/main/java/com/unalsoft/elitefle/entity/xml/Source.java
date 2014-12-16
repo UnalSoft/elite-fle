@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "value"
 })
 @XmlRootElement(name = "source")
-public class Source {
+public class Source extends ElementXML {
 
     @XmlAttribute(name = "type", required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -36,6 +36,10 @@ public class Source {
     protected String periodicite;
     @XmlValue
     protected String value;
+
+    public Source() {
+        this.tag = "source";
+    }
 
     /**
      * Gets the value of the type property.

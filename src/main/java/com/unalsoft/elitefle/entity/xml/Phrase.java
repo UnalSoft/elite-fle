@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "propOrElement"
 })
 @XmlRootElement(name = "phrase")
-public class Phrase {
+public class Phrase extends ElementXML {
 
     @XmlAttribute(required = true)
     @XmlJavaTypeAdapter(CollapsedStringAdapter.class)
@@ -38,7 +38,11 @@ public class Phrase {
         @XmlElement(name = "prop", type = Prop.class),
         @XmlElement(name = "element", type = Element.class)
     })
-    protected List<Object> propOrElement;
+    protected List<ElementXML> propOrElement;
+
+    public Phrase() {
+        this.tag = "phrase";
+    }
 
     /**
      * Gets the value of the type property.
@@ -87,9 +91,9 @@ public class Phrase {
      * 
      * 
      */
-    public List<Object> getPropOrElement() {
+    public List<ElementXML> getPropOrElement() {
         if (propOrElement == null) {
-            propOrElement = new ArrayList<Object>();
+            propOrElement = new ArrayList<ElementXML>();
         }
         return this.propOrElement;
     }
