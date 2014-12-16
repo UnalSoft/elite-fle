@@ -6,9 +6,7 @@
 //@TODO: Add a preview of the text
 //@TODO: Add actions buttons
 //@TODO: Add icons in the buttons
-//@TODO: Validation screen, came back and confirm button 
-//@TODO: Change checkbox button
-//@TODO: Add date field
+//@TODO: Validation screen, came back and confirm button
 package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
@@ -24,7 +22,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 /**
@@ -32,7 +30,7 @@ import javax.faces.model.SelectItem;
  * @author juanmanuelmartinezromero
  */
 @ManagedBean(name = "sequenceBean")
-@ViewScoped
+@SessionScoped
 public class SequenceBean {
 
     private boolean supports;
@@ -216,26 +214,27 @@ public class SequenceBean {
     }
 
     public boolean validateSequence() {
-        //@TODO: Change to save sequence or add supports
-        SequenceVo sv = new SequenceVo();
-        sv.setNameSequence(getName());
-        sv.setNotion(getNotion().getDescription());
-        sv.setSubNotion(getSubNotion().getDescription());
-        sv.setLevel(getLevel().getLevel());
-        sv.setSupports(isSupports());
+        if (!isSupports()) {
+            //@TODO: Change to save sequence or add supports
+            SequenceVo sv = new SequenceVo();
+            sv.setNameSequence(getName());
+            sv.setNotion(getNotion().getDescription());
+            sv.setSubNotion(getSubNotion().getDescription());
+            sv.setLevel(getLevel().getLevel());
+            sv.setSupports(isSupports());
 
-        Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
-        sv.setIdSpottingActivity(idSpottingActivity);
+            Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
+            sv.setIdSpottingActivity(idSpottingActivity);
 
-        Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
-        sv.setIdSystematisationActivity(idSystematisationActivity);
+            Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
+            sv.setIdSystematisationActivity(idSystematisationActivity);
 
-        sv.setApplicationActivity(getKnowledgeApp());
-        sv.setIdAuthor(getAuthor().getIdTeacher());
-        sv.setExplication(explication);
-        
-        FacadeFactory.getInstance().getSequenceFacade().persist(sv);
-        
+            sv.setApplicationActivity(getKnowledgeApp());
+            sv.setIdAuthor(getAuthor().getIdTeacher());
+            sv.setExplication(explication);
+
+            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+        }
         //@TODO: If saves without supports ?
         return isSupports();
     }

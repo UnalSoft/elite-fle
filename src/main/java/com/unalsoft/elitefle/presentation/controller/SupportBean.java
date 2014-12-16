@@ -70,7 +70,8 @@ public class SupportBean implements Serializable {
                     FacadeFactory.getInstance().getSupportFacade().persist(vo);
                     init();
                 } catch (IOException ex) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Error uploading file");
+                        //@TODO Correct cannot load support bug
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Error uploading file");
                     FacesContext.getCurrentInstance().addMessage(null, message);
                 } catch (PersistException ex) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Database Erreur: " + ex.getMessage());
