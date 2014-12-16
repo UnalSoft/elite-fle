@@ -34,4 +34,8 @@ public class DAOFactory {
     public ActivityDAO getActivityDAO() {
             return ActivityDAO.getInstance();
     }
+
+    public SequenceDAO getSequenceDAO() {
+        return SequenceDAO.getInstance();
+    }
 }

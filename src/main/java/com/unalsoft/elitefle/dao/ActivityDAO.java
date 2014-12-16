@@ -18,7 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
  *
  * @author Jummartinezro
  */
-public class ActivityDAO implements IDAO<Activity>{
+public class ActivityDAO implements IDAO<Activity> {
 
     private static ActivityDAO instance;
 
@@ -31,6 +31,7 @@ public class ActivityDAO implements IDAO<Activity>{
 
     /**
      * Try to find an activity by all his fields
+     *
      * @param vo
      * @param em
      * @return
@@ -52,9 +53,9 @@ public class ActivityDAO implements IDAO<Activity>{
         }
         return id;
     }
-    
+
     @Override
-    public void persist(Activity entity, EntityManager em) {        
+    public void persist(Activity entity, EntityManager em) {
         em.persist(entity);
     }
 

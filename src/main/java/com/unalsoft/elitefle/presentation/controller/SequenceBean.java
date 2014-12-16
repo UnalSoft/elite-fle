@@ -6,9 +6,7 @@
 //@TODO: Add a preview of the text
 //@TODO: Add actions buttons
 //@TODO: Add icons in the buttons
-//@TODO: Validation screen, came back and confirm button 
-//@TODO: Change checkbox button
-//@TODO: Add date field
+//@TODO: Validation screen, came back and confirm button
 package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
@@ -24,8 +22,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
 /**
@@ -33,7 +30,7 @@ import javax.faces.model.SelectItem;
  * @author juanmanuelmartinezromero
  */
 @ManagedBean(name = "sequenceBean")
-@ViewScoped
+@SessionScoped
 public class SequenceBean {
 
     private boolean supports;
@@ -44,6 +41,7 @@ public class SequenceBean {
     private Text systematisationText;
     private TypeOfActivity systematisationActivity;
     private String knowledgeApp;
+    private String explication;
     private Notion notion;
     private Notion.SubNotion subNotion;
     @ManagedProperty(value = "#{teacherBean}")
@@ -110,10 +108,8 @@ public class SequenceBean {
     /**
      * Change the Sub-Notions list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSubNotions(ValueChangeEvent e) {
-        setNotion((Notion) e.getNewValue());
+    public void changeSubNotions() {
         fillSubNotions();
     }
 
@@ -131,12 +127,9 @@ public class SequenceBean {
     /**
      * Change the Systematisation Texts list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSystematisationTexts(ValueChangeEvent e) {
-        Text selectedText = (Text) e.getNewValue();
-        setSystematisationText(selectedText);
-        fillSystematisationTextList(selectedText);
+    public void changeSystematisationTexts() {
+        fillSystematisationTextList(getSpottingText());
     }
 
     /**
@@ -157,12 +150,9 @@ public class SequenceBean {
      * Change the Systematisation Activities list according to the selected
      * Notion
      *
-     * @param e
      */
-    public void changeSystematisationActivities(ValueChangeEvent e) {
-        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
-        setSystematisationActivity(selectedActivity);
-        fillSystematisationActivities(selectedActivity);
+    public void changeSystematisationActivities() {
+        fillSystematisationActivities(getSpottingActivity());
     }
 
     /**
@@ -182,12 +172,9 @@ public class SequenceBean {
     /**
      * Change the Spotting Texts list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSpottingTexts(ValueChangeEvent e) {
-        Text selectedText = (Text) e.getNewValue();
-        setSpottingText(selectedText);
-        fillSpottingTexts(selectedText);
+    public void changeSpottingTexts() {
+        fillSpottingTexts(getSystematisationText());
     }
 
     /**
@@ -207,12 +194,9 @@ public class SequenceBean {
     /**
      * Change the Spotting Activities list according to the selected Notion
      *
-     * @param e
      */
-    public void changeSpottingActivities(ValueChangeEvent e) {
-        TypeOfActivity selectedActivity = (TypeOfActivity) e.getNewValue();
-        setSpottingActivity(selectedActivity);
-        fillSpottingActivities(selectedActivity);
+    public void changeSpottingActivities() {
+        fillSpottingActivities(getSystematisationActivity());
     }
 
     /**
@@ -230,23 +214,27 @@ public class SequenceBean {
     }
 
     public boolean validateSequence() {
-        //@TODO: Change to save sequence or add supports
-        SequenceVo sv = new SequenceVo();
-        sv.setName(name);
-        sv.setNotion(notion.getDescription());
-        sv.setSubNotion(subNotion.getDescription());
-        sv.setLevel(level.getLevel());
-        sv.setSupports(isSupports());
+        if (!isSupports()) {
+            //@TODO: Change to save sequence or add supports
+            SequenceVo sv = new SequenceVo();
+            sv.setNameSequence(getName());
+            sv.setNotion(getNotion().getDescription());
+            sv.setSubNotion(getSubNotion().getDescription());
+            sv.setLevel(getLevel().getLevel());
+            sv.setSupports(isSupports());
 
-        Integer idSpottingActivity = getActivityId(spottingText.getText(), spottingText.getUrl(), spottingActivity.getActivityName());
-        sv.setIdSpottingActivity(idSpottingActivity);
+            Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
+            sv.setIdSpottingActivity(idSpottingActivity);
 
-        Integer idSystematisationActivity = getActivityId(systematisationText.getText(), systematisationText.getUrl(), systematisationActivity.getActivityName());
-        sv.setIdSystematisationActivity(idSystematisationActivity);
+            Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
+            sv.setIdSystematisationActivity(idSystematisationActivity);
 
-        sv.setApplicationActivity(knowledgeApp);
-        sv.setIdAuthor(author.getIdTeacher());
-        //@TODO: Change urlExplication to explication (including length in BD)
+            sv.setApplicationActivity(getKnowledgeApp());
+            sv.setIdAuthor(getAuthor().getIdTeacher());
+            sv.setExplication(explication);
+
+            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+        }
         //@TODO: If saves without supports ?
         return isSupports();
     }
@@ -330,6 +318,13 @@ public class SequenceBean {
      */
     public String getKnowledgeApp() {
         return knowledgeApp;
+    }
+
+    /**
+     * @return the explication
+     */
+    public String getExplication() {
+        return explication;
     }
 
     /**
@@ -456,6 +451,13 @@ public class SequenceBean {
      */
     public void setKnowledgeApp(String knowledgeApp) {
         this.knowledgeApp = knowledgeApp;
+    }
+
+    /**
+     * @param explication the explication to set
+     */
+    public void setExplication(String explication) {
+        this.explication = explication;
     }
 
     /**

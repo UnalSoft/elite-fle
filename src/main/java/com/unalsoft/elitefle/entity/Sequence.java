@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.unalsoft.elitefle.entity;
 
+import com.unalsoft.elitefle.vo.SequenceVo;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -21,6 +26,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,12 +46,13 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Sequence.findByLevel", query = "SELECT s FROM Sequence s WHERE s.level = :level"),
     @NamedQuery(name = "Sequence.findBySupports", query = "SELECT s FROM Sequence s WHERE s.supports = :supports"),
     @NamedQuery(name = "Sequence.findByApplicationActivity", query = "SELECT s FROM Sequence s WHERE s.applicationActivity = :applicationActivity"),
-    @NamedQuery(name = "Sequence.findByUrlExplication", query = "SELECT s FROM Sequence s WHERE s.urlExplication = :urlExplication")})
-public class Sequence implements Serializable {
+    @NamedQuery(name = "Sequence.findByExplication", query = "SELECT s FROM Sequence s WHERE s.explication = :explication")})
+public class Sequence implements Serializable, IEntity<SequenceVo> {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "idSequence")
     private Integer idSequence;
     @Basic(optional = false)
@@ -76,9 +84,14 @@ public class Sequence implements Serializable {
     private String applicationActivity;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "urlExplication")
-    private String urlExplication;
+    @Size(max = 1250)
+    @Column(name = "explication")
+    private String explication;
+    @Basic(optional = false)
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date")
+    private Date creationDate;
     @JoinTable(name = "sequence_has_support", joinColumns = {
         @JoinColumn(name = "Sequence_idSequence", referencedColumnName = "idSequence")}, inverseJoinColumns = {
         @JoinColumn(name = "Support_urlSupport", referencedColumnName = "urlSupport")})
@@ -103,14 +116,14 @@ public class Sequence implements Serializable {
         this.idSequence = idSequence;
     }
 
-    public Sequence(Integer idSequence, String nameSequence, String notion, String subNotion, String level, short supports, String urlExplication) {
+    public Sequence(Integer idSequence, String nameSequence, String notion, String subNotion, String level, short supports, String explication) {
         this.idSequence = idSequence;
         this.nameSequence = nameSequence;
         this.notion = notion;
         this.subNotion = subNotion;
         this.level = level;
         this.supports = supports;
-        this.urlExplication = urlExplication;
+        this.explication = explication;
     }
 
     public Integer getIdSequence() {
@@ -169,12 +182,12 @@ public class Sequence implements Serializable {
         this.applicationActivity = applicationActivity;
     }
 
-    public String getUrlExplication() {
-        return urlExplication;
+    public String getExplication() {
+        return explication;
     }
 
-    public void setUrlExplication(String urlExplication) {
-        this.urlExplication = urlExplication;
+    public void setExplication(String explication) {
+        this.explication = explication;
     }
 
     public List<Support> getSupportList() {
@@ -217,6 +230,14 @@ public class Sequence implements Serializable {
         this.studentHasSequenceList = studentHasSequenceList;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -241,5 +262,40 @@ public class Sequence implements Serializable {
     public String toString() {
         return "com.unalsoft.elitefle.entity.Sequence[ idSequence=" + idSequence + " ]";
     }
-    
+
+    @Override
+    public SequenceVo toVo() {
+        SequenceVo vo = new SequenceVo();
+        vo.setNameSequence(nameSequence);
+        vo.setNotion(notion);
+        vo.setSubNotion(subNotion);
+        vo.setLevel(level);
+        vo.setSupports(supports == 1);
+        vo.setApplicationActivity(applicationActivity);
+        vo.setExplication(explication);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+        vo.setCreationDate(format.format(getCreationDate()));
+        //SupportList,
+        List<String> supportIdList = new ArrayList<String>();
+        for (Support support : getSupportList()) {
+            supportIdList.add(support.getUrlSupport());
+        }
+        vo.setSupportIdList(supportIdList);
+        //Author
+        vo.setIdAuthor(idAuthor.getIdTeacher());
+        //Spotting Activity
+        //Systematisation Activity
+        vo.setIdSpottingActivity(spottingActivity.getIdActivity());
+        vo.setIdSystematisationActivity(systematizationActivity.getIdActivity());
+
+        //StudentHasSequenceList
+        int[][] studentHasSequencePKs = new int[studentHasSequenceList.size()][2];
+        for (int i = 0; i < studentHasSequencePKs.length; i++) {
+            studentHasSequencePKs[i][0] = studentHasSequenceList.get(i).getSequence().getIdSequence();
+            studentHasSequencePKs[i][1] = studentHasSequenceList.get(i).getStudent().getIdStudent();
+        }
+        vo.setStudentHasSequencePKs(studentHasSequencePKs);
+
+        return vo;
+    }
 }

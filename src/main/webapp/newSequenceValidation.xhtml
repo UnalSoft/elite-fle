@@ -7,11 +7,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
-        title
-    </ui:define>
-
-    <ui:define name="head">
-
+        Nouvelle Séquence : Validation
     </ui:define>
 
     <ui:define name="content">
@@ -22,7 +18,7 @@
                 <h:panelGroup> 
                     <div class="form-group" id="titleClass">
                         <div class="modal-header">
-                            <h2>Composez votre séquence didactique</h2>
+                            <h2>Vous souhaitez enregistrer cette séquence didactique ?</h2>
                         </div>
                     </div>
                 </h:panelGroup> 
@@ -33,12 +29,8 @@
                                            style="font-weight:bold"/>
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:inputText id="seqName" required="true" 
-                                         value="#{sequenceBean.name}" 
-                                         requiredMessage="Veuillez compléter le champ" />
-                            <p:watermark for="seqName" 
-                                         value="Donnez un nom à la séquence" />
-                            <p:message id="seqNameMessage" for="seqName" /> 
+                            <p:outputLabel id="seqName" 
+                                           value="#{sequenceBean.name}" /> 
                         </h:panelGroup>
                         <h:panelGroup>
                             <div class="modal-header">
@@ -50,51 +42,38 @@
                             <p:outputLabel for="seqNotion" value="Notion" />
                         </h:panelGroup>
                         <h:panelGroup id="notionPanel">
-                            <p:selectOneMenu id="seqNotion" 
-                                             value="#{sequenceBean.notion}">
-                                <p:ajax listener="#{sequenceBean.changeSubNotions}" update="seqSubNotion" />
-                                <f:selectItems value="#{sequenceBean.notions}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqNotion" 
+                                           value="#{sequenceBean.notion.description}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSubNotion" value="Sous-notion" />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneMenu id="seqSubNotion" 
-                                             value="#{sequenceBean.subNotion}">
-                                <f:selectItems value="#{sequenceBean.subNotions}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqSubNotion" 
+                                           value="#{sequenceBean.subNotion.description}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqLevel" value="Niveau" />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneMenu id="seqLevel" 
-                                             value="#{sequenceBean.level}">
-                                <f:selectItems value="#{sequenceBean.levels}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel  id="seqLevel" 
+                                            value="#{sequenceBean.level.level}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSpottingText" 
                                            value="Texte de repérage"/>
                         </h:panelGroup>
                         <h:panelGroup id="spottingTextPanel">
-                            <p:selectOneMenu id="seqSpottingText" 
-                                             value="#{sequenceBean.spottingText}">
-                                <p:ajax listener="#{sequenceBean.changeSystematisationTexts}" update="seqSystematisationText" />
-                                <f:selectItems value="#{sequenceBean.spottingTexts}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqSpottingText" 
+                                           value="#{sequenceBean.spottingText.text}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSpottingActivity" 
                                            value="Activité de repérage"/>
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneMenu id="seqSpottingActivity" 
-                                             value="#{sequenceBean.spottingActivity}">
-                                <p:ajax listener="#{sequenceBean.changeSystematisationActivities}" update="seqSystematisationActivity" />
-                                <f:selectItems value="#{sequenceBean.spottingActivities}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqSpottingActivity" 
+                                           value="#{sequenceBean.spottingActivity.activityName}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <div class="modal-header">
@@ -103,17 +82,12 @@
                         </h:panelGroup>
                         <h:panelGroup/>
 
-
                         <h:panelGroup>
                             <h:outputText 
-                                value="Souhaitez-vous utiliser des supports 
-                                linguistiques et/ou didactiques ? " />
+                                value="Supports linguistiques et/ou didactiques " />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneRadio id="seqSupport" layout="grid" columns="1" value="#{sequenceBean.supports}">
-                                <f:selectItem itemValue="true" itemLabel="Oui" /><br/><br/>
-                                <f:selectItem itemValue="false" itemLabel="No" /><br/>
-                            </p:selectOneRadio>
+                            <p:outputLabel  id="seqSupport" value="#{sequenceBean.supports==true?'Oui':'No'}"/>
                         </h:panelGroup>
                         <h:panelGroup id="systematisationActivityPanel">
                             <div class="modal-header">
@@ -127,25 +101,17 @@
                                            value="Texte de systématisation"/>
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneMenu id="seqSystematisationText" 
-                                             value="#{sequenceBean.systematisationText}">
-                                <p:ajax listener="#{sequenceBean.changeSpottingTexts}" update="seqSpottingText" />
-                                <f:selectItems 
-                                    value="#{sequenceBean.systematisationTexts}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqSystematisationText" 
+                                           value="#{sequenceBean.systematisationText.text}"/>
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSystematisationActivity" 
                                            value="Activité de systématisation"/>
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:selectOneMenu id="seqSystematisationActivity" 
-                                             value="#{sequenceBean.systematisationActivity}">
-                                <p:ajax listener="#{sequenceBean.changeSpottingActivities}" update="seqSpottingActivity" />
-                                <f:selectItems value="#{sequenceBean.systematisationActivities}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel id="seqSystematisationActivity" 
+                                           value="#{sequenceBean.systematisationActivity.activityName}"/>                                
                         </h:panelGroup>
-
 
                         <h:panelGroup/> 
                     </h:panelGrid>
@@ -156,16 +122,8 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:inputTextarea id="seqKnowledgeApp" required="true" 
-                                     value="#{sequenceBean.knowledgeApp}" 
-                                     requiredMessage="Veuillez compléter le champ"
-                                     style="width: 100%; color: black"
-                                     autoResize="false"
-                                     maxlength="1250"
-                                     />
-                    <p:watermark for="seqKnowledgeApp" 
-                                 value="Écrivez dans cette zone vos consignes de travail. (1250 caractères)" />
-                    <p:message id="seqKnowledgeAppMessage" for="seqKnowledgeApp" /> 
+                    <p:outputLabel id="seqKnowledgeApp"
+                                     value="#{sequenceBean.knowledgeApp}"/>
                 </h:panelGroup>
                 <h:panelGroup id="explicationPanel">
                     <div class="modal-header">
@@ -173,20 +131,12 @@
                     </div>
                 </h:panelGroup>
                 <h:panelGroup>
-                    <p:inputTextarea id="seqExplication" required="true" 
-                                     value="#{sequenceBean.explication}" 
-                                     requiredMessage="Veuillez compléter le champ"
-                                     style="width: 100%; color: black"
-                                     autoResize="false"
-                                     maxlength="1250"
-                                     />
-                    <p:watermark for="seqExplication" 
-                                 value="Écrivez dans cette zone une explication de la séquence. (1250 caractères)" />
-                    <p:message id="seqExplicationMessage" for="seqExplication" /> 
+                    <p:outputLabel  id="seqExplication"
+                                     value="#{sequenceBean.explication}"/>
                 </h:panelGroup>
                 <h:panelGroup>
                     <div class="form-actions">
-                        <h:commandButton action="#{sequenceBean.isSupports()}" 
+                        <h:commandButton action="#{sequenceBean.validateSequence()}" 
                                          value="Validez votre séquence" 
                                          class="btn btn-danger"/>
                     </div>
