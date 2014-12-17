@@ -41,7 +41,12 @@ public class ActivityService implements IService<ActivityVo> {
 
     @Override
     public ActivityVo find(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Activity support = DAOFactory.getInstance().getActivityDAO().find(id, em);
+        if (support != null) {
+            return support.toVo();
+        } else {
+            return null;
+        }
     }
 
     @Override

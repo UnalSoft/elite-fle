@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *
@@ -65,16 +66,20 @@ public class ActivityDAO implements IDAO<Activity> {
 
     @Override
     public void update(Activity entity, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.merge(entity);
     }
 
     @Override
     public void delete(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Activity support = (Activity) em.getReference(Activity.class, id);
+        em.remove(support);
     }
 
     @Override
     public List<Activity> getList(EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Activity.class));
+        Query q = em.createQuery(cq);
+        return q.getResultList();
     }
 }
