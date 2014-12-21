@@ -12,7 +12,8 @@ import javax.persistence.EntityManager;
  * @author juanmanuelmartinezromero
  */
 public interface IDAO<E> {
- void persist(E entity, EntityManager em);
+
+    void persist(E entity, EntityManager em);
 
     E find(Object id, EntityManager em);
 
@@ -20,5 +21,5 @@ public interface IDAO<E> {
 
     void delete(Object id, EntityManager em);
 
-    List<E> getList(EntityManager em);   
+    List<E> getList(EntityManager em);
 }

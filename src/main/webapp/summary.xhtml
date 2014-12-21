@@ -88,7 +88,20 @@
                                 value="Supports linguistiques et/ou didactiques " />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:outputLabel  id="seqSupport" value="#{sequenceBean.supports==true?'Oui':'No'}"/>
+                            <p:outputLabel  id="seqSupport" value="#{sequenceBean.supports==true?'':'No'}"/>
+                            <p:dataTable var="support" 
+                                         value="#{supportBean.selectedSupports}"
+                                         rendered="#{sequenceBean.supports}">
+                                <p:column headerText="Titre">
+                                    <h:outputText value="#{support.title}" />
+                                </p:column>
+                                <p:column headerText="Auteur">
+                                    <h:outputText value="#{support.authorName}" />
+                                </p:column>
+                                <p:column headerText="Type">
+                                    <h:outputText value="#{support.type}" />
+                                </p:column>
+                            </p:dataTable>
                         </h:panelGroup>
                         <h:panelGroup id="systematisationActivityPanel">
                             <div class="modal-header">

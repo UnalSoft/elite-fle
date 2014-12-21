@@ -13,6 +13,8 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -70,9 +72,10 @@ public class SupportBean implements Serializable {
                     FacadeFactory.getInstance().getSupportFacade().persist(vo);
                     init();
                 } catch (IOException ex) {
-                        //@TODO Correct cannot load support bug
-                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Error uploading file");
+                    //@TODO Correct when folder doesn't exist
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Error uploading file");
                     FacesContext.getCurrentInstance().addMessage(null, message);
+                    Logger.getLogger(SupportBean.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (PersistException ex) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Database Erreur: " + ex.getMessage());
                     FacesContext.getCurrentInstance().addMessage(null, message);
