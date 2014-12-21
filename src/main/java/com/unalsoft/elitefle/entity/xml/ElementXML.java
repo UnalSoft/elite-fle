@@ -11,7 +11,7 @@ public class ElementXML {
     protected boolean elem;
     protected boolean referent;
     protected boolean coreferent;    
-    protected boolean sousTitre;
+    protected boolean sousTitre = false;
     protected boolean paragraphe;    
     
     public String getTag(){
