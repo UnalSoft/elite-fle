@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,6 +53,7 @@ public class SupportBean implements Serializable {
     @PostConstruct
     public void init() {
         supportList = FacadeFactory.getInstance().getSupportFacade().getList();
+        selectedSupports=new ArrayList<SupportVo>();
         sRootPath = new File("").getAbsolutePath() + File.separator + "support";
         notions = Arrays.asList(Notion.values());
         subNotions = getNotions().get(0).getSubNotions();

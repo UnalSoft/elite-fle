@@ -1,8 +1,6 @@
 //@TODO: Add a preview of the selected text
 //@TODO: Add a preview of the sequence when created
-//@TODO: Add onFocus Tutorial text
-//@TODO: Add the creation data of the sequence in the BD
-//@TODO: Add the explication box in the view (And persist it)
+//@TODO: Add toolTip Tutorial text
 //@TODO: Add a preview of the text
 //@TODO: Add actions buttons
 //@TODO: Add icons in the buttons
@@ -17,12 +15,15 @@ import com.unalsoft.elitefle.entity.Text;
 import com.unalsoft.elitefle.entity.TypeOfActivity;
 import com.unalsoft.elitefle.vo.ActivityVo;
 import com.unalsoft.elitefle.vo.SequenceVo;
+import com.unalsoft.elitefle.vo.SupportVo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 /**
@@ -46,6 +47,8 @@ public class SequenceBean {
     private Notion.SubNotion subNotion;
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean author;
+    @ManagedProperty(value = "#{supportBean}")
+    private SupportBean supportBean;
     private List<SelectItem> levels;
     private List<SelectItem> notions;
     private List<SelectItem> subNotions;
@@ -214,38 +217,49 @@ public class SequenceBean {
     }
 
     public boolean validateSequence() {
-        boolean persisted=false;
-        if (!isSupports()) {
-            //@TODO: Change to save sequence or add supports
-            try {
-                SequenceVo sv = new SequenceVo();
-                sv.setNameSequence(getName());
-                sv.setNotion(getNotion().getDescription());
-                sv.setSubNotion(getSubNotion().getDescription());
-                sv.setLevel(getLevel().getLevel());
-                sv.setSupports(isSupports());
-                
-                Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
-                sv.setIdSpottingActivity(idSpottingActivity);
-                
-                Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
-                sv.setIdSystematisationActivity(idSystematisationActivity);
-                
-                String cuttedAppAct = getKnowledgeApp().length() <= 1250
-                        ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
-                String cuttedexp = explication.length() <= 1250
-                        ? explication : explication.substring(0, 1249);
-                
-                sv.setApplicationActivity(cuttedAppAct);
-                sv.setIdAuthor(getAuthor().getIdTeacher());
-                sv.setExplication(cuttedexp);
-                
-                FacadeFactory.getInstance().getSequenceFacade().persist(sv);
-                persisted=true;
-            } catch (PersistException persistException) {
-                persisted=false;
-                //@TODO Handle exception (If exists)
+        boolean persisted;
+        //@TODO: Change to save sequence or add supports
+        try {
+            SequenceVo sv = new SequenceVo();
+            sv.setNameSequence(getName());
+            sv.setNotion(getNotion().getDescription());
+            sv.setSubNotion(getSubNotion().getDescription());
+            sv.setLevel(getLevel().getLevel());
+            sv.setSupports(isSupports());
+
+            Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
+            sv.setIdSpottingActivity(idSpottingActivity);
+
+            Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
+            sv.setIdSystematisationActivity(idSystematisationActivity);
+
+            String cuttedAppAct = getKnowledgeApp().length() <= 1250
+                    ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
+            String cuttedexp = getExplication().length() <= 1250
+                    ? getExplication() : getExplication().substring(0, 1249);
+
+            sv.setApplicationActivity(cuttedAppAct);
+            sv.setIdAuthor(getAuthor().getIdTeacher());
+            sv.setExplication(cuttedexp);
+
+            // Link Sequence and supports
+            List<String> supportsIds = new ArrayList<String>(supportBean.getSupportList().size());
+            for (SupportVo support : supportBean.getSelectedSupports()) {
+                supportsIds.add(support.getUrlSupport());
             }
+            sv.setSupportIdList(supportsIds);
+
+            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+            
+            this.setName(null);
+            this.setExplication(null);
+            this.setKnowledgeApp(null);
+            this.getSupportBean().setSelectedSupports(new ArrayList<SupportVo>());
+            
+            persisted = true;
+        } catch (PersistException persistException) {
+            persisted = false;
+            //@TODO Handle exception (If exists)
         }
         //@TODO: link the supports
         return persisted;
@@ -358,6 +372,13 @@ public class SequenceBean {
      */
     public TeacherBean getAuthor() {
         return author;
+    }
+
+    /**
+     * @return the supportBean
+     */
+    public SupportBean getSupportBean() {
+        return supportBean;
     }
 
     /**
@@ -494,6 +515,13 @@ public class SequenceBean {
     }
 
     /**
+     * @param supportBean the supportBean to set
+     */
+    public void setSupportBean(SupportBean supportBean) {
+        this.supportBean = supportBean;
+    }
+
+    /**
      * @param levels the levels to set
      */
     public void setLevels(List<SelectItem> levels) {
@@ -541,4 +569,5 @@ public class SequenceBean {
     public void setSystematisationTexts(List<SelectItem> systematisationTexts) {
         this.systematisationTexts = systematisationTexts;
     }
+
 }
