@@ -8,6 +8,7 @@ package com.unalsoft.elitefle.businesslogic.service;
 import com.unalsoft.elitefle.dao.DAOFactory;
 import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.entity.Sequence;
+import com.unalsoft.elitefle.entity.Support;
 import com.unalsoft.elitefle.entity.Teacher;
 import com.unalsoft.elitefle.vo.SequenceVo;
 import java.util.ArrayList;
@@ -54,6 +55,15 @@ public class SequenceService implements IService<SequenceVo> {
         
         sequence.setExplication(vo.getExplication());
         sequence.setCreationDate(new GregorianCalendar().getTime());
+        
+        List<Support> supports = new ArrayList<Support>(vo.getSupportIdList().size());
+        
+        for (String supportId : vo.getSupportIdList()) {
+            Support support = DAOFactory.getInstance().getSupportDAO().find(supportId, em);
+            support.getSequenceList().add(sequence);    
+            supports.add(support);
+        }
+        sequence.setSupportList(supports);
         
         DAOFactory.getInstance().getSequenceDAO().persist(sequence,em);
     }

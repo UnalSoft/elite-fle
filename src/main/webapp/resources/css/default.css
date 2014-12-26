@@ -11,3 +11,7 @@ body {
     /*background-color:#b0c4de;*/
 }
 
+.img-button-explication { 
+    background-image: url('../images/icons/red-22.png') !important;
+    background-size: 100%; 
+}

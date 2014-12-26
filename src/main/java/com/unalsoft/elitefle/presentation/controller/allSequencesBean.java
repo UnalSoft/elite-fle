@@ -15,8 +15,9 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class allSequencesBean {
 
+    private SequenceVo selectedSequence;
     private List<SequenceVo> sequences;
-
+    
     /**
      * Creates a new instance of allSequencesBean
      */
@@ -29,6 +30,13 @@ public class allSequencesBean {
     }
 
     /**
+     * @return the selectedSequence
+     */
+    public SequenceVo getSelectedSequence() {
+        return selectedSequence;
+    }
+
+    /**
      * @return the sequences
      */
     public List<SequenceVo> getSequences() {
@@ -36,9 +44,16 @@ public class allSequencesBean {
     }
 
     /**
+     * @param selectedSequence the selectedSequence to set
+     */
+    public void setSelectedSequence(SequenceVo selectedSequence) {
+        this.selectedSequence = selectedSequence;
+    }
+
+    /**
      * @param sequences the sequences to set
      */
     public void setSequences(List<SequenceVo> sequences) {
         this.sequences = sequences;
-    }    
+    }
 }

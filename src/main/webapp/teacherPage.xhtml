@@ -3,13 +3,14 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="./WEB-INF/templates/default.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
         title
     </ui:define>
 
-    <ui:define name="content">             
+    <ui:define id="content" name="content">             
         <p class="text-justify">
             Afin de créer une séquence il suffit d'utiliser les icônes qui sont 
             dans la partie « séquences » et de suivre les instructions en cas 
@@ -24,43 +25,60 @@
             <li>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
         <p:separator style="width:970px;height:5px" />
-        <p:dataTable var="Sequence" value="#{allSequencesBean.sequences}">
+        <p:dialog id="explicationDialog" header="Explication" 
+                  widgetVar="explicationDialog"
+                  modal="true" showEffect="fade" hideEffect="fade" 
+                  resizable="false"
+                  width="50%"
+                  height="50%">
+            <p:outputPanel id="explicationText" style="text-align:center;">
+                <h:outputText value="#{allSequencesBean.selectedSequence.explication}" />
+            </p:outputPanel>
+        </p:dialog>
+        <p:dataTable id="tableSequences" var="sequence" 
+                     value="#{allSequencesBean.sequences}">
+            
             <p:column headerText="Sequence">
-                <h:outputText value="#{Sequence.nameSequence}" />
+                <h:outputText value="#{sequence.nameSequence}" />
             </p:column>
 
             <p:column headerText="Auteur">
-                <h:outputText value="#{Sequence.author}" />
+                <h:outputText value="#{sequence.author}" />
             </p:column>
-            
+
             <p:column headerText="Date de création">
-                <h:outputText value="#{Sequence.creationDate}" />
+                <h:outputText value="#{sequence.creationDate}" />
             </p:column>
-            
+
             <p:column headerText="Niveau">
-                <h:outputText value="#{Sequence.level}" />
+                <h:outputText value="#{sequence.level}" />
             </p:column>
-            
+
             <p:column headerText="Notion">
-                <h:outputText value="#{Sequence.notion}" />
+                <h:outputText value="#{sequence.notion}" />
             </p:column>
-            
+
             <p:column headerText="Sous-notion">
-                <h:outputText value="#{Sequence.subNotion}" />
+                <h:outputText value="#{sequence.subNotion}" />
             </p:column>
-            
-            <p:column headerText="Sous-notion">
-                <h:outputText value="#{Sequence.supports?'Oui':'Non'}" />
+
+            <p:column headerText="Supports">
+                <h:outputText value="#{sequence.supports?'Oui':'Non'}" />
             </p:column>
-            
-            <p:column headerText="Actions">
-                <h:outputText value="List of actions" />
-            </p:column>
+
+            <p:column id="columnExplication" headerText="Explication">
+                <p:commandButton id="explicationCmdButton" 
+                                 update=":explicationText" 
+                                 oncomplete="PF('explicationDialog').show()" 
+                                 icon="img-button-explication" title="Explication">
+                    <f:setPropertyActionListener 
+                        value="#{sequence}" 
+                        target="#{allSequencesBean.selectedSequence}" />
+                </p:commandButton>
+            </p:column>            
         </p:dataTable>
         <div class="form-actions">
             <h:button outcome="newSequence" value="Nouvelle Séquence" class="btn btn-danger"/>            
         </div>
-
     </ui:define>
-
 </ui:composition>
