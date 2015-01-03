@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns="http://www.w3.org/1999/xhtml"
                 template="./WEB-INF/templates/default.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
@@ -13,50 +12,53 @@
 
     <ui:define name="content">
         <h2>Supports</h2>
-        <h:form>            
+        <h:form>
             <a data-toggle="modal" href="#addSupportModal" class="btn btn-danger">Ajouter Support</a>
             <p:messages id="messages" showDetail="true" autoUpdate="false" closable="true" />
             <p:separator/>
 
-            <p:dataTable id="supports" var="support" value="#{supportBean.supportList}" widgetVar="supportsTable"
-                         emptyMessage="Aucun support trouvé!" filteredValue="#{supportBean.filteredSupports}"
-                         selection="#{supportBean.selectedSupports}" rowKey="#{support.urlSupport}"
+            <p:dataTable id="supports" var="support" 
+                         value="#{supportBean.supportList}"  
+                         selection="#{supportBean.selectedSupports}" 
+                         rowKey="#{support.urlSupport}"
+                         widgetVar="supportsTable" 
+                         emptyMessage="Aucun support trouvé!" 
+                         filteredValue="#{supportBean.filteredSupports}"                         
                          scrollable="true" scrollHeight="200">
-
-                <f:facet name="header">
-                    <p:outputPanel>
-                        <h:outputText value="Chercher:" />
-                        <p:inputText id="globalFilter" onkeyup="PF('supportsTable').filter()" style="width:150px" placeholder="Mot clé"/>                        
-                    </p:outputPanel>                    
-                </f:facet>
-
+                <!--TODO Correct select all when selecting all supports-->
+                <p:ajax event="rowSelectCheckbox"/>
+                <p:ajax event="rowUnselectCheckbox"/>
+                <p:ajax event="rowSelect"/>
+                <p:ajax event="rowUnselect"/>
+                
                 <p:column selectionMode="multiple" style="width:5%;text-align:center"/>
                 <p:column filterBy="#{support.title}" sortBy="#{support.title}" headerText="Titre" filterMatchMode="contains">
                     <h:outputText value="#{support.title}" />
                 </p:column> 
                 <p:column filterBy="#{support.type}" headerText="Type" filterMatchMode="equals">
-                    <f:facet name="filter">
-                        <p:selectOneButton onchange="PF('supportsTable').filter()">
-                            <f:selectItem itemLabel="Tout" itemValue="" />
-                            <f:selectItem itemLabel="L" itemValue="Linguistique" />
-                            <f:selectItem itemLabel="D" itemValue="Didactique" />
-                        </p:selectOneButton>
-                    </f:facet>
-                    <h:outputText value="#{support.type}" />
+                <f:facet name="filter">
+                <p:selectOneButton onchange="PF('supportsTable').filter()">
+                <f:selectItem itemLabel="Tout" itemValue="" />
+                <f:selectItem itemLabel="L" itemValue="Linguistique" />
+                <f:selectItem itemLabel="D" itemValue="Didactique" />
+                </p:selectOneButton>
+                </f:facet>
+                <h:outputText value="#{support.type}" />
                 </p:column> 
                 <p:column filterBy="#{support.notion}" sortBy="#{support.notion}" headerText="Notion" filterMatchMode="contains">
                     <h:outputText value="#{support.notion}" />
                 </p:column> 
-                <p:column filterBy="#{support.subNotion}" sortBy="#{support.subNotion}" headerText="Sous-Notion" filterMatchMode="contains">
-                    <h:outputText value="#{support.subNotion}" />
+                <p:column filterBy="#{support.subNotion}" sortBy="#{support.subNotion}"
+                headerText="Sous-Notion" filterMatchMode="contains">
+          <h:outputText value="#{support.subNotion}" />
                 </p:column> 
-                <p:column filterBy="#{support.authorName}" sortBy="#{support.authorName}" headerText="Auteur" filterMatchMode="contains">
-                    <h:outputText value="#{support.authorName}" />
+                <p:column filterBy="#{support.authorName}" sortBy="#{support.authorName}"
+                headerText="Auteur" filterMatchMode="contains">
+          <h:outputText value="#{support.authorName}" />
                 </p:column>
                 <p:column filterBy="#{support.date}" sortBy="#{support.date}" headerText="Date" filterMatchMode="contains">
                     <h:outputText value="#{support.date}" />
-                </p:column> 
-
+                </p:column>
             </p:dataTable>
             <p:separator/>
             <div class="row">

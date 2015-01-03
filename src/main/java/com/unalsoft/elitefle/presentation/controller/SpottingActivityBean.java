@@ -38,6 +38,7 @@ public class SpottingActivityBean implements Serializable {
             if (text == null) {
                 text = Parser.parseXML(activity.getUrl());
                 initElements();
+                //@TODO Error page when files not found
             }
         } else {
             //@TODO Error page

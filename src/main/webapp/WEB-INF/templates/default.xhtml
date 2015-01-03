@@ -39,7 +39,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">Elite-FLE</a>
+                    <a class="brand" href="teacherPage.xhtml">Elite-FLE</a>
+                    <!--@TODO Avoid to redirect when not logged in-->
 
                     <div class="nav-collapse">
                         <ui:fragment rendered="#{teacherBean.loggedIn}">
@@ -50,7 +51,7 @@
                                         <b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <!--<li><a href="#">Éditer</a></li>-->
+                                        <li><a href="about.xhtml">À propos</a></li>
                                         <li class="divider"></li>
                                         <li>
                                             <h:form class="navbar-form">

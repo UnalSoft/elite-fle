@@ -282,7 +282,10 @@ public class Sequence implements Serializable, IEntity<SequenceVo> {
         }
         vo.setSupportIdList(supportIdList);
         //Author
-        vo.setIdAuthor(idAuthor.getIdTeacher());
+        if (getIdAuthor() != null) {
+            vo.setIdAuthor(idAuthor.getIdTeacher());
+            vo.setAuthor(getIdAuthor().getName());
+        }
         //Spotting Activity
         //Systematisation Activity
         vo.setIdSpottingActivity(spottingActivity.getIdActivity());
