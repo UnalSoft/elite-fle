@@ -64,7 +64,7 @@
                 <h:outputText value="#{sequence.subNotion}" />
             </p:column>
 
-            <p:column id="columnExplication" headerText="Explication">
+            <p:column id="columnActions" headerText="Actions">
                 <p:commandButton id="explicationCmdButton" 
                                  update=":explicationText" 
                                  oncomplete="PF('explicationDialog').show()" 
@@ -73,16 +73,18 @@
                         value="#{sequence}" 
                         target="#{allSequencesBean.selectedSequence}" />
                 </p:commandButton>
-                <p:commandButton id="testCmdButton" 
-                                 icon="img-button-test" title="Tester séquence">
-                </p:commandButton>
-                <p:commandButton id="editCmdButton" 
+                <p:button id="testCmdButton" 
+                          icon="img-button-test" title="Tester séquence" 
+                          outcome="/sequence/activity/spottingActivity.xhtml">
+                    <f:param name="idActivity" value="#{sequence.idSpottingActivity}"/>
+                </p:button>
+                <p:commandButton id="editCmdButton" disabled="true"
                                  icon="img-button-edit" title="Modifier séquence">
                 </p:commandButton>
-                <p:commandButton id="deleteCmdButton" 
+                <p:commandButton id="deleteCmdButton" disabled="true"
                                  icon="img-button-delete" title="Supprimer séquence">
                 </p:commandButton>
-                <p:commandButton id="sendCmdButton" 
+                <p:commandButton id="sendCmdButton" disabled="true"
                                  icon="img-button-send" title="Envoyer séquence">
                 </p:commandButton>
             </p:column>            
