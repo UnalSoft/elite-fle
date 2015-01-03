@@ -1,0 +1,44 @@
+<!ELEMENT DOCUMENTTEXTE (ENTETE, CONTENU)>
+	<!ATTLIST DOCUMENTTEXTE id_doc ID #REQUIRED>
+	<!ELEMENT ENTETE (titre_doc, auteur, source, date, type, niveau)>
+    		<!ELEMENT titre_doc (#PCDATA)>
+    		<!ELEMENT auteur (#PCDATA)>
+    		<!ELEMENT source (#PCDATA)>
+    			<!ATTLIST source type (magazine | journal | livre | internet | roman | inconnu) #REQUIRED>
+   			<!ATTLIST source periodicite (hebdomadaire | journaliere | mensuelle | bimensuelle | annuelle | inconnue) #IMPLIED>
+    		<!ELEMENT date (#PCDATA)>
+    		<!ELEMENT type (#PCDATA)>
+    		<!ELEMENT niveau (#PCDATA)>
+    		<!ELEMENT activite (#PCDATA)>
+  	<!ELEMENT CONTENU (titre?, (sous-titre?, paragraphe)*)>
+    		<!ELEMENT titre (phrase+)>
+    		<!ELEMENT sous-titre (phrase+)>
+    		<!ELEMENT paragraphe (phrase+ | element)*>
+      		<!ELEMENT phrase (#PCDATA | prop | element)*>
+      			<!ATTLIST phrase type (simple | complexe) #REQUIRED>
+	  	<!ELEMENT ellipse EMPTY>
+          	<!ELEMENT prop (#PCDATA | referent | coreferent | element | prop)*>
+		<!ELEMENT referent (#PCDATA | element)*>
+		<!ELEMENT coreferent (#PCDATA | element)*>
+		<!ELEMENT element (#PCDATA)*>
+	      		<!ATTLIST prop type (principale | independante | subordonnee | averbale | incise) #REQUIRED>
+              		<!ATTLIST prop sous-type (principale | participiale | completive | coordonnee | relative | juxtaposee | verbale | infinitive | conjonctive | averbale) #IMPLIED>
+              		<!ATTLIST element type (DETIFS | NCFS | ADJSIG | PDS | VINDP3S |DETIMS | NCMS | ADV |VINF | DETDPIG | NCMP | PREP | DETDMS | NCFP | ADJFP | VINDP3P | ADJMP | PCTFORTE | DETDFS | ADJORD | DETPOSS | PPER3P | PPER3S | ADJFS | NCSIG | PCTFAIB | ADJNUM | NCMIN | PRI | NPFS | COO | ADJMS | NPI | NCHMS | SUB | NCFIN | ADJIND | VCONP3S | VPARPMS | NCPIG | NPMS | DETDEM | PIPIG | VPARPMP | VPARPFS | VPARPRES | PIMS | VINDF3S | ADJPIG | NPFIN | NPSIG | NPHSIG | VINDI3P | NPMIN | VINDI3S |PIMP | VPARPFP | PPER2P | VINDP2P | PIFP | NCI | PDP | ADJINT | PPER1P | VINDF2P | ADJINV | PII | VIMPP2P | VSUBP3S | VINDF3P | VINDPS3S | INT | PISIG | VINDPS3P | PPER2S | PPER1S | VINDI1P | VINDP2S | VINDP1S | ADJMIN | VIMPP1P | PRFS | PRMS | VIMPP2S | VCONP3P | PIFS | VINDP1P | ADJHFS | ADJHMS | VINDI2S | ELLIP) #REQUIRED>
+			<!ATTLIST element cat (NC | V | DETD | ADJ | PPER | DETI | NP | PD | PI | PR) #IMPLIED>
+			<!ATTLIST element mode (INF | IND | CON | PAR | IMP | SUB) #IMPLIED>
+			<!ATTLIST element temps (P | F | PRES | I | PS) #IMPLIED>
+			<!ATTLIST element pers (1 | 2 | 3) #IMPLIED>
+			<!ATTLIST element genre (M | F | I) #IMPLIED>
+			<!ATTLIST element nombre (S | P | I) #IMPLIED>
+			<!ATTLIST referent type (Nom) #IMPLIED>
+			<!ATTLIST referent sous-type (GN) #IMPLIED>
+			<!ATTLIST referent idn ID #REQUIRED>
+			<!ATTLIST coreferent type (Nom | Pron) #IMPLIED>
+			<!ATTLIST coreferent sous-type (GN | COD | Pers | Rel | N | Compl | Pronom) #IMPLIED>
+			<!ATTLIST coreferent classe (fidele | infidele | determinative | totale | partielle | integrante | associative) #IMPLIED>
+			<!ATTLIST coreferent idn ID #REQUIRED>
+			<!ATTLIST coreferent chaine IDREF #REQUIRED>
+			<!ATTLIST coreferent position (Anaphore) #IMPLIED>
+			<!ATTLIST coreferent reference IDREF #REQUIRED>
+
+			
