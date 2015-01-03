@@ -6,11 +6,8 @@ import com.unalsoft.elitefle.vo.ActivityVo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.DragDropEvent;
 
 /**
  *
@@ -26,6 +23,8 @@ public class SpottingActivityBean implements Serializable {
     private String mainReferent;
     private final String MAIN_REF = "r1";
     private String elemToFind;
+    private String typeToFind;
+    private String subTypeToFind;
 
     private final String[] colorRef = {"black", "red", "darkblue", "green", "purple", "deeppink", "goldenrod"};
     private final String[] colorCoRef = {"black", "orange", "blue", "greenyellow", "orchid", "hotpink", "gold"};
@@ -74,9 +73,12 @@ public class SpottingActivityBean implements Serializable {
                 }
             }
         }
-        int random = (int) Math.floor(Math.random() * (selectedElements.size() - 1));
+//        int random = (int) Math.floor(Math.random() * (selectedElements.size() - 1));
+        int random = 0;
         ElementXML randomElem = selectedElements.remove(random);
         setElemToFind(((Coreferent) randomElem).getIdn());
+        setTypeToFind(((Coreferent) randomElem).getType());
+        setSubTypeToFind(((Coreferent) randomElem).getSousType());
         elementsToDrag.add(randomElem);
 
     }
@@ -160,16 +162,6 @@ public class SpottingActivityBean implements Serializable {
         return elements;
     }
 
-    public void onElemDrop(DragDropEvent ddEvent) {
-        String dragId = ddEvent.getDragId();
-        String dropId = ddEvent.getDropId();
-        ElementXML data = (ElementXML) ddEvent.getData();
-        selectedElements.add(data);
-        elementsToDrag.remove(data);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Data: " + data);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
     public String getRefColor(String idn) {
         String[] split = idn.split("r");
         int id = Integer.parseInt(split[1]);
@@ -246,6 +238,22 @@ public class SpottingActivityBean implements Serializable {
 
     public void setElemToFind(String elemToFInd) {
         this.elemToFind = elemToFInd;
+    }
+
+    public String getTypeToFind() {
+        return typeToFind;
+    }
+
+    public void setTypeToFind(String typeToFind) {
+        this.typeToFind = typeToFind;
+    }
+
+    public String getSubTypeToFind() {
+        return subTypeToFind;
+    }
+
+    public void setSubTypeToFind(String subTypeToFind) {
+        this.subTypeToFind = subTypeToFind;
     }
 
 }
