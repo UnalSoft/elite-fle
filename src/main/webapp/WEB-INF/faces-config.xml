@@ -50,9 +50,4 @@
             <to-view-id>/noLogin.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    <managed-bean>
-        <managed-bean-name>allSequencesBean</managed-bean-name>
-        <managed-bean-class>com.unalsoft.elitefle.presentation.controller.allSequencesBean</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
-    </managed-bean>
 </faces-config>

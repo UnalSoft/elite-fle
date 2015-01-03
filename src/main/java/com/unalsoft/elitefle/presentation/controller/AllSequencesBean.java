@@ -13,7 +13,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "allSequencesBean")
 @ViewScoped
-public class allSequencesBean {
+public class AllSequencesBean {
 
     private SequenceVo selectedSequence;
     private List<SequenceVo> sequences;
@@ -21,7 +21,7 @@ public class allSequencesBean {
     /**
      * Creates a new instance of allSequencesBean
      */
-    public allSequencesBean() {
+    public AllSequencesBean() {
     }
 
     @PostConstruct
