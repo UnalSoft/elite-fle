@@ -15,3 +15,22 @@ body {
     background-image: url('../images/icons/red-22.png') !important;
     background-size: 100%; 
 }
+
+.img-button-test { 
+    background-image: url('../images/icons/red-37.png') !important;
+    background-size: 100%; 
+}
+.img-button-edit { 
+    background-image: url('../images/icons/red-39.png') !important;
+    background-size: 100%; 
+}
+
+.img-button-delete { 
+    background-image: url('../images/icons/red-16.png') !important;
+    background-size: 100%; 
+}
+
+.img-button-send { 
+    background-image: url('../images/icons/red-18.png') !important;
+    background-size: 100%; 
+}

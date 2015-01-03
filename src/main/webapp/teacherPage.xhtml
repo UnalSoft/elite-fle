@@ -18,11 +18,12 @@
             Vous pouvez :
         </p>
         <ul>
-            <li>Créer une séquence ;</li>
-            <li>La tester;</li>
-            <li>la modifier;</li>
-            <li>la supprimer ;</li>
-            <li>l’exécuter en l'envoyant à vos étudiants.</li>                    
+            <li><h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger" style="margin: 5px"/></li>
+            <li><h:graphicImage value="resources/images/icons/red-22.png" style="margin-right: 10px"/>Voir une explication;</li>
+            <li><h:graphicImage value="resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
+            <li><h:graphicImage value="resources/images/icons/red-39.png" style="margin-right: 10px"/>la modifier;</li>
+            <li><h:graphicImage value="resources/images/icons/red-16.png" style="margin-right: 10px"/>la supprimer ;</li>
+            <li><h:graphicImage value="resources/images/icons/red-18.png" style="margin-right: 10px"/>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
         <p:separator style="width:970px;height:5px" />
         <p:dialog id="explicationDialog" header="Explication" 
@@ -36,8 +37,9 @@
             </p:outputPanel>
         </p:dialog>
         <p:dataTable id="tableSequences" var="sequence" 
-                     value="#{allSequencesBean.sequences}">
-            
+                     value="#{allSequencesBean.sequences}"
+                     tableStyle="width:auto">
+
             <p:column headerText="Sequence">
                 <h:outputText value="#{sequence.nameSequence}" />
             </p:column>
@@ -62,18 +64,26 @@
                 <h:outputText value="#{sequence.subNotion}" />
             </p:column>
 
-            <p:column headerText="Supports">
-                <h:outputText value="#{sequence.supports?'Oui':'Non'}" />
-            </p:column>
-
             <p:column id="columnExplication" headerText="Explication">
                 <p:commandButton id="explicationCmdButton" 
                                  update=":explicationText" 
                                  oncomplete="PF('explicationDialog').show()" 
-                                 icon="img-button-explication" title="Explication">
+                                 icon="img-button-explication" title="Voir explication">
                     <f:setPropertyActionListener 
                         value="#{sequence}" 
                         target="#{allSequencesBean.selectedSequence}" />
+                </p:commandButton>
+                <p:commandButton id="testCmdButton" 
+                                 icon="img-button-test" title="Tester séquence">
+                </p:commandButton>
+                <p:commandButton id="editCmdButton" 
+                                 icon="img-button-edit" title="Modifier séquence">
+                </p:commandButton>
+                <p:commandButton id="deleteCmdButton" 
+                                 icon="img-button-delete" title="Supprimer séquence">
+                </p:commandButton>
+                <p:commandButton id="sendCmdButton" 
+                                 icon="img-button-send" title="Envoyer séquence">
                 </p:commandButton>
             </p:column>            
         </p:dataTable>
