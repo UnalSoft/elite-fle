@@ -13,24 +13,25 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Edward
  */
-@ManagedBean(name = "spottingActivityBean")
+@ManagedBean(name = "spottingActivityBean2")
 @ViewScoped
-public class SpottingActivityBean implements Serializable {
+public class SpottingActivityBean2 implements Serializable {
 
     private ActivityVo activity;
     private Integer idActivity;
     private DocumentTexte text;
-    private String mainReferent;
-    private final String MAIN_REF = "r1";
-    private String elemToFind;
-    private String typeToFind;
-    private String subTypeToFind;
 
-    private final String[] colorRef = {"black", "red", "darkblue", "green", "purple", "deeppink", "goldenrod"};
-    private final String[] colorCoRef = {"black", "orange", "blue", "greenyellow", "orchid", "hotpink", "gold"};
+    private final String[] colorRef = {"black", "red", "lime ", "blue", "purple", "deeppink", "goldenrod"};
+    private final String[] colorCoRef = {"black", "orange", "greenyellow", "SkyBlue", "orchid", "hotpink", "gold"};
 
-    private List<ElementXML> selectedElements;
-    private List<ElementXML> elementsToDrag;
+    private Referent referent1;
+    private Referent referent2;
+    private List<Coreferent> coreferent1;
+    private List<Coreferent> coreferent3;
+    private final String R3 = "r3";
+    private final String R2 = "r2";
+    private final String R1 = "r1";
+    private int rightAnswers;
 
     public void preRenderView() throws Exception {
         if (getIdActivity() != null) {
@@ -39,7 +40,7 @@ public class SpottingActivityBean implements Serializable {
                 text = Parser.parseXML(activity.getUrl());
                 if (text != null) {
                     initElements();
-                }else {
+                } else {
                     throw new Exception("File not found");
                 }
             }
@@ -49,8 +50,9 @@ public class SpottingActivityBean implements Serializable {
     }
 
     private void initElements() {
-        elementsToDrag = new ArrayList<ElementXML>();
-        selectedElements = new ArrayList<ElementXML>();
+        coreferent1 = new ArrayList<Coreferent>();
+        coreferent3 = new ArrayList<Coreferent>();
+        this.rightAnswers = 0;
         List<ElementXML> elements = getTitleElems();
         List<ElementXML> sousTitreOrParagraphe = text.getContenu().getSousTitreOrParagraphe();
         for (ElementXML elementXML : sousTitreOrParagraphe) {
@@ -64,26 +66,24 @@ public class SpottingActivityBean implements Serializable {
         for (ElementXML elementXML : elements) {
             if (elementXML.isReferent()) {
                 String idn = ((Referent) elementXML).getIdn();
-                if (idn.equals(MAIN_REF)) {
-                    setMainReferent(getElementsFromReferent(elementXML));
+                if (idn.equals(R1)) {
+                    setReferent1((Referent) elementXML);
+                } else if (idn.equals(R2)) {
+                    setReferent2((Referent) elementXML);
+                } else if (idn.equals(R3)) {
+                    rightAnswers += 1;
                 }
-            }
-            if (elementXML.isCoreferent()) {
+            } else if (elementXML.isCoreferent()) {
                 String chaine = (String) ((Coreferent) elementXML).getChaine();
-                if (chaine.equals(MAIN_REF)) {
-                    selectedElements.add(elementXML);
-                } else {
-                    elementsToDrag.add(elementXML);
+                if (chaine.equals(R1)) {
+                    coreferent1.add((Coreferent) elementXML);
+                } else if (chaine.equals(R3)) {
+                    coreferent3.add((Coreferent) elementXML);
+                } else if (chaine.equals(R2)) {
+                    rightAnswers += 1;
                 }
             }
         }
-        int random = (int) Math.floor(Math.random() * (selectedElements.size() - 1));
-        ElementXML randomElem = selectedElements.remove(random);
-        setElemToFind(((Coreferent) randomElem).getIdn());
-        setTypeToFind(((Coreferent) randomElem).getType());
-        setSubTypeToFind(((Coreferent) randomElem).getSousType());
-        elementsToDrag.add(randomElem);
-
     }
 
     public List<ElementXML> getTitleElems() {
@@ -168,7 +168,7 @@ public class SpottingActivityBean implements Serializable {
     public String getRefColor(String idn) {
         String[] split = idn.split("r");
         int id = Integer.parseInt(split[1]);
-        if (id != 1) {
+        if (id > 3) {
             id = 0;
         }
         return colorRef[id];
@@ -177,10 +177,26 @@ public class SpottingActivityBean implements Serializable {
     public String getCoRefColor(String ref, String idn) {
         String[] split = ref.split("r");
         int id = Integer.parseInt(split[1]);
-        if (id != 1 || idn.equals(elemToFind)) {
+        if (id > 3) {
             id = 0;
         }
         return colorCoRef[id];
+    }
+
+    public boolean isDraggable(String chaine, boolean isRef) {
+        boolean flag = true;
+        if (chaine.equals(R1)) {
+            flag = false;
+        } else if (chaine.equals(R2)) {
+            if (isRef) {
+                flag = false;
+            }
+        } else if (chaine.equals(R3)) {
+            if (!isRef) {
+                flag = false;
+            }
+        }
+        return flag;
     }
 
     public ActivityVo getActivity() {
@@ -207,56 +223,52 @@ public class SpottingActivityBean implements Serializable {
         this.text = text;
     }
 
-    public String getMainReferent() {
-        return mainReferent;
+    public Referent getReferent1() {
+        return referent1;
     }
 
-    public void setMainReferent(String mainReferent) {
-        this.mainReferent = mainReferent;
+    public void setReferent1(Referent referent1) {
+        this.referent1 = referent1;
     }
 
-    public List<ElementXML> getSelectedElements() {
-        return selectedElements;
+    public Referent getReferent2() {
+        return referent2;
     }
 
-    public void setSelectedElements(List<ElementXML> selectedElements) {
-        this.selectedElements = selectedElements;
+    public void setReferent2(Referent referent2) {
+        this.referent2 = referent2;
     }
 
-    public List<ElementXML> getElementsToDrag() {
-        return elementsToDrag;
+    public List<Coreferent> getCoreferent1() {
+        return coreferent1;
     }
 
-    public void setElementsToDrag(List<ElementXML> elementsToDrag) {
-        this.elementsToDrag = elementsToDrag;
+    public void setCoreferent1(List<Coreferent> coreferent1) {
+        this.coreferent1 = coreferent1;
     }
 
-    public String getMAIN_REF() {
-        return MAIN_REF;
+    public List<Coreferent> getCoreferent3() {
+        return coreferent3;
     }
 
-    public String getElemToFind() {
-        return elemToFind;
+    public void setCoreferent3(List<Coreferent> coreferent3) {
+        this.coreferent3 = coreferent3;
     }
 
-    public void setElemToFind(String elemToFInd) {
-        this.elemToFind = elemToFInd;
+    public String getR3() {
+        return R3;
     }
 
-    public String getTypeToFind() {
-        return typeToFind;
+    public String getR2() {
+        return R2;
     }
 
-    public void setTypeToFind(String typeToFind) {
-        this.typeToFind = typeToFind;
+    public String getR1() {
+        return R1;
     }
 
-    public String getSubTypeToFind() {
-        return subTypeToFind;
-    }
-
-    public void setSubTypeToFind(String subTypeToFind) {
-        this.subTypeToFind = subTypeToFind;
+    public int getRightAnswers() {
+        return rightAnswers;
     }
 
 }

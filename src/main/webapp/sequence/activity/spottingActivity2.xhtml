@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./../../WEB-INF/templates/default.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="idActivity" value="#{spottingActivityBean2.idActivity}"/>
+        <f:event type="preRenderView" listener="#{spottingActivityBean2.preRenderView()}" />
+    </f:metadata>
+
+    <ui:define name="title">
+        Activité de Repérage
+    </ui:define>
+
+    <ui:define name="head">      
+        <link href="#{request.contextPath}/resources/css/spottingActivity.css" rel="stylesheet" type="text/css"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Activité de Repérage</h2>
+        <p class="text-justify">
+            En suivant la même démarche, trouvez maintenant la suite des
+            éléments pour le groupe écrit en vert et trouvez ensuite le groupe
+            qui convient à la liste d'éléments écrits en bleu.
+        </p>
+        <h:form id="spottingActivityForm">
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+            <p:separator/>
+            <h:panelGrid id="grid" columns="2">
+                <p:outputLabel for="title" value="Titre: " styleClass="control-label"/>
+                <p:outputLabel id="title" value="#{spottingActivityBean2.text.entete.titreDoc}"/>
+                <p:outputLabel for="author" value="Auteur: " styleClass="control-label"/>
+                <p:outputLabel id="author" value="#{spottingActivityBean2.text.entete.auteur}"/>
+                <p:outputLabel for="source" value="Source: " styleClass="control-label"/>
+                <p:outputLabel id="source" value="#{spottingActivityBean2.text.entete.source.value}"/>
+                <p:outputLabel for="date" value="Date: " styleClass="control-label"/>
+                <p:outputLabel id="date" value="#{spottingActivityBean2.text.entete.date}"/>
+                <p:outputLabel for="type" value="Type: " styleClass="control-label"/>
+                <p:outputLabel id="type" value="#{spottingActivityBean2.text.entete.type}"/>
+                <p:outputLabel for="level" value="Niveau: " styleClass="control-label"/>
+                <p:outputLabel id="level" value="#{spottingActivityBean2.text.entete.niveau}"/>
+            </h:panelGrid>
+            <p:panel id="spottingActivityTextPanel" styleClass="text text-justify">
+                <div class="title">
+                    <ui:repeat value="#{spottingActivityBean2.titleElems}" var="elem">
+                        <ui:fragment rendered="#{elem.elem}">
+                            <h:outputText value=" #{elem.value} "/>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{elem.referent}">
+                            <div class="referent" style="color:#{spottingActivityBean2.getRefColor(elem.idn)}" 
+                                 idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                 draggable="#{spottingActivityBean2.isDraggable(elem.idn, true)}"
+                                 right="#{elem.idn == spottingActivityBean2.r3}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{elem.coreferent}">
+                            <div class="coreferent" style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}" 
+                                 idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                 draggable="#{spottingActivityBean2.isDraggable(elem.chaine, false)}"
+                                 right="#{elem.chaine == spottingActivityBean2.r2}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                        </ui:fragment>
+                    </ui:repeat>
+                </div>
+                <div class="text-justify">
+                    <ui:repeat value="#{spottingActivityBean2.text.contenu.sousTitreOrParagraphe}" var="element">
+                        <ui:fragment rendered="#{element.sousTitre}">
+                            <div class="subtitle">
+                                <ui:repeat value="#{spottingActivityBean2.getSubtitleElems(element)}" var="elem">
+                                    <ui:fragment rendered="#{elem.elem}">
+                                        <h:outputText value=" #{elem.value} "/>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{elem.referent}">
+                                        <div class="referent" style="color:#{spottingActivityBean2.getRefColor(elem.idn)}" 
+                                             idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                             draggable="#{spottingActivityBean2.isDraggable(elem.idn, true)}"
+                                             right="#{elem.idn == spottingActivityBean2.r3}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{elem.coreferent}">
+                                        <div class="coreferent" style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}" 
+                                             idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                             draggable="#{spottingActivityBean2.isDraggable(elem.chaine, false)}"
+                                             right="#{elem.chaine == spottingActivityBean2.r2}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                    </ui:fragment>
+                                </ui:repeat>
+                            </div>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{element.paragraphe}">
+                            <div class="paragraph">
+                                <ui:repeat value="#{spottingActivityBean2.getParagraphElems(element)}" var="elem">
+                                    <ui:fragment rendered="#{elem.elem}">
+                                        <h:outputText value=" #{elem.value} "/>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{elem.referent}">
+                                        <div class="referent" style="color:#{spottingActivityBean2.getRefColor(elem.idn)}" 
+                                             idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                             draggable="#{spottingActivityBean2.isDraggable(elem.idn, true)}"
+                                             right="#{elem.idn == spottingActivityBean2.r3}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{elem.coreferent}">
+                                        <div class="coreferent" style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}" 
+                                             idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                             draggable="#{spottingActivityBean2.isDraggable(elem.chaine, false)}"
+                                             right="#{elem.chaine == spottingActivityBean2.r2}">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                    </ui:fragment>
+                                </ui:repeat>
+                            </div>                            
+                        </ui:fragment>
+                    </ui:repeat>
+                </div>
+            </p:panel>
+            <br/>
+            <div class="row" id="columns">
+                <div class="span3">
+                    <div class="column1" style="height: #{20 * spottingActivityBean2.coreferent1.size()}px;width: 100%;">
+                        <header>
+                            #{spottingActivityBean2.getElementsFromReferent(spottingActivityBean2.referent1)}
+                        </header>
+                        <div class="cbody">
+                            <ui:repeat value="#{spottingActivityBean2.coreferent1}" var="elem">
+                                <div>#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="column2" style="height: #{20 * spottingActivityBean2.coreferent1.size()}px;width: 100%;">
+                        <header>
+                            #{spottingActivityBean2.getElementsFromReferent(spottingActivityBean2.referent2)}
+                        </header>
+                        <div class="cbody" style="height: #{20 * spottingActivityBean2.coreferent1.size() - 30}px;width: 100%;">
+                            <div class="placeholder">?</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="column3" style="height: #{20 * spottingActivityBean2.coreferent1.size()}px;width: 100%;">
+                        <header>
+                            <div class="placeholder">?</div>
+                        </header>
+                        <div class="cbody">
+                            <ui:repeat value="#{spottingActivityBean2.coreferent3}" var="elem">
+                                <div>#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="offset3 span3">
+                <div id="message" style="display: none;"></div>
+            </div>
+            <div class="span3">
+                <div id="next" style="display: none;margin: 10px 0px;">
+                    <h:link id="nextButton" outcome="spottingActivity3" value="Continuer" styleClass="btn btn-danger" >
+                        <f:param name="idActivity" value="#{spottingActivityBean2.idActivity}"/>
+                    </h:link>
+                </div>
+            </div>
+        </h:form> 
+        <script>
+            var rightAnswers = #{spottingActivityBean2.rightAnswers};
+        </script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/spottingActivity2.js"></script>
+    </ui:define>
+
+</ui:composition>

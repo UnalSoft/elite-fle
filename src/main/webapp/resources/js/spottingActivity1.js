@@ -1,7 +1,7 @@
 var errGNGN = "Attention, ce <strong>groupe nominal</strong> n'est pas vraiment le <strong>groupe nominal</strong> qui convient pour compléter la série. Essayez encore !";
 var errGNPron = "Attention vous vous êtes trompé. Le <strong>groupe nominal</strong> que vous avez choisi n'est pas le bon choix ; on attendait peut-être un autre type d'<strong>unité textuelle</strong>. Essayez encore !";
 var errPronGN = "Attention vous vous êtes trompé. L'<strong>unité textuelle</strong> que vous avez choisie n'est pas le bon choix ; on attendait peut-être un <strong>groupe nominal</strong>. Faites un nouveau essai !";
-var errPronPron = "Attention, cette <strong>unité textuelle<strong> n'est pas vraiment la bonne <strong>unité textuelle</strong> qui convient pour compléter la série. Essayez encore !";
+var errPronPron = "Attention, cette <strong>unité textuelle</strong> n'est pas vraiment la bonne <strong>unité textuelle</strong> qui convient pour compléter la série. Essayez encore !";
 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
@@ -13,13 +13,13 @@ $(function() {
         cursor: "pointer",
         disabled: false
     });
-    $(".selection").droppable({
+    $(".column1 .cbody").droppable({
         hoverClass: "ui-state-highlight",
         activeClass: "ui-state-hover",
         drop: function(event, ui) {
             if (ui.draggable.attr("right") === "true") {
                 ui.draggable.attr("style", "color:orange");
-                var newRow = $('<tr><td>' + ui.draggable.text() + '</td></tr>');
+                var newRow = $('<div>' + ui.draggable.text() + '</div>');
                 newRow.appendTo(this);
                 $("#message").removeClass("warning");
                 $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)]).show("pulsate", 500);

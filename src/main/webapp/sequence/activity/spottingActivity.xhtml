@@ -17,7 +17,7 @@
     </ui:define>
 
     <ui:define name="head">      
-        <link href="#{request.contextPath}/resources/css/activityCSS.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/css/spottingActivity.css" rel="stylesheet" type="text/css"/>
     </ui:define>
 
     <ui:define name="content">
@@ -108,19 +108,23 @@
             </p:panel>
             <br/>
             <div class="span3">
-                <table class="selection">
-                    <tr><th>#{spottingActivityBean.mainReferent}</th></tr>
-                    <ui:repeat value="#{spottingActivityBean.selectedElements}" var="elem">
-                        <tr><td>#{spottingActivityBean.getElementsFromReferent(elem)}</td></tr>
-                    </ui:repeat>
-                </table>
+                <div class="column1" style="height: #{20 * (spottingActivityBean.selectedElements.size() + 1)}px;width: 100%;">
+                    <header>#{spottingActivityBean.mainReferent}</header>
+                    <div class="cbody">
+                        <ui:repeat value="#{spottingActivityBean.selectedElements}" var="elem">
+                            <div>#{spottingActivityBean.getElementsFromReferent(elem)}</div>
+                        </ui:repeat>
+                    </div>
+                </div>
             </div>
             <div class="span3">
                 <div id="message" style="display: none;"></div>
             </div>
             <div class="span3">
                 <div id="next" style="display: none;">
-                    <p:link id="nextButton" outcome="spottingActivity2" value="Continuer" styleClass="btn btn-danger" />
+                    <h:link id="nextButton" outcome="spottingActivity2" value="Continuer" styleClass="btn btn-danger" >
+                        <f:param name="idActivity" value="#{spottingActivityBean.idActivity}"/>
+                    </h:link>
                 </div>
             </div>
         </h:form> 
@@ -129,7 +133,7 @@
             var typeToFind = "#{spottingActivityBean.typeToFind}";
             var subTypeToFind = "#{spottingActivityBean.subTypeToFind}";
         </script>
-        <script type="text/javascript" src="#{request.contextPath}/resources/js/activityJS.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/spottingActivity1.js"></script>
     </ui:define>
 
 </ui:composition>
