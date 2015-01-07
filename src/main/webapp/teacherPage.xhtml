@@ -21,7 +21,7 @@
             <li><h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger" style="margin: 5px"/></li>
             <li><h:graphicImage value="resources/images/icons/red-22.png" style="margin-right: 10px"/>Voir une explication;</li>
             <li><h:graphicImage value="resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
-            <li><h:graphicImage value="resources/images/icons/red-39.png" style="margin-right: 10px"/>la modifier;</li>
+            <li><h:graphicImage value="resources/images/icons/red-41.png" style="margin-right: 10px"/>la modifier;</li>
             <li><h:graphicImage value="resources/images/icons/red-16.png" style="margin-right: 10px"/>la supprimer ;</li>
             <li><h:graphicImage value="resources/images/icons/red-18.png" style="margin-right: 10px"/>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
@@ -73,7 +73,7 @@
                         value="#{sequence}" 
                         target="#{allSequencesBean.selectedSequence}" />
                 </p:commandButton>
-                <p:button id="testCmdButton" 
+                <p:button id="testCmdButton"
                           icon="img-button-test" title="Tester séquence" 
                           outcome="/sequence/activity/spottingActivity.xhtml">
                     <f:param name="idActivity" value="#{sequence.idSpottingActivity}"/>
@@ -90,7 +90,7 @@
             </p:column>            
         </p:dataTable>
         <div class="form-actions">
-            <h:button outcome="newSequence" value="Nouvelle Séquence" class="btn btn-danger"/>            
+            <h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger"/>            
         </div>
     </ui:define>
 </ui:composition>
