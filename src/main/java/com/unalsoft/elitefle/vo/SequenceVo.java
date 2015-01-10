@@ -24,7 +24,7 @@ public class SequenceVo implements IValueObject {
     private String author;
     private Integer idAuthor;
     private Integer idSpottingActivity;
-    private Integer idSystematisationActivity;
+    private Integer idSystematizationActivity;
     private List<String> supportIdList;
     private int[][] studentHasSequencePKs;
 
@@ -106,10 +106,10 @@ public class SequenceVo implements IValueObject {
     }
 
     /**
-     * @return the idSystematisationActivity
+     * @return the idSystematizationActivity
      */
-    public Integer getIdSystematisationActivity() {
-        return idSystematisationActivity;
+    public Integer getIdSystematizationActivity() {
+        return idSystematizationActivity;
     }
 
     /**
@@ -204,10 +204,10 @@ public class SequenceVo implements IValueObject {
     }
 
     /**
-     * @param idSystematisationActivity the idSystematisationActivity to set
+     * @param idSystematizationActivity the idSystematizationActivity to set
      */
-    public void setIdSystematisationActivity(Integer idSystematisationActivity) {
-        this.idSystematisationActivity = idSystematisationActivity;
+    public void setIdSystematizationActivity(Integer idSystematizationActivity) {
+        this.idSystematizationActivity = idSystematizationActivity;
     }
 
     /**

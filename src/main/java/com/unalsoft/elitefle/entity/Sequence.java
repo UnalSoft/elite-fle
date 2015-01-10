@@ -289,7 +289,7 @@ public class Sequence implements Serializable, IEntity<SequenceVo> {
         //Spotting Activity
         //Systematisation Activity
         vo.setIdSpottingActivity(spottingActivity.getIdActivity());
-        vo.setIdSystematisationActivity(systematizationActivity.getIdActivity());
+        vo.setIdSystematizationActivity(systematizationActivity.getIdActivity());
 
         //StudentHasSequenceList
         int[][] studentHasSequencePKs = new int[studentHasSequenceList.size()][2];

@@ -231,7 +231,7 @@ public class SequenceBean {
             sv.setIdSpottingActivity(idSpottingActivity);
 
             Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
-            sv.setIdSystematisationActivity(idSystematisationActivity);
+            sv.setIdSystematizationActivity(idSystematisationActivity);
 
             String cuttedAppAct = getKnowledgeApp().length() <= 1250
                     ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);

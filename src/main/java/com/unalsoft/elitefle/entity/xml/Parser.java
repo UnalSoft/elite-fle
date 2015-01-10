@@ -35,7 +35,7 @@ public class Parser {
             //Load and Parse the XML document            
             Document document = builder.parse(new File(url));
 
-            //Docuement Texte
+            //Document Text
             ObjectFactory factory = new ObjectFactory();
             doc = factory.createDocumentTexte();
 
