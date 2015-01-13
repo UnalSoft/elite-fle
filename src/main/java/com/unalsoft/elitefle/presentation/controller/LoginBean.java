@@ -18,7 +18,7 @@ import javax.faces.context.FacesContext;
  *
  * @author juanmanuelmartinezromero
  */
-@ManagedBean
+@ManagedBean(name="loginBean")
 @RequestScoped
 public class LoginBean implements Serializable {
 
@@ -26,6 +26,8 @@ public class LoginBean implements Serializable {
     private String password;
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean user;
+    
+    private String target;
 
     public LoginBean() {
     }
@@ -54,6 +56,14 @@ public class LoginBean implements Serializable {
         this.user = user;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     public String login() {
         UserVo userVo = new UserVo();
         UserFacade userFacade = FacadeFactory.getInstance().getUserFacade();
@@ -67,7 +77,12 @@ public class LoginBean implements Serializable {
             user.setUsername(login.getUserName());
             user.setIdTeacher(login.getIdUser());
             user.setLoggedIn(true);
-            return "success";
+            if (getTarget() == null) {
+                return "success";
+            } else {
+                target = target.replaceAll("_", "&");
+                return target;
+            }
         } else {        
             FacesContext.getCurrentInstance().addMessage(
                     "loginForm:username", new FacesMessage(
