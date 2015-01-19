@@ -78,6 +78,11 @@
                           outcome="/sequence/activity/spottingActivity.xhtml">
                     <f:param name="idActivity" value="#{sequence.idSpottingActivity}"/>
                 </p:button>
+                <p:button id="testSysActButton"
+                          icon="img-button-test" title="Tester activité de systematisation" 
+                          outcome="/sequence/activity/systematizationActivity.xhtml">
+                    <f:param name="idActivity" value="#{sequence.idSystematizationActivity}"/>
+                </p:button>
                 <p:commandButton id="editCmdButton" disabled="true"
                                  icon="img-button-edit" title="Modifier séquence">
                 </p:commandButton>

@@ -18,7 +18,7 @@
 
     <ui:define name="head">      
         <!--@TODO Change if necessary-->
-        <link href="#{request.contextPath}/resources/css/spottingActivity.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/resources/css/systematizationActivity.css" rel="stylesheet" type="text/css"/>
     </ui:define>
 
     <ui:define name="content">
@@ -53,13 +53,11 @@
                         <ui:fragment rendered="#{elem.referent}">
                             <div class="referent" style="color:#{systematizationActivityBean.getRefColor(elem.idn)}" 
                                  idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                 draggable="#{systematizationActivityBean.isDraggable(elem.idn, true)}"
                                  right="#{elem.idn == systematizationActivityBean.r3}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
                         </ui:fragment>
                         <ui:fragment rendered="#{elem.coreferent}">
                             <div class="coreferent" style="color:#{systematizationActivityBean.getCoRefColor(elem.chaine, elem.idn)}" 
                                  idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                 draggable="#{systematizationActivityBean.isDraggable(elem.chaine, false)}"
                                  right="#{elem.chaine == systematizationActivityBean.r2}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
                         </ui:fragment>
                     </ui:repeat>
@@ -75,13 +73,11 @@
                                     <ui:fragment rendered="#{elem.referent}">
                                         <div class="referent" style="color:#{systematizationActivityBean.getRefColor(elem.idn)}" 
                                              idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                             draggable="#{systematizationActivityBean.isDraggable(elem.idn, true)}"
                                              right="#{elem.idn == systematizationActivityBean.r3}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.coreferent}">
                                         <div class="coreferent" style="color:#{systematizationActivityBean.getCoRefColor(elem.chaine, elem.idn)}" 
                                              idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                             draggable="#{systematizationActivityBean.isDraggable(elem.chaine, false)}"
                                              right="#{elem.chaine == systematizationActivityBean.r2}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
                                     </ui:fragment>
                                 </ui:repeat>
@@ -94,24 +90,39 @@
                                         <h:outputText value=" #{elem.value} "/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.referent}">
-                                        <p:selectCheckboxMenu id="menu" 
-                                                              value="#{systematizationActivityBean.coreferent1}" label="Coreferent1"
-                                                              panelStyle="width:250px">
-                                        </p:selectCheckboxMenu>
                                         <div class="referent" style="color:#{systematizationActivityBean.getRefColor(elem.idn)}" 
                                              idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                             draggable="#{systematizationActivityBean.isDraggable(elem.idn, true)}"
-                                             right="#{elem.idn == systematizationActivityBean.r3}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
+                                             right="#{elem.idn == systematizationActivityBean.r3}">
+                                            #{systematizationActivityBean.getElementsFromReferent(elem)}
+                                        </div>
                                     </ui:fragment>
-                                    <ui:fragment rendered="#{elem.coreferent}">
-                                        <p:selectCheckboxMenu id="menu" 
-                                                              value="#{systematizationActivityBean.coreferent1}" label="Coreferent1"
-                                                              panelStyle="width:250px">
-                                        </p:selectCheckboxMenu>
+                                    <ui:fragment rendered="#{elem.coreferent and systematizationActivityBean.isRightCoreferent(elem.chaine)}">
                                         <div class="coreferent" style="color:#{systematizationActivityBean.getCoRefColor(elem.chaine, elem.idn)}" 
                                              idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                             draggable="#{systematizationActivityBean.isDraggable(elem.chaine, false)}"
-                                             right="#{elem.chaine == systematizationActivityBean.r2}">#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
+                                             right="#{elem.chaine == systematizationActivityBean.r2}">
+                                        <!--#{systematizationActivityBean.getElementsFromReferent(elem)}-->
+                                        <select id="colorOption" 
+                                                class="colorOption"
+                                                name="#{elem.idn}" 
+                                                style="width: 60px"
+                                                onchange="changeColor('#{elem.idn}','#{systematizationActivityBean.getCoRefColor(elem.chaine, elem.idn)}')" >
+                                            
+                                            <option value="white"></option>
+                                            <ui:repeat value="#{systematizationActivityBean.coreferentColors.toArray()}" 
+                                                       var="color">
+                                                <option style="background-color: #{color};
+                                                        color:#{color}"
+                                                        value="#{color}"></option>
+                                            </ui:repeat>
+                                        </select>
+                                        </div>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{elem.coreferent and not systematizationActivityBean.isRightCoreferent(elem.chaine)}">
+                                        <div class="coreferent" style="color:#{systematizationActivityBean.getCoRefColor(elem.chaine, elem.idn)}" 
+                                             idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                             right="#{elem.chaine == systematizationActivityBean.r2}">
+                                        #{systematizationActivityBean.getElementsFromReferent(elem)}
+                                        </div>
                                     </ui:fragment>
                                 </ui:repeat>
                             </div>                            
@@ -120,57 +131,58 @@
                 </div>
             </p:panel>
             <br/>
-            <div class="row" id="columns">
-                <div class="span3">
-                    <div class="column1" style="height: #{20 * systematizationActivityBean.coreferent1.size()}px;width: 100%;">
-                        <header>
-                            #{systematizationActivityBean.getElementsFromReferent(systematizationActivityBean.referent1)}
-                        </header>
-                        <div class="cbody">
-                            <ui:repeat value="#{systematizationActivityBean.coreferent1}" var="elem">
-                                <div>#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
-                            </ui:repeat>
-                        </div>
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="column2" style="height: #{20 * systematizationActivityBean.coreferent1.size()}px;width: 100%;">
-                        <header>
-                            #{systematizationActivityBean.getElementsFromReferent(systematizationActivityBean.referent2)}
-                        </header>
-                        <div class="cbody" style="height: #{20 * systematizationActivityBean.coreferent1.size() - 30}px;width: 100%;">
-                            <div class="placeholder">?</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="column3" style="height: #{20 * systematizationActivityBean.coreferent1.size()}px;width: 100%;">
-                        <header>
-                            <div class="placeholder">?</div>
-                        </header>
-                        <div class="cbody">
-                            <ui:repeat value="#{systematizationActivityBean.coreferent3}" var="elem">
-                                <div>#{systematizationActivityBean.getElementsFromReferent(elem)}</div>
-                            </ui:repeat>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="offset3 span3">
                 <div id="message" style="display: none;"></div>
             </div>
+            <br/>
+            <p:outputPanel id="coreferentSelection">
+                <div class="row" id="columns">
+                    <div class="span3">
+                        <div class="column1" style="height: #{20 * (systematizationActivityBean.coreferent1.size()
+                                                              +systematizationActivityBean.coreferent2.size()
+                                                              +systematizationActivityBean.coreferent3.size())-40}px;width: 100%;">
+                            <div class="cbody">
+                                <ui:repeat value="#{systematizationActivityBean.coreferent1}" var="elem">
+                                    <div id="coreferent1"
+                                         class="coreferent1" 
+                                         idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                         right="#{elem.chaine == systematizationActivityBean.r1}">
+                                        #{systematizationActivityBean.getElementsFromReferent(elem)}
+                                    </div><br/>
+                                </ui:repeat>
+                                <ui:repeat value="#{systematizationActivityBean.coreferent2}" var="elem">
+                                    <div 
+                                        class="coreferent2" 
+                                        idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                        right="false">
+                                        #{systematizationActivityBean.getElementsFromReferent(elem)}
+                                    </div><br/>
+                                </ui:repeat>
+                                <ui:repeat value="#{systematizationActivityBean.coreferent3}" var="elem">
+                                    <div 
+                                        class="coreferent3" 
+                                        idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
+                                        right="#{elem.chaine == systematizationActivityBean.r3}">
+                                        #{systematizationActivityBean.getElementsFromReferent(elem)}
+                                    </div><br/>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </p:outputPanel>
             <div class="span3">
                 <div id="next" style="display: none;margin: 10px 0px;">
-    <!--                    <h:link id="nextButton" outcome="spottingActivity3" value="Continuer" styleClass="btn btn-danger" >
-                            <f:param name="idActivity" value="#{systematizationActivityBean.idActivity}"/>
-                        </h:link>-->
+                    <h:link id="nextButton" outcome="systematizationActivity2" value="Continuer" styleClass="btn btn-danger" >
+                        <f:param name="idActivity" value="#{systematizationActivityBean.idActivity}"/>
+                    </h:link>
                 </div>
             </div>
         </h:form> 
         <script>
             var rightAnswers = #{systematizationActivityBean.rightAnswers};
         </script>
-        <script type="text/javascript" src="#{request.contextPath}/resources/js/spottingActivity2.js"></script>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/systematizationActivity.js"></script>
     </ui:define>
 
 </ui:composition>

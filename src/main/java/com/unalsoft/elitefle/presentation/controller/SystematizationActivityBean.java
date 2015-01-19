@@ -3,34 +3,37 @@ package com.unalsoft.elitefle.presentation.controller;
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.entity.xml.*;
 import com.unalsoft.elitefle.vo.ActivityVo;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
- *
  * @author Juan
  */
 @ManagedBean(name = "systematizationActivityBean")
 @ViewScoped
 public class SystematizationActivityBean implements Serializable {
 
-    private ActivityVo activity;
-    private Integer idActivity;
-    private DocumentTexte text;
-
     private final String[] colorRef = {"black", "red", "lime ", "blue", "purple", "deeppink", "goldenrod"};
     private final String[] colorCoRef = {"black", "orange", "greenyellow", "SkyBlue", "orchid", "hotpink", "gold"};
-
-    private Referent referent1;
-    private Referent referent2;
-    private List<Coreferent> coreferent1;
-    private List<Coreferent> coreferent3;
     private final String R3 = "r3";
     private final String R2 = "r2";
     private final String R1 = "r1";
+    private ActivityVo activity;
+    private Integer idActivity;
+    private DocumentTexte text;
+    private Referent referent1;
+    private Referent referent2;
+    private List<Coreferent> coreferent1;
+    private List<Coreferent> coreferent2;
+    private List<Coreferent> coreferent3;
+    private Set<String> coreferentColors;
+    private String lastColor = "black";
     private int rightAnswers;
 
     public void preRenderView() throws Exception {
@@ -51,7 +54,11 @@ public class SystematizationActivityBean implements Serializable {
 
     private void initElements() {
         coreferent1 = new ArrayList<Coreferent>();
+        coreferent2 = new ArrayList<Coreferent>();
         coreferent3 = new ArrayList<Coreferent>();
+        lastColor = "black";
+        HashSet<String> coreferentColorsSet = new HashSet<String>(colorCoRef.length);
+        coreferentColors = new HashSet<String>(colorCoRef.length);
         this.rightAnswers = 0;
         List<ElementXML> elements = getTitleElems();
         List<ElementXML> sousTitreOrParagraphe = text.getContenu().getSousTitreOrParagraphe();
@@ -77,12 +84,18 @@ public class SystematizationActivityBean implements Serializable {
                 String chaine = (String) ((Coreferent) elementXML).getChaine();
                 if (chaine.equals(R1)) {
                     coreferent1.add((Coreferent) elementXML);
+                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
                 } else if (chaine.equals(R3)) {
                     coreferent3.add((Coreferent) elementXML);
+                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
                 } else if (chaine.equals(R2)) {
-                    rightAnswers += 1;
+                    coreferent2.add((Coreferent) elementXML);
+                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
                 }
             }
+        }
+        for (String color : coreferentColorsSet) {
+            coreferentColors.add(color);
         }
     }
 
@@ -183,20 +196,14 @@ public class SystematizationActivityBean implements Serializable {
         return colorCoRef[id];
     }
 
-    public boolean isDraggable(String chaine, boolean isRef) {
-        boolean flag = true;
-        if (chaine.equals(R1)) {
-            flag = false;
-        } else if (chaine.equals(R2)) {
-            if (isRef) {
-                flag = false;
-            }
-        } else if (chaine.equals(R3)) {
-            if (!isRef) {
-                flag = false;
-            }
-        }
-        return flag;
+    /**
+     * Look if the chaine is R1, R2 or R3
+     *
+     * @param chaine
+     * @return
+     */
+    public boolean isRightCoreferent(String chaine) {
+        return chaine.equals(R1) || chaine.equals(R2) || chaine.equals(R3);
     }
 
     public ActivityVo getActivity() {
@@ -247,12 +254,36 @@ public class SystematizationActivityBean implements Serializable {
         this.coreferent1 = coreferent1;
     }
 
+    public List<Coreferent> getCoreferent2() {
+        return coreferent2;
+    }
+
+    public void setCoreferent2(List<Coreferent> coreferent2) {
+        this.coreferent2 = coreferent2;
+    }
+
     public List<Coreferent> getCoreferent3() {
         return coreferent3;
     }
 
     public void setCoreferent3(List<Coreferent> coreferent3) {
         this.coreferent3 = coreferent3;
+    }
+
+    public Set<String> getCoreferentColors() {
+        return coreferentColors;
+    }
+
+    public void setCoreferentColors(Set<String> coreferentColors) {
+        this.coreferentColors = coreferentColors;
+    }
+
+    public String getLastColor() {
+        return lastColor;
+    }
+
+    public void setLastColor(String lastColor) {
+        this.lastColor = lastColor;
     }
 
     public String getR3() {
@@ -271,4 +302,7 @@ public class SystematizationActivityBean implements Serializable {
         return rightAnswers;
     }
 
+    public String lastColor() {
+        return lastColor;
+    }
 }
