@@ -131,8 +131,15 @@
                 </div>
             </p:panel>
             <br/>
-            <div class="offset3 span3">
+            <div class="row">
                 <div id="message" style="display: none;"></div>
+            </div>
+            <div class="row">
+                <div id="next" style="display: none;margin: 10px 0px;">
+                    <h:link id="nextButton" outcome="systematizationActivity2" value="Continuer" styleClass="btn btn-danger" >
+                        <f:param name="idActivity" value="#{systematizationActivityBean.idActivity}"/>
+                    </h:link>
+                </div>
             </div>
             <br/>
             <p:outputPanel id="coreferentSelection">
@@ -171,13 +178,6 @@
                     </div>
                 </div>
             </p:outputPanel>
-            <div class="span3">
-                <div id="next" style="display: none;margin: 10px 0px;">
-                    <h:link id="nextButton" outcome="systematizationActivity2" value="Continuer" styleClass="btn btn-danger" >
-                        <f:param name="idActivity" value="#{systematizationActivityBean.idActivity}"/>
-                    </h:link>
-                </div>
-            </div>
         </h:form> 
         <script>
             var rightAnswers = #{systematizationActivityBean.rightAnswers};
