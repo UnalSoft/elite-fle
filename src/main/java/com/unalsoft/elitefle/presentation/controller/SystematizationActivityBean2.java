@@ -7,17 +7,23 @@ import com.unalsoft.elitefle.vo.ActivityVo;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Juan
  */
-@ManagedBean(name = "systematizationActivityBean")
+@ManagedBean(name = "systematizationActivityBean2")
 @ViewScoped
-public class SystematizationActivityBean implements Serializable {
+public class SystematizationActivityBean2 implements Serializable {
 
     private final String[] colorRef = {"black", "red", "lime ", "blue", "purple", "deeppink", "goldenrod"};
     private final String[] colorCoRef = {"black", "orange", "greenyellow", "SkyBlue", "orchid", "hotpink", "gold"};
@@ -197,6 +203,24 @@ public class SystematizationActivityBean implements Serializable {
     }
 
     /**
+     * Get a list of coreferents depending if ref is R1, R2 or R3
+     *
+     * @param ref a list, null if idn not valid
+     * @return
+     */
+    public List<Coreferent> getCoreferentsByIdn(String idn) {
+        List<Coreferent> ret = null;
+        if (idn.equals(R1)) {
+            ret = coreferent1;
+        } else if (idn.equals(R2)) {
+            ret = coreferent2;
+        } else if (idn.equals(R3)) {
+            ret = coreferent3;
+        }
+        return ret;
+    }
+
+    /**
      * Look if the chaine is R1, R2 or R3
      *
      * @param chaine
@@ -204,6 +228,25 @@ public class SystematizationActivityBean implements Serializable {
      */
     public boolean isRightCoreferent(String chaine) {
         return chaine.equals(R1) || chaine.equals(R2) || chaine.equals(R3);
+    }
+
+    /**
+     * Encodes the passed String as UTF-8 using an algorithm that's compatible
+     * with JavaScript's encodeURIComponent function. Returns null if the String
+     * is null.
+     *
+     * @param s
+     * @return
+     */
+    public static String encodeAsURI(String s) {
+        String res = null;
+        try {
+            res = URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(SystematizationActivityBean2.class.getName()).log(Level.SEVERE, null, ex);
+            res = s;
+        }
+        return res;
     }
 
     public ActivityVo getActivity() {
@@ -304,5 +347,21 @@ public class SystematizationActivityBean implements Serializable {
 
     public String lastColor() {
         return lastColor;
+    }
+
+    public String encodeString(String s) {
+        String result = null;
+        try {
+            result = URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(SystematizationActivityBean2.class.getName()).log(Level.SEVERE, null, ex);
+            result = s;
+        }
+        return result;
+    }
+
+    public List randomizeCollection(List l) {
+        Collections.shuffle(l);
+        return l;
     }
 }
