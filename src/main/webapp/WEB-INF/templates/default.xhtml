@@ -39,7 +39,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="teacherPage.xhtml">Elite-FLE</a>
+                    <ui:fragment rendered="#{teacherBean.loggedIn}">
+                        <ui:fragment rendered="#{teacherBean.student}">
+                            <a class="brand" href="index.xhtml">Elite-FLE</a>
+                        </ui:fragment>
+                        <ui:fragment rendered="#{!teacherBean.student}">
+                            <a class="brand" href="teacher/teacherPage.xhtml">Elite-FLE</a>
+                        </ui:fragment>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{!teacherBean.loggedIn}">
+                        <a class="brand" href="index.xhtml">Elite-FLE</a>
+                    </ui:fragment>
                     <!--@TODO Avoid to redirect when not logged in-->
 
                     <div class="nav-collapse">

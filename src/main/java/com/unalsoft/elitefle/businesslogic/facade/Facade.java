@@ -27,7 +27,7 @@ public class Facade<VO> {
             service.persist(vo, em);
             tx.commit();
         } catch (Exception e) {            
-            if (em != null && tx != null) {
+            if (em != null && tx != null) {                
                 tx.rollback();
             }
             throw new PersistException(e.getMessage());

@@ -16,6 +16,7 @@ import com.unalsoft.elitefle.entity.TypeOfActivity;
 import com.unalsoft.elitefle.vo.ActivityVo;
 import com.unalsoft.elitefle.vo.SequenceVo;
 import com.unalsoft.elitefle.vo.SupportVo;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean(name = "sequenceBean")
 @SessionScoped
-public class SequenceBean {
+public class SequenceBean implements Serializable {
 
     private boolean supports;
     private String name;

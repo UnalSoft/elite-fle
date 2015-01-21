@@ -30,16 +30,12 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Student.findAll", query = "SELECT s FROM Student s"),
     @NamedQuery(name = "Student.findByIdStudent", query = "SELECT s FROM Student s WHERE s.idStudent = :idStudent")})
-public class Student implements Serializable {
+public class Student extends User implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "idStudent")
     private Integer idStudent;
-    @JoinColumn(name = "idStudent", referencedColumnName = "idUser", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
     private List<StudentHasSequence> studentHasSequenceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student")
@@ -58,14 +54,6 @@ public class Student implements Serializable {
 
     public void setIdStudent(Integer idStudent) {
         this.idStudent = idStudent;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public List<StudentHasSequence> getStudentHasSequenceList() {

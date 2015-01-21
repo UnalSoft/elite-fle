@@ -5,7 +5,9 @@
 package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
+import com.unalsoft.elitefle.businesslogic.facade.TeacherFacade;
 import com.unalsoft.elitefle.businesslogic.facade.UserFacade;
+import com.unalsoft.elitefle.vo.TeacherVo;
 import com.unalsoft.elitefle.vo.UserVo;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -77,6 +79,15 @@ public class LoginBean implements Serializable {
             user.setUsername(login.getUserName());
             user.setIdTeacher(login.getIdUser());
             user.setLoggedIn(true);
+            
+            TeacherFacade teacherFacade = FacadeFactory.getInstance().getTeacherFacade();
+            TeacherVo teacher = teacherFacade.find(login.getIdUser());
+            if (teacher != null) {
+                user.setStudent(false);
+            } else {
+                user.setStudent(true);
+            }
+            
             if (getTarget() == null) {
                 return "success";
             } else {

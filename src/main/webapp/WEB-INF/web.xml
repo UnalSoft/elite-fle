@@ -55,6 +55,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/sequence/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/teacher/*</url-pattern>
+    </filter-mapping>
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/error.xhtml</location>

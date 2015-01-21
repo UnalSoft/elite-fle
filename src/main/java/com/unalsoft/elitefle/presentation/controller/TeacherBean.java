@@ -21,6 +21,7 @@ public class TeacherBean implements Serializable {
     private String type;
     private Integer idTeacher;
     private boolean loggedIn;
+    private boolean student;
     
     public Integer getIdTeacher() {
         return idTeacher;
@@ -61,6 +62,14 @@ this.password = password;
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public boolean isStudent() {
+        return student;
+    }
+
+    public void setStudent(boolean student) {
+        this.student = student;
     }
     
     public String logOut() {

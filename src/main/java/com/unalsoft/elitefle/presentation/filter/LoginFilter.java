@@ -26,19 +26,19 @@ public class LoginFilter implements Filter {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletrequest = (HttpServletRequest) request;      
+        HttpServletRequest httpServletrequest = (HttpServletRequest) request;
         // Get the loginBean from session attribute
         TeacherBean userBean = (TeacherBean) httpServletrequest.getSession().getAttribute("teacherBean");
 
-        if (userBean == null || !userBean.isLoggedIn()) {
-            String contextPath = httpServletrequest.getContextPath();
+        String contextPath = httpServletrequest.getContextPath();
+        String targetPage = httpServletrequest.getRequestURI();
+        String[] split = targetPage.split(".xhtml");
+        String[] split2 = split[0].split("/elite-fle");
+        targetPage = split2[1];
+
+        if (userBean == null || !userBean.isLoggedIn()) {            
 
             String redirect = contextPath + "/index.xhtml";
-
-            String targetPage = httpServletrequest.getRequestURI();
-            String[] split = targetPage.split(".xhtml");
-            String[] split2 = split[0].split("/elite-fle");
-            targetPage = split2[1];
 
             redirect = redirect.concat("?target=" + targetPage + "?faces-redirect=true");
 
@@ -49,6 +49,8 @@ public class LoginFilter implements Filter {
             }
 
             ((HttpServletResponse) response).sendRedirect(redirect);
+        } else if (userBean.isStudent() && targetPage.startsWith("/teacher")) {
+            ((HttpServletResponse) response).sendRedirect(contextPath + "/index.xhtml");
         }
 
         chain.doFilter(request, response);

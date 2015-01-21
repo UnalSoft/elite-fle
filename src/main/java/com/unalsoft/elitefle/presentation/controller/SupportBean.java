@@ -32,7 +32,7 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class SupportBean implements Serializable {
 
-    private final String SUPORTED_FORMAT = "^.*(pdf|docx?|odt|pptx?)$";
+    private final String SUPORTED_FORMAT = "^.*(pdf|docx?|odt|pptx?|odp)$";
 
     private List<SupportVo> supportList;
     private List<SupportVo> filteredSupports;

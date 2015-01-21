@@ -2,6 +2,7 @@ package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.vo.SequenceVo;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,7 +14,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "allSequencesBean")
 @ViewScoped
-public class AllSequencesBean {
+public class AllSequencesBean implements Serializable {
 
     private SequenceVo selectedSequence;
     private List<SequenceVo> sequences;

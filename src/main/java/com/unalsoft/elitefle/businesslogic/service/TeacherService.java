@@ -45,9 +45,12 @@ public class TeacherService implements IService<TeacherVo> {
     @Override
     public TeacherVo find(Object id, EntityManager em) {
         //TODO Change if necessary
-//        TeacherVo teacherVo = DAOFactory.getInstance().getTeacherDAO().find(id, em).toVo();
-//        return teacherVo;
-        return null;
+        Teacher find = DAOFactory.getInstance().getTeacherDAO().find(id, em);
+        TeacherVo teacherVo = null;
+        if (find != null) {
+            teacherVo = toVo(find);
+        }
+        return teacherVo;
     }
 
     @Override
@@ -73,8 +76,7 @@ public class TeacherService implements IService<TeacherVo> {
         List<Teacher> teacherList = dao.getList(em);
         ArrayList<TeacherVo> teachers = new ArrayList();
         for (Teacher p : teacherList) {
-            //TODO fix when heritage in TeacherVo
-//            teachers.add(p.toVo());
+            teachers.add(toVo(p));
         }
         return teachers;
     }
@@ -83,8 +85,16 @@ public class TeacherService implements IService<TeacherVo> {
         Teacher entity = new Teacher();
 
         Teacher teacher = DAOFactory.getInstance().getTeacherDAO().login(entity, em);
-//        return teacher != null? teacher.toVo():null;
-        //TODO fix when heritage in TeacherVo
-        return null;
+        return teacher != null? toVo(teacher) : null;
+    }
+    
+    public TeacherVo toVo(Teacher entity) {
+        TeacherVo vo = new TeacherVo();
+        vo.setIdUser(entity.getIdUser());
+        vo.setUserName(entity.getUsername());
+        vo.setMail(entity.getMail());
+        vo.setName(entity.getName());
+        vo.setPassword(entity.getPassword());
+        return vo;
     }
 }

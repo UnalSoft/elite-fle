@@ -4,7 +4,7 @@ package com.unalsoft.elitefle.vo;
  * Class that represents the value object for a teacher
  * @author juanmanuelmartinezromero
  */
-public class TeacherVo implements IValueObject{
+public class TeacherVo extends UserVo implements IValueObject{
     private Integer idTeacher; 
     private Integer personidPerson;
 
