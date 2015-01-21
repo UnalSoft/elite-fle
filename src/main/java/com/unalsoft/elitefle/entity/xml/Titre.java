@@ -55,6 +55,7 @@ public class Titre extends ElementXML {
      * {@link Phrase }
      * 
      * 
+     * @return a list with the phrases if is not null
      */
     public List<Phrase> getPhrase() {
         if (phrase == null) {

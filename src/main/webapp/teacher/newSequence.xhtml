@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
-        title
+        Nouvelle séquence
     </ui:define>
 
     <ui:define name="head">
@@ -82,7 +82,9 @@
                         <h:panelGroup id="spottingTextPanel">
                             <p:selectOneMenu id="seqSpottingText" 
                                              value="#{sequenceBean.spottingText}">
-                                <p:ajax listener="#{sequenceBean.changeSystematisationTexts}" update="seqSystematisationText" />
+                                <p:ajax event="change"
+                                    listener="#{sequenceBean.changeSystematisationTexts}" 
+                                    update="seqSystematisationText" />
                                 <f:selectItems value="#{sequenceBean.spottingTexts}" />
                             </p:selectOneMenu>
                         </h:panelGroup>

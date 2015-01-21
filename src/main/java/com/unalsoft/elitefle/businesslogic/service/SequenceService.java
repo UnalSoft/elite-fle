@@ -43,7 +43,7 @@ public class SequenceService implements IService<SequenceVo> {
         Activity spActivity = DAOFactory.getInstance().getActivityDAO()
                 .find(vo.getIdSpottingActivity(), em);
         Activity sysActivity = DAOFactory.getInstance().getActivityDAO()
-                .find(vo.getIdSystematisationActivity(), em);
+                .find(vo.getIdSystematizationActivity(), em);
         
         sequence.setSpottingActivity(spActivity);
         sequence.setSystematizationActivity(sysActivity);

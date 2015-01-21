@@ -16,7 +16,7 @@
             #map_canvas { height: 100% }
         </style>
 
-        <title>Elite-FLE :<ui:insert name="title"></ui:insert></title>
+        <title>ELiTe-[FLE]2 :<ui:insert name="title"></ui:insert></title>
 
         <link href="#{request.contextPath}/resources/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/resources/css/default.css" rel="stylesheet" type="text/css"/>
@@ -41,16 +41,15 @@
                     </a>
                     <ui:fragment rendered="#{teacherBean.loggedIn}">
                         <ui:fragment rendered="#{teacherBean.student}">
-                            <a class="brand" href="index.xhtml">Elite-FLE</a>
+                            <a class="brand" href="#{request.contextPath}/index.xhtml">ELiTe-[FLE]2</a>
                         </ui:fragment>
                         <ui:fragment rendered="#{!teacherBean.student}">
-                            <a class="brand" href="teacher/teacherPage.xhtml">Elite-FLE</a>
+                            <a class="brand" href="#{request.contextPath}/teacher/teacherPage.xhtml">ELiTe-[FLE]2</a>
                         </ui:fragment>
                     </ui:fragment>
                     <ui:fragment rendered="#{!teacherBean.loggedIn}">
-                        <a class="brand" href="index.xhtml">Elite-FLE</a>
+                        <a class="brand" href="#{request.contextPath}/index.xhtml">ELiTe-[FLE]2</a>
                     </ui:fragment>
-                    <!--@TODO Avoid to redirect when not logged in-->
 
                     <div class="nav-collapse">
                         <ui:fragment rendered="#{teacherBean.loggedIn}">
@@ -78,7 +77,7 @@
         </div>
 
         <div class=" offset2 span10" style="background-color: #ffffff">             
-            <div class="pull-right"><h:graphicImage id="image" url="/resources/images/logo.png" width="50%" height="50%"> </h:graphicImage></div>
+            <div class="pull-right"><h:graphicImage id="image" url="/resources/images/logo2.png" width="50%" height="50%"> </h:graphicImage></div>
             <h1><small>Environnement Informatique fondé sur la Linguistique Textuelle pour la formation des futurs enseignants de FLE</small></h1>
             <p:separator id="customSeparator1" style="width:95%;height:5px" />
         </div>
