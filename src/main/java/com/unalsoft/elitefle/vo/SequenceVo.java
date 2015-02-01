@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class SequenceVo implements IValueObject {
 
+    private Integer idSequence;
     private String nameSequence;
     private String notion;
     private String subNotion;
@@ -222,5 +223,13 @@ public class SequenceVo implements IValueObject {
      */
     public void setStudentHasSequencePKs(int[][] studentHasSequencePKs) {
         this.studentHasSequencePKs = studentHasSequencePKs;
+    }
+
+    public Integer getIdSequence() {
+        return idSequence;
+    }
+
+    public void setIdSequence(Integer idSequence) {
+        this.idSequence = idSequence;
     }
 }

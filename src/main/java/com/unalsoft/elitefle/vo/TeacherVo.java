@@ -6,7 +6,6 @@ package com.unalsoft.elitefle.vo;
  */
 public class TeacherVo extends UserVo implements IValueObject{
     private Integer idTeacher; 
-    private Integer personidPerson;
 
     /**
      * @return the idTeacher
@@ -20,21 +19,6 @@ public class TeacherVo extends UserVo implements IValueObject{
      */
     public void setIdTeacher(Integer idTeacher) {
         this.idTeacher = idTeacher;
-    }
-
-    /**
-     * @return the personidPerson
-     */
-    public Integer getPersonidPerson() {
-        return personidPerson;
-    }
-
-    /**
-     * @param personidPerson the personidPerson to set
-     */
-    public void setPersonidPerson(Integer personidPerson) {
-        this.personidPerson = personidPerson;
-    }
-   
+    }   
     
 }

@@ -38,4 +38,12 @@ public class ServiceFactory {
     public ActivityService getActivityService() {
         return ActivityService.getInstance();
     }
+
+    public MailService getMailService() {
+        return new MailService();
+    }
+    
+    public StudentService getStudentService() {
+        return StudentService.getInstance();
+    }
 }

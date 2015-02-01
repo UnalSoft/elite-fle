@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../WEB-INF/templates/default.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="idSequence" value="#{mailBean.idSequence}"/>
+        <f:viewParam name="sequenceName" value="#{mailBean.sequenceName}"/>
+        <f:event type="preRenderView" listener="#{mailBean.preRenderView()}" />
+    </f:metadata>
+
+    <ui:define name="title">
+        Envoyer Séquence
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Envoyer la séquence #{mailBean.sequenceName}</h2>
+        Veuillez sélectionner les étudiants auquelles vous voulez envoyer cette séquence:
+        <h:form>
+            <p:growl id="msg" showDetail="true" escape="false" />
+            <p:pickList id="pickList" value="#{mailBean.students}" var="student" itemLabel="#{student.name}" itemValue="#{student}" 
+                        converter="studentConverter">
+                <f:facet name="sourceCaption">Étudiants Disponibles</f:facet>
+                <f:facet name="targetCaption">Étudiants Sélectionnés</f:facet>
+
+            </p:pickList>
+            <p:commandButton id="Send" value="Envoyer" action="#{mailBean.sendMail()}" styleClass="btn btn-danger" oncomplete="PF('cityDialog').show()"/>
+
+
+            <p:dialog modal="true" showEffect="fade" hideEffect="fade" widgetVar="cityDialog">
+                <h:panelGrid id="displayCities" columns="2">
+                    <h:outputText value="Source: " style="font-weight:bold" />
+                    <ui:repeat value="#{mailBean.students.source}" var="item">
+                        <h:outputText value="#{item}" style="margin-right:5px" />
+                    </ui:repeat>
+
+                    <h:outputText value="Target: " style="font-weight:bold" />
+                    <ui:repeat value="#{mailBean.students.target}" var="item">
+                        <h:outputText value="#{item}" style="margin-right:5px" />
+                    </ui:repeat>
+                </h:panelGrid>
+            </p:dialog>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

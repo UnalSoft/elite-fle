@@ -41,4 +41,8 @@ public class FacadeFactory {
     public ActivityFacade getActivityFacade() {
         return new ActivityFacade(PU,ServiceFactory.getInstance().getActivityService());
     }
+    
+    public StudentFacade getStudentFacade() {
+        return new StudentFacade(PU, ServiceFactory.getInstance().getStudentService());
+    }
 }

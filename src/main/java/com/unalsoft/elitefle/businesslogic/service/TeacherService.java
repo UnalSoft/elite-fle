@@ -6,9 +6,7 @@ package com.unalsoft.elitefle.businesslogic.service;
 
 import com.unalsoft.elitefle.dao.TeacherDAO;
 import com.unalsoft.elitefle.dao.DAOFactory;
-import com.unalsoft.elitefle.dao.UserDAO;
 import com.unalsoft.elitefle.entity.Teacher;
-import com.unalsoft.elitefle.entity.User;
 import com.unalsoft.elitefle.vo.TeacherVo;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +29,8 @@ public class TeacherService implements IService<TeacherVo> {
 
     @Override
     public void persist(TeacherVo vo, EntityManager em) {
-        UserDAO persondao = DAOFactory.getInstance().getUserDAO();
         Teacher teacher = new Teacher();
         teacher.setIdTeacher(vo.getIdTeacher());
-        User person = persondao.find(vo.getPersonidPerson(), em);
-        //TODO Change if necessary
-//        teacher.setUser(person);
 
         DAOFactory.getInstance().getTeacherDAO().persist(teacher, em);
 
@@ -58,9 +52,6 @@ public class TeacherService implements IService<TeacherVo> {
 
         Teacher teacher = new Teacher();
         teacher.setIdTeacher(vo.getIdTeacher());
-        User person = DAOFactory.getInstance().getUserDAO().find(vo.getPersonidPerson(), em);
-        //TODO fix when heritage in TeacherVo
-//        teacher.setUser(person);
 
         DAOFactory.getInstance().getTeacherDAO().update(teacher, em);
     }
@@ -91,10 +82,11 @@ public class TeacherService implements IService<TeacherVo> {
     public TeacherVo toVo(Teacher entity) {
         TeacherVo vo = new TeacherVo();
         vo.setIdUser(entity.getIdUser());
+        vo.setIdTeacher(entity.getIdTeacher());
         vo.setUserName(entity.getUsername());
         vo.setMail(entity.getMail());
         vo.setName(entity.getName());
-        vo.setPassword(entity.getPassword());
+        //vo.setPassword(entity.getPassword());
         return vo;
     }
 }

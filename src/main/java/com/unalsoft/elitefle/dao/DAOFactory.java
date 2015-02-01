@@ -38,4 +38,8 @@ public class DAOFactory {
     public SequenceDAO getSequenceDAO() {
         return SequenceDAO.getInstance();
     }
+
+    public StudentDAO getStudentDAO() {
+        return StudentDAO.getInstance();
+    }
 }

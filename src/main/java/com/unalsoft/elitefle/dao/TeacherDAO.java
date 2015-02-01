@@ -5,12 +5,9 @@
 package com.unalsoft.elitefle.dao;
 
 import com.unalsoft.elitefle.entity.Teacher;
-import com.unalsoft.elitefle.entity.User;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 /**
@@ -40,7 +37,7 @@ public class TeacherDAO implements IDAO<Teacher> {
 
     @Override
     public void update(Teacher entity, EntityManager em) {
-        em.merge(em);
+        em.merge(entity);
     }
 
     @Override

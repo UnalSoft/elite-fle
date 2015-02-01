@@ -266,6 +266,7 @@ public class Sequence implements Serializable, IEntity<SequenceVo> {
     @Override
     public SequenceVo toVo() {
         SequenceVo vo = new SequenceVo();
+        vo.setIdSequence(idSequence);
         vo.setNameSequence(nameSequence);
         vo.setNotion(notion);
         vo.setSubNotion(subNotion);

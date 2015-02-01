@@ -19,11 +19,11 @@
         </p>
         <ul>
             <li><h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger" style="margin: 5px"/></li>
-            <li><h:graphicImage value="resources/images/icons/red-22.png" style="margin-right: 10px"/>Voir une explication;</li>
-            <li><h:graphicImage value="resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
-            <li><h:graphicImage value="resources/images/icons/red-41.png" style="margin-right: 10px"/>la modifier;</li>
-            <li><h:graphicImage value="resources/images/icons/red-16.png" style="margin-right: 10px"/>la supprimer ;</li>
-            <li><h:graphicImage value="resources/images/icons/red-18.png" style="margin-right: 10px"/>l’exécuter en l'envoyant à vos étudiants.</li>                    
+            <li><h:graphicImage value="/resources/images/icons/red-22.png" style="margin-right: 10px"/>Voir une explication;</li>
+            <li><h:graphicImage value="/resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
+            <li><h:graphicImage value="/resources/images/icons/red-41.png" style="margin-right: 10px"/>la modifier;</li>
+            <li><h:graphicImage value="/resources/images/icons/red-16.png" style="margin-right: 10px"/>la supprimer ;</li>
+            <li><h:graphicImage value="/resources/images/icons/red-18.png" style="margin-right: 10px"/>l’exécuter en l'envoyant à vos étudiants.</li>                    
         </ul>
         <p:separator style="width:970px;height:5px" />
         <p:dialog id="explicationDialog" header="Explication" 
@@ -89,9 +89,12 @@
                 <p:commandButton id="deleteCmdButton" disabled="true"
                                  icon="img-button-delete" title="Supprimer séquence">
                 </p:commandButton>
-                <p:commandButton id="sendCmdButton" disabled="true"
-                                 icon="img-button-send" title="Envoyer séquence">
-                </p:commandButton>
+                <p:button id="sendCmdButton"
+                                 icon="img-button-send" title="Envoyer séquence"
+                                 outcome="/teacher/sendSequence.xhtml">
+                    <f:param name="idSequence" value="#{sequence.idSequence}"/>
+                    <f:param name="sequenceName" value="#{sequence.nameSequence}"/>
+                </p:button>
             </p:column>            
         </p:dataTable>
         <div class="form-actions">
