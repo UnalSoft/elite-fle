@@ -1,4 +1,5 @@
-var theMessage = "Vous êtes trompé, essayez encore  !";
+var theMessage = "Attention, le groupe nominal que vous avez choisi ne correspond pas à la chaîne de coréférence que " +
+    "vous avez choisie. Essayez encore.";
 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
