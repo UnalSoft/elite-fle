@@ -34,16 +34,9 @@ function verifySelection(id,rightAnswer) {
     answers[getIndex(id)] = option;
     rightAnswers[getIndex(id)] = (option === rightAnswer) ? "true" : "false";
 
-//    console.log(answers);
-    console.log(rightAnswers);
-
     var numOccurences = $.grep(rightAnswers, function (elem) {
         return typeof elem === 'undefined';
     }).length - 1;
-
-    console.log("numOccurences <= missedBoxes = " + numOccurences <= missedBoxes);
-    window.console.log("numOccurences = " + numOccurences);
-    window.console.log("missedBoxes = " + missedBoxes);
 
     // Put the rights in another array, compare and if is all ok, continue
     // If not, disable the correct ones.

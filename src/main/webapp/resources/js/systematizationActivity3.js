@@ -1,34 +1,84 @@
-var errGNGN = "Attention, ce <strong>groupe nominal</strong> n'est pas vraiment le <strong>groupe nominal</strong> qui convient pour compléter la série. Essayez encore !";
-var errGNPron = "Attention vous vous êtes trompé. Le <strong>groupe nominal</strong> que vous avez choisi n'est pas le bon choix ; on attendait peut-être un autre type d'<strong>unité textuelle</strong>. Essayez encore !";
-var errPronGN = "Attention vous vous êtes trompé. L'<strong>unité textuelle</strong> que vous avez choisie n'est pas le bon choix ; on attendait peut-être un <strong>groupe nominal</strong>. Faites un nouveau essai !";
-var errPronPron = "Attention, cette <strong>unité textuelle</strong> n'est pas vraiment la bonne <strong>unité textuelle</strong> qui convient pour compléter la série. Essayez encore !";
+var rightGN = 0;
+var rightPron = 0;
+var totalGN = 0;
+var totalN = 0;
+var rightAnswers = 0;
+var allSelected = 0;
 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
-
-var continu = "Continuez pour trouver les element restants.";
 var finish = "Vous avez fini avec succes!";
 
-var wrongC1GN = r1Pron;
-var wrongC1Pron = 0;
-var wrongC2GN = r2Pron;
-var wrongC2Pron = 0;
-var wrongC3GN = r3Pron;
-var wrongC3Pron = 0;
-
+/**
+ * Set a pointer cursor to the selectable coreferents
+ */
 $(function () {
     $(".coreferent[selectable='true']").attr("style", "cursor: pointer");
 });
 
-function changeStyle(id) {
-    var element = $(".coreferent[idn=" + id + "]");
-    var selected = $('input[name=corefSelection]:checked');
-    var isGN = element.attr("subtype") === selected.val();
-    var isPron = element.attr("type") === selected.val();
-    var isN = element.attr("subtype") === "N" && selected.val() == "GN";
+/**
+ * Evaluates if the element is correct or not, and update the number of selected and right answers
+ * @param element the element to evaluate
+ * @param isGN if the element is GN
+ * @param isPron if the element is Pron
+ * @param isN if the element is N
+ * @param len total of answers
+ * @returns {boolean} true if the number of selected answers is the same that the correct ones, else o.c
+ */
+function finished(element, isGN, isPron, isN, len) {
+    if (typeof element.attr("selected") === 'undefined') {
+        element.attr("selected", "true");
+        allSelected++;
+        if (isGN || isPron || isN) {
+            element.attr("right", "true");
+            rightAnswers++;
+            if (isGN || isN)rightGN++;
+            else rightPron++
+        } else element.attr("right", "false");
+    } else {
+        if (element.attr("right") === "true" && !(isGN || isPron || isN)) {
+            element.attr("right", "false");
+            rightAnswers--;
+            if (element.attr("subtype") === "GN" || element.attr("subtype") === "N")rightGN--;
+            else if (element.attr("type") === "Pron") rightPron--;
+        } else if (element.attr("right") === "false" && (isGN || isPron || isN)) {
+            element.attr("right", "true");
+            rightAnswers++;
+            if (isGN || isN)rightGN++;
+            else rightPron++
+        }
+    }
+    //console.log("Right GN = " + rightGN + " Right Pron = " + rightPron);
+    return (allSelected === rightAnswers && rightAnswers === len);
+}
 
-    element.attr("style", selected.attr("style") + "; cursor: pointer");
-    if (isGN || isPron || isN) {
-        console.clear();
+/**
+ * Function called when the user clicks over a the selectable component
+ * @param id id of the selectable component
+ */
+function changeStyle(id) {
+    if (typeof  $(".coreferent[idn=" + id + "]").attr("aria-disabled") === 'undefined') {
+        var element = $(".coreferent[idn=" + id + "]");
+        var selected = $('input[name=corefSelection]:checked');
+        var len = $("div").filter(".coreferent").length;
+        var totalGN = $("[subtype=GN]").length + $("[subtype=N]").length;
+        var totalPron = $("[type=Pron]").length;
+
+        // Verify if the selection is correct or not
+        var isGN = element.attr("subtype") === selected.val();
+        var isPron = element.attr("type") === selected.val();
+        var isN = element.attr("subtype") === "N" && selected.val() == "GN";
+
+        // Set the same style to the element
+        element.attr("style", selected.attr("style") + "; cursor: pointer");
+
+        if (finished(element, isGN, isPron, isN, len)) {
+            $("#message").removeClass("warning");
+            $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)] + finish).show("pulsate", 1000);
+            $("#next").fadeIn();
+        } else if (allSelected === len && rightAnswers !== len) {
+            $("#message").addClass("warning").html(errorMessage(len, totalGN, totalPron)).show("shake", 500, callback);
+
+        }
     }
 }
 
@@ -42,12 +92,15 @@ function callback() {
         }, 8000);
     }
 }
-;
 
-function validateFinish() {
-    if (wrongC2GN === 0 && wrongC2Pron === 0 && wrongC3GN === 0 && wrongC3Pron === 0) {
-        $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)] + finish).show("pulsate", 500);
-        $(".column0").fadeIn();
-        $("#next").fadeIn();
-    }
+function errorMessage(len, totalGN, totalPron) {
+    var errors = allSelected - rightGN - rightPron;
+    var hits = len - errors;
+    var wrongGn = totalGN - rightGN;
+    var wrongPron = totalPron - rightPron;
+    return "Attention vous vous êtes Préjugés trompé " +
+        errors + " fois: " +
+        "\n1- (" + wrongPron + ")de catégorie pron " +
+        "\n2- (" + wrongGn + ") de catégorie GN";
 }
+;
