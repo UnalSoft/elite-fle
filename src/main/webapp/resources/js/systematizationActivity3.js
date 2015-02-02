@@ -15,19 +15,28 @@ var wrongC2Pron = 0;
 var wrongC3GN = r3Pron;
 var wrongC3Pron = 0;
 
-$(function() {
+$(function () {
     $(".coreferent[selectable='true']").attr("style", "cursor: pointer");
 });
 
-function changeStyle(id){
-    $(".coreferent[idn="+id+"]").attr("style",$('input[name=corefSelection]:checked').attr("style")+"; cursor: pointer");
+function changeStyle(id) {
+    var element = $(".coreferent[idn=" + id + "]");
+    var selected = $('input[name=corefSelection]:checked');
+    var isGN = element.attr("subtype") === selected.val();
+    var isPron = element.attr("type") === selected.val();
+    var isN = element.attr("subtype") === "N" && selected.val() == "GN";
+
+    element.attr("style", selected.attr("style") + "; cursor: pointer");
+    if (isGN || isPron || isN) {
+        console.clear();
+    }
 }
 
 var callbackCalled = false;
 function callback() {
     if (!callbackCalled) {
         callbackCalled = true;
-        setTimeout(function() {
+        setTimeout(function () {
             $("#message").fadeOut();
             callbackCalled = false;
         }, 8000);

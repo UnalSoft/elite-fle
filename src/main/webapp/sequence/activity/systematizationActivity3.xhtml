@@ -111,18 +111,28 @@
                          style="height: #{20 * (spottingActivityBean3.coreferent1.size()) - 25}px;width: 100%;">
                         <table>
                             <tr>
-                                <td><input id="CorefGN" type="radio" name="corefSelection" value="gn"
+                                <td><input id="CorefGN" type="radio" name="corefSelection" value="GN"
                                            checked="checked"
-                                           style="font-weight: bold; font-style: normal"/></td>
-                                <td/><td/>
-                                <td><div style="font-weight: bold; font-style: normal">Coref GN</div></td>
+                                           style="font-weight: bold; font-style: italic"/></td>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <div style="font-weight: bold; font-style: italic">Coref GN ou N</div>
+                                </td>
                             </tr>
-                            <tr><td/><td/></tr>
                             <tr>
-                                <td><input id="CorefPron" type="radio" name="corefSelection" value="pron"
-                                           style="font-style: italic; text-decoration: underline; font-weight: normal"/></td>
-                                <td/><td/>
-                                <td><div style="font-style: italic; text-decoration: underline; font-weight: normal">Coref Pron</div><br/></td>
+                                <td/>
+                                <td/>
+                            </tr>
+                            <tr>
+                                <td><input id="CorefPron" type="radio" name="corefSelection" value="Pron"
+                                           style="font-style: normal; text-decoration: underline; font-weight: normal"/>
+                                </td>
+                                <td/>
+                                <td/>
+                                <td>
+                                    <div style="font-style: normal; text-decoration: underline; font-weight: normal">Coref Pron</div>
+                                    <br/></td>
                             </tr>
                         </table>
                     </div>
@@ -141,7 +151,7 @@
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
                                          selectable="true"
-                                            onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>
@@ -160,7 +170,8 @@
                                     <div class="coreferent"
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                         selectable="true" onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         selectable="true"
+                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>
@@ -179,7 +190,8 @@
                                     <div class="coreferent"
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
-                                         selectable="true" onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         selectable="true"
+                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>
