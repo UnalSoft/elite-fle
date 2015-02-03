@@ -205,7 +205,7 @@ public class SystematizationActivityBean2 implements Serializable {
     /**
      * Get a list of coreferents depending if ref is R1, R2 or R3
      *
-     * @param ref a list, null if idn not valid
+     * @param idn a list, null if idn not valid
      * @return
      */
     public List<Coreferent> getCoreferentsByIdn(String idn) {

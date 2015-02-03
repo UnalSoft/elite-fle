@@ -1,4 +1,4 @@
-var theMessage = "Vous êtes trompé, essayez encore  !";
+var theMessage = "Attention, vous vous êtes trompé de chaîne de coréférence, essayez encore.";
 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
