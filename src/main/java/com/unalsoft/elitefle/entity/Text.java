@@ -11,9 +11,9 @@ package com.unalsoft.elitefle.entity;
  */
 public enum Text {
 
-    text1("Texte 1", "Url/Text/1"),
-    text2("Texte 2", "Url/Text/2"),
-    text3("Texte 3", "Url/Text/3");
+    text1("Aider les handicapés dans le monde du travail", "Url/Text/1"),
+    text2("Les Thibault, tome 1, le cahier gris (fragment)", "Url/Text/2"),
+    text3("Texte d'essai", "Url/Text/3");
 
     private final String text;
     private final String url;

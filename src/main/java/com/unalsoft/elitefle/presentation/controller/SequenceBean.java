@@ -184,7 +184,7 @@ public class SequenceBean implements Serializable {
     /**
      * Clear and set the Spotting Text list
      *
-     * @param selectedActivity
+     * @param selectedText
      */
     private void fillSpottingTexts(Text selectedText) {
         setSpottingTexts(new ArrayList<SelectItem>());
