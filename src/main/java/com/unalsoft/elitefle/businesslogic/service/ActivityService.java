@@ -41,9 +41,9 @@ public class ActivityService implements IService<ActivityVo> {
 
     @Override
     public ActivityVo find(Object id, EntityManager em) {
-        Activity support = DAOFactory.getInstance().getActivityDAO().find(id, em);
-        if (support != null) {
-            return support.toVo();
+        Activity activity = DAOFactory.getInstance().getActivityDAO().find(id, em);
+        if (activity != null) {
+            return activity.toVo();
         } else {
             return null;
         }

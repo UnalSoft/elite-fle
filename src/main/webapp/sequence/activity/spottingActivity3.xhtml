@@ -8,7 +8,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <f:metadata>
-        <f:viewParam name="idActivity" value="#{spottingActivityBean3.idActivity}"/>
+        <f:viewParam name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
         <f:event type="preRenderView" listener="#{spottingActivityBean3.preRenderView()}" />
     </f:metadata>
 
@@ -165,8 +165,11 @@
             </div>
             <div class="span3">
                 <div id="next" style="display: none;margin: 10px 0px;">
-                    <h:link id="nextButton" outcome="supports" value="Continuer" styleClass="btn btn-danger" >
-                        <f:param name="idActivity" value="#{spottingActivityBean3.idActivity}"/>
+                    <h:link id="nextButton1" outcome="supports" value="Continuer" styleClass="btn btn-danger" rendered="#{spottingActivityBean3.supports}">
+                        <f:param name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
+                    </h:link>
+                    <h:link id="nextButton2" outcome="systematizationActivity" value="Continuer" styleClass="btn btn-danger" rendered="#{!spottingActivityBean3.supports}">
+                        <f:param name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
                     </h:link>
                 </div>
             </div>

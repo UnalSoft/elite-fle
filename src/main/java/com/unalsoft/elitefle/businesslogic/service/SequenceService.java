@@ -70,7 +70,12 @@ public class SequenceService implements IService<SequenceVo> {
     
     @Override
     public SequenceVo find(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Sequence sequence = DAOFactory.getInstance().getSequenceDAO().find(id, em);
+        if (sequence != null) {
+            return sequence.toVo();
+        } else {
+            return null;
+        }
     }
     
     @Override

@@ -54,17 +54,18 @@ public class SequenceDAO implements IDAO<Sequence> {
 
     @Override
     public Sequence find(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (Sequence) em.find(Sequence.class, id);
     }
 
     @Override
     public void update(Sequence entity, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        em.merge(entity);
     }
 
     @Override
     public void delete(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Sequence support = (Sequence) em.getReference(Sequence.class, id);
+        em.remove(support);
     }
 
     @Override

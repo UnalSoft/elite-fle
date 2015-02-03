@@ -251,7 +251,7 @@ function callback() {
 ;
 
 function validateFinish() {
-    if (wrongC2GN === 0 && wrongC2Pron === 0 && wrongC3GN === 0 && wrongC3Pron === 0) {
+    if (wrongC1GN === 0 && wrongC1Pron === 0 && wrongC2GN === 0 && wrongC2Pron === 0 && wrongC3GN === 0 && wrongC3Pron === 0) {
         $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)] + finish).show("pulsate", 500);
         $(".column0").fadeIn();
         $("#next").fadeIn();

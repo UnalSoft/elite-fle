@@ -3,6 +3,7 @@ package com.unalsoft.elitefle.presentation.controller;
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.entity.xml.*;
 import com.unalsoft.elitefle.vo.ActivityVo;
+import com.unalsoft.elitefle.vo.SequenceVo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import javax.faces.bean.ViewScoped;
 public class SpottingActivityBean implements Serializable {
 
     private ActivityVo activity;
-    private Integer idActivity;
+    private Integer idSequence;
     private DocumentTexte text;
     private String mainReferent;
     private final String MAIN_REF = "r1";
@@ -33,8 +34,9 @@ public class SpottingActivityBean implements Serializable {
     private List<ElementXML> elementsToDrag;
 
     public void preRenderView() throws Exception {
-        if (getIdActivity() != null) {
-            activity = FacadeFactory.getInstance().getActivityFacade().find(getIdActivity());
+        if (getIdSequence() != null) {
+            SequenceVo sequence = FacadeFactory.getInstance().getSequenceFacade().find(getIdSequence());
+            activity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSpottingActivity());
             if (text == null) {
                 text = Parser.parseXML(activity.getUrl());
                 if (text != null) {
@@ -191,12 +193,12 @@ public class SpottingActivityBean implements Serializable {
         this.activity = activity;
     }
 
-    public Integer getIdActivity() {
-        return idActivity;
+    public Integer getIdSequence() {
+        return idSequence;
     }
 
-    public void setIdActivity(Integer idActivity) {
-        this.idActivity = idActivity;
+    public void setIdSequence(Integer idSequence) {
+        this.idSequence = idSequence;
     }
 
     public DocumentTexte getText() {
