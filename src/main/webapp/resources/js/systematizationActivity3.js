@@ -6,7 +6,7 @@ var rightAnswers = 0;
 var allSelected = 0;
 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
-var finish = "Vous avez fini avec succes!";
+var finish = "Vous avez fini avec succès!";
 
 /**
  * Set a pointer cursor to the selectable coreferents

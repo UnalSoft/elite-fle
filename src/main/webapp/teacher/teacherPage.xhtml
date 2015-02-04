@@ -7,7 +7,7 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
-        title
+        Teacher's page
     </ui:define>
 
     <ui:define id="content" name="content">             
@@ -23,7 +23,7 @@
             <li><h:graphicImage value="/resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
             <li><h:graphicImage value="/resources/images/icons/red-41.png" style="margin-right: 10px"/>la modifier;</li>
             <li><h:graphicImage value="/resources/images/icons/red-16.png" style="margin-right: 10px"/>la supprimer ;</li>
-            <li><h:graphicImage value="/resources/images/icons/red-18.png" style="margin-right: 10px"/>l’exécuter en l'envoyant à vos étudiants.</li>                    
+            <li><h:graphicImage value="/resources/images/icons/red-18.png" style="margin-right: 10px"/>l'envoyer aux étudiants.</li>
         </ul>
         <p:separator style="width:970px;height:5px" />
         <p:dialog id="explicationDialog" header="Explication" 
@@ -77,11 +77,6 @@
                           icon="img-button-test" title="Tester séquence" 
                           outcome="/sequence/activity/spottingActivity.xhtml">
                     <f:param name="idSequence" value="#{sequence.idSpottingActivity}"/>
-                </p:button>
-                <p:button id="testSysActButton"
-                          icon="img-button-test" title="Tester activité de systematisation" 
-                          outcome="/sequence/activity/systematizationActivity2.xhtml">
-                    <f:param name="idActivity" value="#{sequence.idSystematizationActivity}"/>
                 </p:button>
                 <p:commandButton id="editCmdButton" disabled="true"
                                  icon="img-button-edit" title="Modifier séquence">

@@ -3,7 +3,7 @@ var theMessage = "Attention, vous vous êtes trompé de chaîne de coréférence
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
 var next = "Continuez pour trouver les element restants.";
-var finish = "Vous avez fini avec succes!";
+var finish = "Vous avez fini avec succès!";
 
 
 $(function () {

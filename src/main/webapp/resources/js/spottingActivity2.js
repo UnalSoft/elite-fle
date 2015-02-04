@@ -6,7 +6,7 @@ var errPronPron = "Attention, cette <strong>unité textuelle</strong> n'est pas 
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
 var continu = "Continuez pour trouver les element restants.";
-var finish = "Vous avez fini avec succes!";
+var finish = "Vous avez fini avec succès!";
 
 $(function() {
     $(".coreferent[draggable='true'], .referent[draggable='true']").attr("style", "cursor: pointer");

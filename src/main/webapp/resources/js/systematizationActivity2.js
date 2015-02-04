@@ -4,7 +4,7 @@ var theMessage = "Attention, le groupe nominal que vous avez choisi ne correspon
 var success = ["Bravo !", "Excellent !", "Félicitations !", "Magnifique,bien joué !", "Excellent travail, félicitations !"];
 
 var next = "Continuez pour trouver les element restants.";
-var finish = "Vous avez fini avec succes!";
+var finish = "Vous avez fini avec succès!";
 
 
 $(function () {
