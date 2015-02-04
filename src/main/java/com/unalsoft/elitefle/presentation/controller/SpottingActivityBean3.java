@@ -118,7 +118,7 @@ public class SpottingActivityBean3 implements Serializable {
 
     public List<ElementXML> getTitleElems() {
         List<ElementXML> elems = new ArrayList<ElementXML>();
-        if (text != null) {
+        if (text != null && text.getContenu().getTitre() != null) {
             List<Phrase> phrases = text.getContenu().getTitre().getPhrase();
             for (Phrase phrase : phrases) {
                 addPhraseElems(phrase, elems);
