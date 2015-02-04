@@ -5,14 +5,17 @@
  */
 package com.unalsoft.elitefle.entity;
 
+import java.io.File;
+
 /**
- *
  * @author juanmanuelmartinezromero
  */
 public enum Text {
 
-    text1("Aider les handicapés dans le monde du travail", "Url/Text/1"),
-    text2("Les Thibault, tome 1, le cahier gris (fragment)", "Url/Text/2"),
+    //@TODO Get text location from DB
+    //@TODO Change server location to ../applications/__internal/elite-fle-1.0-SNAPSHOT/
+    text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml"),
+    text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml"),
     text3("Texte d'essai", "Url/Text/3");
 
     private final String text;

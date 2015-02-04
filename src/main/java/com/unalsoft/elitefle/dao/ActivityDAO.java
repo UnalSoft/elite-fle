@@ -7,15 +7,15 @@ package com.unalsoft.elitefle.dao;
 
 import com.unalsoft.elitefle.entity.Activity;
 import com.unalsoft.elitefle.vo.ActivityVo;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.List;
 
 /**
- *
  * @author Jummartinezro
  */
 public class ActivityDAO implements IDAO<Activity> {

@@ -16,19 +16,17 @@ import com.unalsoft.elitefle.entity.TypeOfActivity;
 import com.unalsoft.elitefle.vo.ActivityVo;
 import com.unalsoft.elitefle.vo.SequenceVo;
 import com.unalsoft.elitefle.vo.SupportVo;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
  * @author juanmanuelmartinezromero
  */
 @ManagedBean(name = "sequenceBean")
@@ -92,6 +90,7 @@ public class SequenceBean implements Serializable {
      * Fill the bean fields
      */
     private void fillFields() {
+        //@TODO Fix bug when trying to select the first text in the first field.
         // Fill the Notions and SubNotions list
         for (Notion n : Notion.values()) {
             getNotions().add(new SelectItem(n, n.getDescription()));
@@ -111,7 +110,6 @@ public class SequenceBean implements Serializable {
 
     /**
      * Change the Sub-Notions list according to the selected Notion
-     *
      */
     public void changeSubNotions() {
         fillSubNotions();
@@ -130,7 +128,6 @@ public class SequenceBean implements Serializable {
 
     /**
      * Change the Systematisation Texts list according to the selected Notion
-     *
      */
     public void changeSystematisationTexts() {
         fillSystematisationTextList(getSpottingText());
@@ -153,7 +150,6 @@ public class SequenceBean implements Serializable {
     /**
      * Change the Systematisation Activities list according to the selected
      * Notion
-     *
      */
     public void changeSystematisationActivities() {
         fillSystematisationActivities(getSpottingActivity());
@@ -175,7 +171,6 @@ public class SequenceBean implements Serializable {
 
     /**
      * Change the Spotting Texts list according to the selected Notion
-     *
      */
     public void changeSpottingTexts() {
         fillSpottingTexts(getSystematisationText());
@@ -197,7 +192,6 @@ public class SequenceBean implements Serializable {
 
     /**
      * Change the Spotting Activities list according to the selected Notion
-     *
      */
     public void changeSpottingActivities() {
         fillSpottingActivities(getSystematisationActivity());
@@ -217,53 +211,43 @@ public class SequenceBean implements Serializable {
         }
     }
 
-    public boolean validateSequence() {
-        boolean persisted;
-        //@TODO: Change to save sequence or add supports
-        try {
-            SequenceVo sv = new SequenceVo();
-            sv.setNameSequence(getName());
-            sv.setNotion(getNotion().getDescription());
-            sv.setSubNotion(getSubNotion().getDescription());
-            sv.setLevel(getLevel().getLevel());
-            sv.setSupports(isSupports());
+    public boolean validateSequence() throws PersistException {
+        SequenceVo sv = new SequenceVo();
+        sv.setNameSequence(getName());
+        sv.setNotion(getNotion().getDescription());
+        sv.setSubNotion(getSubNotion().getDescription());
+        sv.setLevel(getLevel().getLevel());
+        sv.setSupports(isSupports());
 
-            Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
-            sv.setIdSpottingActivity(idSpottingActivity);
+        Integer idSpottingActivity = getActivityId(getSpottingText().getText(), getSpottingText().getUrl(), getSpottingActivity().getActivityName());
+        sv.setIdSpottingActivity(idSpottingActivity);
 
-            Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
-            sv.setIdSystematizationActivity(idSystematisationActivity);
+        Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
+        sv.setIdSystematizationActivity(idSystematisationActivity);
 
-            String cuttedAppAct = getKnowledgeApp().length() <= 1250
-                    ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
-            String cuttedexp = getExplication().length() <= 1250
-                    ? getExplication() : getExplication().substring(0, 1249);
+        String cuttedAppAct = getKnowledgeApp().length() <= 1250
+                ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
+        String cuttedexp = getExplication().length() <= 1250
+                ? getExplication() : getExplication().substring(0, 1249);
 
-            sv.setApplicationActivity(cuttedAppAct);
-            sv.setIdAuthor(getAuthor().getIdTeacher());
-            sv.setExplication(cuttedexp);
+        sv.setApplicationActivity(cuttedAppAct);
+        sv.setIdAuthor(getAuthor().getIdTeacher());
+        sv.setExplication(cuttedexp);
 
-            // Link Sequence and supports
-            List<String> supportsIds = new ArrayList<String>(supportBean.getSupportList().size());
-            for (SupportVo support : supportBean.getSelectedSupports()) {
-                supportsIds.add(support.getUrlSupport());
-            }
-            sv.setSupportIdList(supportsIds);
-
-            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
-            
-            this.setName(null);
-            this.setExplication(null);
-            this.setKnowledgeApp(null);
-            this.getSupportBean().setSelectedSupports(new ArrayList<SupportVo>());
-            
-            persisted = true;
-        } catch (PersistException persistException) {
-            persisted = false;
-            //@TODO Handle exception (If exists)
+        // Link Sequence and supports
+        List<String> supportsIds = new ArrayList<String>(supportBean.getSupportList().size());
+        for (SupportVo support : supportBean.getSelectedSupports()) {
+            supportsIds.add(support.getUrlSupport());
         }
-        //@TODO: link the supports
-        return persisted;
+        sv.setSupportIdList(supportsIds);
+
+        FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+
+        this.setName(null);
+        this.setExplication(null);
+        this.setKnowledgeApp(null);
+        this.getSupportBean().setSelectedSupports(new ArrayList<SupportVo>());
+        return true;
     }
 
     /**
@@ -299,143 +283,17 @@ public class SequenceBean implements Serializable {
     }
 
     /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the level
-     */
-    public Level getLevel() {
-        return level;
-    }
-
-    /**
-     * @return the spottingText
-     */
-    public Text getSpottingText() {
-        return spottingText;
-    }
-
-    /**
-     * @return the spottingActivity
-     */
-    public TypeOfActivity getSpottingActivity() {
-        return spottingActivity;
-    }
-
-    /**
-     * @return the systematisationText
-     */
-    public Text getSystematisationText() {
-        return systematisationText;
-    }
-
-    /**
-     * @return the systematisationActivity
-     */
-    public TypeOfActivity getSystematisationActivity() {
-        return systematisationActivity;
-    }
-
-    /**
-     * @return the knowledgeApp
-     */
-    public String getKnowledgeApp() {
-        return knowledgeApp;
-    }
-
-    /**
-     * @return the explication
-     */
-    public String getExplication() {
-        return explication;
-    }
-
-    /**
-     * @return the notion
-     */
-    public Notion getNotion() {
-        return notion;
-    }
-
-    /**
-     * @return the subNotion
-     */
-    public Notion.SubNotion getSubNotion() {
-        return subNotion;
-    }
-
-    /**
-     * @return the author
-     */
-    public TeacherBean getAuthor() {
-        return author;
-    }
-
-    /**
-     * @return the supportBean
-     */
-    public SupportBean getSupportBean() {
-        return supportBean;
-    }
-
-    /**
-     * @return the levels
-     */
-    public List<SelectItem> getLevels() {
-        return levels;
-    }
-
-    /**
-     * @return the notions
-     */
-    public List<SelectItem> getNotions() {
-        return notions;
-    }
-
-    /**
-     * @return the subNotions
-     */
-    public List<SelectItem> getSubNotions() {
-        return subNotions;
-    }
-
-    /**
-     * @return the spottingActivities
-     */
-    public List<SelectItem> getSpottingActivities() {
-        return spottingActivities;
-    }
-
-    /**
-     * @return the spottingTexts
-     */
-    public List<SelectItem> getSpottingTexts() {
-        return spottingTexts;
-    }
-
-    /**
-     * @return the systematisationActivities
-     */
-    public List<SelectItem> getSystematisationActivities() {
-        return systematisationActivities;
-    }
-
-    /**
-     * @return the systematisationTexts
-     */
-    public List<SelectItem> getSystematisationTexts() {
-        return systematisationTexts;
-    }
-
-    /**
      * @param supports the supports to set
      */
     public void setSupports(boolean supports) {
         this.supports = supports;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
     /**
@@ -446,10 +304,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the level
+     */
+    public Level getLevel() {
+        return level;
+    }
+
+    /**
      * @param level the level to set
      */
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+    /**
+     * @return the spottingText
+     */
+    public Text getSpottingText() {
+        return spottingText;
     }
 
     /**
@@ -460,10 +332,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the spottingActivity
+     */
+    public TypeOfActivity getSpottingActivity() {
+        return spottingActivity;
+    }
+
+    /**
      * @param spottingActivity the spottingActivity to set
      */
     public void setSpottingActivity(TypeOfActivity spottingActivity) {
         this.spottingActivity = spottingActivity;
+    }
+
+    /**
+     * @return the systematisationText
+     */
+    public Text getSystematisationText() {
+        return systematisationText;
     }
 
     /**
@@ -474,10 +360,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the systematisationActivity
+     */
+    public TypeOfActivity getSystematisationActivity() {
+        return systematisationActivity;
+    }
+
+    /**
      * @param systematisationActivity the systematisationActivity to set
      */
     public void setSystematisationActivity(TypeOfActivity systematisationActivity) {
         this.systematisationActivity = systematisationActivity;
+    }
+
+    /**
+     * @return the knowledgeApp
+     */
+    public String getKnowledgeApp() {
+        return knowledgeApp;
     }
 
     /**
@@ -488,10 +388,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the explication
+     */
+    public String getExplication() {
+        return explication;
+    }
+
+    /**
      * @param explication the explication to set
      */
     public void setExplication(String explication) {
         this.explication = explication;
+    }
+
+    /**
+     * @return the notion
+     */
+    public Notion getNotion() {
+        return notion;
     }
 
     /**
@@ -502,10 +416,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the subNotion
+     */
+    public Notion.SubNotion getSubNotion() {
+        return subNotion;
+    }
+
+    /**
      * @param subNotion the subNotion to set
      */
     public void setSubNotion(Notion.SubNotion subNotion) {
         this.subNotion = subNotion;
+    }
+
+    /**
+     * @return the author
+     */
+    public TeacherBean getAuthor() {
+        return author;
     }
 
     /**
@@ -516,10 +444,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the supportBean
+     */
+    public SupportBean getSupportBean() {
+        return supportBean;
+    }
+
+    /**
      * @param supportBean the supportBean to set
      */
     public void setSupportBean(SupportBean supportBean) {
         this.supportBean = supportBean;
+    }
+
+    /**
+     * @return the levels
+     */
+    public List<SelectItem> getLevels() {
+        return levels;
     }
 
     /**
@@ -530,10 +472,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the notions
+     */
+    public List<SelectItem> getNotions() {
+        return notions;
+    }
+
+    /**
      * @param notions the notions to set
      */
     public void setNotions(List<SelectItem> notions) {
         this.notions = notions;
+    }
+
+    /**
+     * @return the subNotions
+     */
+    public List<SelectItem> getSubNotions() {
+        return subNotions;
     }
 
     /**
@@ -544,10 +500,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the spottingActivities
+     */
+    public List<SelectItem> getSpottingActivities() {
+        return spottingActivities;
+    }
+
+    /**
      * @param spottingActivities the spottingActivities to set
      */
     public void setSpottingActivities(List<SelectItem> spottingActivities) {
         this.spottingActivities = spottingActivities;
+    }
+
+    /**
+     * @return the spottingTexts
+     */
+    public List<SelectItem> getSpottingTexts() {
+        return spottingTexts;
     }
 
     /**
@@ -558,10 +528,24 @@ public class SequenceBean implements Serializable {
     }
 
     /**
+     * @return the systematisationActivities
+     */
+    public List<SelectItem> getSystematisationActivities() {
+        return systematisationActivities;
+    }
+
+    /**
      * @param systematisationActivities the systematisationActivities to set
      */
     public void setSystematisationActivities(List<SelectItem> systematisationActivities) {
         this.systematisationActivities = systematisationActivities;
+    }
+
+    /**
+     * @return the systematisationTexts
+     */
+    public List<SelectItem> getSystematisationTexts() {
+        return systematisationTexts;
     }
 
     /**

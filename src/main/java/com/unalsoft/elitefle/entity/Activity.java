@@ -44,12 +44,12 @@ public class Activity implements Serializable, IEntity<ActivityVo> {
     private Integer idActivity;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 500)
     @Column(name = "nameText")
     private String nameText;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 500)
     @Column(name = "urlText")
     private String urlText;
     @Basic(optional = false)

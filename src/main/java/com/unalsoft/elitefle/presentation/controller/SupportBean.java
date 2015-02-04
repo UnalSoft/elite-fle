@@ -54,6 +54,7 @@ public class SupportBean implements Serializable {
     public void init() {
         supportList = FacadeFactory.getInstance().getSupportFacade().getList();
         selectedSupports=new ArrayList<SupportVo>();
+        //@TODO Change server location to ../applications/__internal/elite-fle-1.0-SNAPSHOT/
         sRootPath = new File("").getAbsolutePath() + File.separator + "support";
         notions = Arrays.asList(Notion.values());
         subNotions = getNotions().get(0).getSubNotions();
@@ -71,6 +72,7 @@ public class SupportBean implements Serializable {
                 try {
                     String pathFile = uploadFile(getFile().getFileName(), getFile().getInputstream());
                     vo.setUrlSupport(pathFile);
+                    //@FIXME Can't upload a file with an existing name
                     FacadeFactory.getInstance().getSupportFacade().persist(vo);
                     init();
                 } catch (IOException ex) {

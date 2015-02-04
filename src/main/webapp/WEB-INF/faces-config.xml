@@ -44,11 +44,6 @@
             <from-outcome>true</from-outcome>
             <to-view-id>/teacher/teacherPage.xhtml</to-view-id>
         </navigation-case>
-        <navigation-case>
-            <from-action>#{sequenceBean.validateSequence()}</from-action>
-            <from-outcome>false</from-outcome>
-            <to-view-id>/noLogin.xhtml</to-view-id>
-        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <navigation-case>
