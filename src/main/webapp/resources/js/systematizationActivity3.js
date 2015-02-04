@@ -73,10 +73,10 @@ function changeStyle(id) {
 
         if (finished(element, isGN, isPron, isN, len)) {
             $("#message").removeClass("warning");
-            $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)] + finish).show("pulsate", 1000);
+            $("#message").addClass("success").text(success[Math.floor(Math.random() * success.length)] + finish).show("pulsate", 1500);
             $("#next").fadeIn();
         } else if (allSelected === len && rightAnswers !== len) {
-            $("#message").addClass("warning").html(errorMessage(len, totalGN, totalPron)).show("shake", 500, callback);
+            $("#message").addClass("warning").html(errorMessage(len, totalGN, totalPron)).show("shake", 1500, callback);
 
         }
     }

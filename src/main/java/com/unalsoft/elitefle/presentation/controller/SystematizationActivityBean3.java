@@ -8,45 +8,49 @@ import com.unalsoft.elitefle.vo.SequenceVo;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * @author Juan
+ *
+ * @author Edward
  */
-@ManagedBean(name = "systematizationActivityBean2")
+@ManagedBean(name = "systematizationActivityBean3")
 @ViewScoped
-public class SystematizationActivityBean2 implements Serializable {
+public class SystematizationActivityBean3 implements Serializable {
 
-    private final String[] colorRef = {"black", "red", "lime ", "blue", "purple", "deeppink", "goldenrod"};
-    private final String[] colorCoRef = {"black", "orange", "greenyellow", "SkyBlue", "orchid", "hotpink", "gold"};
-    private final String R3 = "r3";
-    private final String R2 = "r2";
-    private final String R1 = "r1";
     private ActivityVo activity;
     private Integer idSequence;
     private DocumentTexte text;
+    private boolean supports;
+
+    private final String[] colorRef = {"black", "red", "lime ", "blue", "purple", "deeppink", "goldenrod"};
+    private final String[] colorCoRef = {"black", "orange", "greenyellow", "SkyBlue", "orchid", "hotpink", "gold"};
+
     private Referent referent1;
     private Referent referent2;
+    private Referent referent3;
     private List<Coreferent> coreferent1;
     private List<Coreferent> coreferent2;
     private List<Coreferent> coreferent3;
-    private Set<String> coreferentColors;
-    private String lastColor = "black";
-    private int rightAnswers;
+    private int r1GN;
+    private int r1Pron;
+    private int r2GN;
+    private int r2Pron;
+    private int r3GN;
+    private int r3Pron;
+    
+    private final String R3 = "r3";
+    private final String R2 = "r2";
+    private final String R1 = "r1";
+    private final String GN = "GN";
+    private final String PRON = "Pron";
 
     public void preRenderView() throws Exception {
         if (getIdSequence() != null) {
             SequenceVo sequence = FacadeFactory.getInstance().getSequenceFacade().find(getIdSequence());
             activity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSystematizationActivity());
+            supports = sequence.isSupports();
             if (text == null) {
                 text = Parser.parseXML(activity.getUrl());
                 if (text != null) {
@@ -63,11 +67,7 @@ public class SystematizationActivityBean2 implements Serializable {
     private void initElements() {
         coreferent1 = new ArrayList<Coreferent>();
         coreferent2 = new ArrayList<Coreferent>();
-        coreferent3 = new ArrayList<Coreferent>();
-        lastColor = "black";
-        HashSet<String> coreferentColorsSet = new HashSet<String>(colorCoRef.length);
-        coreferentColors = new HashSet<String>(colorCoRef.length);
-        this.rightAnswers = 0;
+        coreferent3 = new ArrayList<Coreferent>();        
         List<ElementXML> elements = getTitleElems();
         List<ElementXML> sousTitreOrParagraphe = text.getContenu().getSousTitreOrParagraphe();
         for (ElementXML elementXML : sousTitreOrParagraphe) {
@@ -86,30 +86,40 @@ public class SystematizationActivityBean2 implements Serializable {
                 } else if (idn.equals(R2)) {
                     setReferent2((Referent) elementXML);
                 } else if (idn.equals(R3)) {
-                    rightAnswers += 1;
+                    setReferent3((Referent) elementXML);
                 }
             } else if (elementXML.isCoreferent()) {
-                String chaine = (String) ((Coreferent) elementXML).getChaine();
+                Coreferent coref = (Coreferent) elementXML;
+                String chaine = (String) (coref).getChaine();
                 if (chaine.equals(R1)) {
-                    coreferent1.add((Coreferent) elementXML);
-                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
+                    coreferent1.add(coref);
+                    if (coref.getSousType().equals(GN)) {
+                        r1GN +=1;
+                    } else if (coref.getType().equals(PRON)) {
+                        r1Pron +=1;
+                    }
                 } else if (chaine.equals(R2)) {
-                    coreferent2.add((Coreferent) elementXML);
-                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
+                    coreferent2.add(coref);
+                    if (coref.getSousType().equals(GN)) {
+                        r2GN +=1;
+                    } else if (coref.getType().equals(PRON)) {
+                        r2Pron +=1;
+                    }
                 } else if (chaine.equals(R3)) {
-                    coreferent3.add((Coreferent) elementXML);
-                    coreferentColorsSet.add(getCoRefColor(chaine, ((Coreferent) elementXML).getIdn()));
+                    coreferent3.add(coref);
+                    if (coref.getSousType().equals(GN)) {
+                        r3GN +=1;
+                    } else if (coref.getType().equals(PRON)) {
+                        r3Pron +=1;
+                    }
                 }
             }
-        }
-        for (String color : coreferentColorsSet) {
-            coreferentColors.add(color);
         }
     }
 
     public List<ElementXML> getTitleElems() {
         List<ElementXML> elems = new ArrayList<ElementXML>();
-        if (text != null && text.getContenu().getTitre() != null) {
+        if (text != null) {
             List<Phrase> phrases = text.getContenu().getTitre().getPhrase();
             for (Phrase phrase : phrases) {
                 addPhraseElems(phrase, elems);
@@ -204,53 +214,6 @@ public class SystematizationActivityBean2 implements Serializable {
         return colorCoRef[id];
     }
 
-    /**
-     * Get a list of coreferents depending if ref is R1, R2 or R3
-     *
-     * @param idn a list, null if idn not valid
-     * @return
-     */
-    public List<Coreferent> getCoreferentsByIdn(String idn) {
-        List<Coreferent> ret = null;
-        if (idn.equals(R1)) {
-            ret = coreferent1;
-        } else if (idn.equals(R2)) {
-            ret = coreferent2;
-        } else if (idn.equals(R3)) {
-            ret = coreferent3;
-        }
-        return ret;
-    }
-
-    /**
-     * Look if the chaine is R1, R2 or R3
-     *
-     * @param chaine
-     * @return
-     */
-    public boolean isRightCoreferent(String chaine) {
-        return chaine.equals(R1) || chaine.equals(R2) || chaine.equals(R3);
-    }
-
-    /**
-     * Encodes the passed String as UTF-8 using an algorithm that's compatible
-     * with JavaScript's encodeURIComponent function. Returns null if the String
-     * is null.
-     *
-     * @param s
-     * @return
-     */
-    public static String encodeAsURI(String s) {
-        String res = null;
-        try {
-            res = URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(SystematizationActivityBean2.class.getName()).log(Level.SEVERE, null, ex);
-            res = s;
-        }
-        return res;
-    }
-
     public ActivityVo getActivity() {
         return activity;
     }
@@ -299,36 +262,12 @@ public class SystematizationActivityBean2 implements Serializable {
         this.coreferent1 = coreferent1;
     }
 
-    public List<Coreferent> getCoreferent2() {
-        return coreferent2;
-    }
-
-    public void setCoreferent2(List<Coreferent> coreferent2) {
-        this.coreferent2 = coreferent2;
-    }
-
     public List<Coreferent> getCoreferent3() {
         return coreferent3;
     }
 
     public void setCoreferent3(List<Coreferent> coreferent3) {
         this.coreferent3 = coreferent3;
-    }
-
-    public Set<String> getCoreferentColors() {
-        return coreferentColors;
-    }
-
-    public void setCoreferentColors(Set<String> coreferentColors) {
-        this.coreferentColors = coreferentColors;
-    }
-
-    public String getLastColor() {
-        return lastColor;
-    }
-
-    public void setLastColor(String lastColor) {
-        this.lastColor = lastColor;
     }
 
     public String getR3() {
@@ -343,27 +282,52 @@ public class SystematizationActivityBean2 implements Serializable {
         return R1;
     }
 
-    public int getRightAnswers() {
-        return rightAnswers;
+    public Referent getReferent3() {
+        return referent3;
     }
 
-    public String lastColor() {
-        return lastColor;
+    public void setReferent3(Referent referent3) {
+        this.referent3 = referent3;
     }
 
-    public String encodeString(String s) {
-        String result = null;
-        try {
-            result = URLEncoder.encode(s, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(SystematizationActivityBean2.class.getName()).log(Level.SEVERE, null, ex);
-            result = s;
-        }
-        return result;
+    public List<Coreferent> getCoreferent2() {
+        return coreferent2;
     }
 
-    public List randomizeCollection(List l) {
-        Collections.shuffle(l);
-        return l;
+    public void setCoreferent2(List<Coreferent> coreferent2) {
+        this.coreferent2 = coreferent2;
     }
+
+    public int getR1GN() {
+        return r1GN;
+    }
+
+    public int getR1Pron() {
+        return r1Pron;
+    }
+
+    public int getR2GN() {
+        return r2GN;
+    }
+
+    public int getR2Pron() {
+        return r2Pron;
+    }
+
+    public int getR3GN() {
+        return r3GN;
+    }
+
+    public int getR3Pron() {
+        return r3Pron;
+    }
+
+    public boolean isSupports() {
+        return supports;
+    }
+
+    public void setSupports(boolean supports) {
+        this.supports = supports;
+    }
+
 }

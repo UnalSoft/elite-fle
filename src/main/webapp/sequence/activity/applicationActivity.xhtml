@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<body>
+
+<ui:composition template="./../../WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="idSequence" value="#{applicationActivityBean.idSequence}"/>
+        <f:event type="preRenderView" listener="#{applicationActivityBean.preRenderView()}"/>
+    </f:metadata>
+    <ui:define name="title">
+        Activité d'application
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Activité d'application</h2>
+
+        <p class="text-justify">
+            #{applicationActivityBean.sequence.applicationActivity}
+        </p>
+        <p:separator/>
+        <h:form id="uploadAppActivity" enctype="multipart/form-data">
+            <p:fileUpload id="selectFile" value="#{applicationActivityBean.file}" label="Sélectionner fichier" mode="simple"
+                          allowTypes="/(\.|\/)(pdf|docx?|odt|pptx?)$/" invalidFileMessage="Type de fichier invalide"
+                          fileLimit="1" fileLimitMessage="Nombre maximum de fichiers dépassé"
+                          required="true" requiredMessage="Veuillez selectionner un fichier"
+                          uploadLabel="Créer Support" cancelLabel="Annuler"
+                          fileUploadListener="#{applicationActivityBean.addFile}"/>
+            <p:message id="selectFileMessage" for="selectFile" />
+            <div class="form-actions">
+                <p:commandButton value="Valider et fermer session" id="addSupportBtn" update="messages"
+                                 actionListener="#{applicationActivityBean.addFile}"
+                                 action="#{applicationActivityBean.logOut()}"
+                                 ajax="false" styleClass="btn btn-danger"/>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</body>
+</html>

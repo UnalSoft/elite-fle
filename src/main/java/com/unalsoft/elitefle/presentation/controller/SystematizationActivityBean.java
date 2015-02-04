@@ -40,7 +40,7 @@ public class SystematizationActivityBean implements Serializable {
     public void preRenderView() throws Exception {
         if (getIdSequence() != null) {
             SequenceVo sequence = FacadeFactory.getInstance().getSequenceFacade().find(getIdSequence());
-            activity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSpottingActivity());
+            activity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSystematizationActivity());
             if (text == null) {
                 text = Parser.parseXML(activity.getUrl());
                 if (text != null) {

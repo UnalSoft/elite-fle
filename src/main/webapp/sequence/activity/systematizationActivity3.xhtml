@@ -9,8 +9,8 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <f:metadata>
-        <f:viewParam name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
-        <f:event type="preRenderView" listener="#{spottingActivityBean3.preRenderView()}"/>
+        <f:viewParam name="idSequence" value="#{systematizationActivityBean3.idSequence}"/>
+        <f:event type="preRenderView" listener="#{systematizationActivityBean3.preRenderView()}"/>
     </f:metadata>
 
     <ui:define name="title">
@@ -33,66 +33,66 @@
             <p:separator/>
             <h:panelGrid id="grid" columns="2">
                 <p:outputLabel for="title" value="Titre: " styleClass="control-label"/>
-                <p:outputLabel id="title" value="#{spottingActivityBean3.text.entete.titreDoc}"/>
+                <p:outputLabel id="title" value="#{systematizationActivityBean3.text.entete.titreDoc}"/>
                 <p:outputLabel for="author" value="Auteur: " styleClass="control-label"/>
-                <p:outputLabel id="author" value="#{spottingActivityBean3.text.entete.auteur}"/>
+                <p:outputLabel id="author" value="#{systematizationActivityBean3.text.entete.auteur}"/>
                 <p:outputLabel for="source" value="Source: " styleClass="control-label"/>
-                <p:outputLabel id="source" value="#{spottingActivityBean3.text.entete.source.value}"/>
+                <p:outputLabel id="source" value="#{systematizationActivityBean3.text.entete.source.value}"/>
                 <p:outputLabel for="date" value="Date: " styleClass="control-label"/>
-                <p:outputLabel id="date" value="#{spottingActivityBean3.text.entete.date}"/>
+                <p:outputLabel id="date" value="#{systematizationActivityBean3.text.entete.date}"/>
                 <p:outputLabel for="type" value="Type: " styleClass="control-label"/>
-                <p:outputLabel id="type" value="#{spottingActivityBean3.text.entete.type}"/>
+                <p:outputLabel id="type" value="#{systematizationActivityBean3.text.entete.type}"/>
                 <p:outputLabel for="level" value="Niveau: " styleClass="control-label"/>
-                <p:outputLabel id="level" value="#{spottingActivityBean3.text.entete.niveau}"/>
+                <p:outputLabel id="level" value="#{systematizationActivityBean3.text.entete.niveau}"/>
             </h:panelGrid>
             <p:panel id="spottingActivityTextPanel" styleClass="text text-justify">
                 <div class="title">
-                    <ui:repeat value="#{spottingActivityBean3.titleElems}" var="elem">
+                    <ui:repeat value="#{systematizationActivityBean3.titleElems}" var="elem">
                         <ui:fragment rendered="#{elem.elem}">
                             <h:outputText value=" #{elem.value} "/>
                         </ui:fragment>
                         <ui:fragment rendered="#{elem.referent}">
                             <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                          style="color:#{spottingActivityBean3.getRefColor(elem.idn)}"/>
+                                          style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                         </ui:fragment>
                         <ui:fragment rendered="#{elem.coreferent}">
                             <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                          style="color:#{spottingActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
+                                          style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                         </ui:fragment>
                     </ui:repeat>
                 </div>
                 <div class="text-justify">
-                    <ui:repeat value="#{spottingActivityBean3.text.contenu.sousTitreOrParagraphe}" var="element">
+                    <ui:repeat value="#{systematizationActivityBean3.text.contenu.sousTitreOrParagraphe}" var="element">
                         <ui:fragment rendered="#{element.sousTitre}">
                             <div class="subtitle">
-                                <ui:repeat value="#{spottingActivityBean3.getSubtitleElems(element)}" var="elem">
+                                <ui:repeat value="#{systematizationActivityBean3.getSubtitleElems(element)}" var="elem">
                                     <ui:fragment rendered="#{elem.elem}">
                                         <h:outputText value=" #{elem.value} "/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.referent}">
                                         <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                                      style="color:#{spottingActivityBean3.getRefColor(elem.idn)}"/>
+                                                      style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.coreferent}">
                                         <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                                      style="color:#{spottingActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
+                                                      style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                                     </ui:fragment>
                                 </ui:repeat>
                             </div>
                         </ui:fragment>
                         <ui:fragment rendered="#{element.paragraphe}">
                             <div class="paragraph">
-                                <ui:repeat value="#{spottingActivityBean3.getParagraphElems(element)}" var="elem">
+                                <ui:repeat value="#{systematizationActivityBean3.getParagraphElems(element)}" var="elem">
                                     <ui:fragment rendered="#{elem.elem}">
                                         <h:outputText value=" #{elem.value} "/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.referent}">
                                         <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                                      style="color:#{spottingActivityBean3.getRefColor(elem.idn)}"/>
+                                                      style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.coreferent}">
                                         <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
-                                                      style="color:#{spottingActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
+                                                      style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                                     </ui:fragment>
                                 </ui:repeat>
                             </div>
@@ -108,8 +108,8 @@
                 </div>
                 <div class="span3">
                     <div id="next" style="display: none;margin: 10px 0px;">
-                        <h:link id="nextButton" outcome="supports" value="Continuer" styleClass="btn btn-danger">
-                            <f:param name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
+                        <h:link id="nextButton" outcome="applicationActivity.xhtml" value="Continuer" styleClass="btn btn-danger">
+                            <f:param name="idSequence" value="#{systematizationActivityBean3.idSequence}"/>
                         </h:link>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
             <div class="row" id="columns">
                 <div class="span1">
                     <div class="column0"
-                         style="height: #{20 * (spottingActivityBean3.coreferent1.size()) - 25}px;width: 100%;">
+                         style="height: #{20 * (systematizationActivityBean3.coreferent1.size()) - 25}px;width: 100%;">
                         <table>
                             <tr>
                                 <td><input id="CorefGN" type="radio" name="corefSelection" value="GN"
@@ -148,14 +148,14 @@
                 </div>
                 <div class="span3">
                     <div class="column1"
-                         style="height: #{20 * (spottingActivityBean3.coreferent1.size())}px;width: 100%;">
+                         style="height: #{20 * (systematizationActivityBean3.coreferent1.size())}px;width: 100%;">
                         <header>
-                            #{spottingActivityBean3.getElementsFromReferent(spottingActivityBean3.referent1)}
+                            #{systematizationActivityBean3.getElementsFromReferent(systematizationActivityBean3.referent1)}
                         </header>
                         <div class="cbody">
                             <div class="gn"
-                                 style="height: #{20 * spottingActivityBean3.coreferent1.size() - 30}px;width: 100%;">
-                                <ui:repeat value="#{spottingActivityBean3.coreferent1}" var="elem">
+                                 style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
+                                <ui:repeat value="#{systematizationActivityBean3.coreferent1}" var="elem">
                                     <div class="coreferent"
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
@@ -168,14 +168,14 @@
                 </div>
                 <div class="span3">
                     <div class="column2"
-                         style="height: #{20 * (spottingActivityBean3.coreferent1.size())}px;width: 100%;">
+                         style="height: #{20 * (systematizationActivityBean3.coreferent1.size())}px;width: 100%;">
                         <header>
-                            #{spottingActivityBean3.getElementsFromReferent(spottingActivityBean3.referent2)}
+                            #{systematizationActivityBean3.getElementsFromReferent(systematizationActivityBean3.referent2)}
                         </header>
                         <div class="cbody">
                             <div class="gn"
-                                 style="height: #{20 * spottingActivityBean3.coreferent1.size() - 30}px;width: 100%;">
-                                <ui:repeat value="#{spottingActivityBean3.coreferent2}" var="elem">
+                                 style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
+                                <ui:repeat value="#{systematizationActivityBean3.coreferent2}" var="elem">
                                     <div class="coreferent"
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
@@ -188,14 +188,14 @@
                 </div>
                 <div class="span3">
                     <div class="column3"
-                         style="height: #{20 * (spottingActivityBean3.coreferent1.size())}px;width: 100%;">
+                         style="height: #{20 * (systematizationActivityBean3.coreferent1.size())}px;width: 100%;">
                         <header>
-                            #{spottingActivityBean3.getElementsFromReferent(spottingActivityBean3.referent3)}
+                            #{systematizationActivityBean3.getElementsFromReferent(systematizationActivityBean3.referent3)}
                         </header>
                         <div class="cbody">
                             <div class="gn"
-                                 style="height: #{20 * spottingActivityBean3.coreferent1.size() - 30}px;width: 100%;">
-                                <ui:repeat value="#{spottingActivityBean3.coreferent3}" var="elem">
+                                 style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
+                                <ui:repeat value="#{systematizationActivityBean3.coreferent3}" var="elem">
                                     <div class="coreferent"
                                          style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
@@ -208,14 +208,6 @@
                 </div>
             </div>
         </h:form>
-        <script>
-            var r1GN = #{spottingActivityBean3.r1GN};
-            var r1Pron = #{spottingActivityBean3.r1Pron};
-            var r2GN = #{spottingActivityBean3.r2GN};
-            var r2Pron = #{spottingActivityBean3.r2Pron};
-            var r3GN = #{spottingActivityBean3.r3GN};
-            var r3Pron = #{spottingActivityBean3.r3Pron};
-        </script>
         <script type="text/javascript" src="#{request.contextPath}/resources/js/systematizationActivity3.js"></script>
     </ui:define>
 
