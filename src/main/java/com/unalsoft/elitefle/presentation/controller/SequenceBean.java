@@ -225,10 +225,10 @@ public class SequenceBean implements Serializable {
         Integer idSystematisationActivity = getActivityId(getSystematisationText().getText(), getSystematisationText().getUrl(), getSystematisationActivity().getActivityName());
         sv.setIdSystematizationActivity(idSystematisationActivity);
 
-        String cuttedAppAct = getKnowledgeApp().length() <= 1250
-                ? getKnowledgeApp() : getKnowledgeApp().substring(0, 1249);
-        String cuttedexp = getExplication().length() <= 1250
-                ? getExplication() : getExplication().substring(0, 1249);
+        String cuttedAppAct = getKnowledgeApp().length() <= 2500
+                ? getKnowledgeApp() : getKnowledgeApp().substring(0, 2500-1);
+        String cuttedexp = getExplication().length() <= 2500
+                ? getExplication() : getExplication().substring(0, 2500-1);
 
         sv.setApplicationActivity(cuttedAppAct);
         sv.setIdAuthor(getAuthor().getIdTeacher());
@@ -240,7 +240,7 @@ public class SequenceBean implements Serializable {
             supportsIds.add(support.getUrlSupport());
         }
         sv.setSupportIdList(supportsIds);
-
+        //@TODO Solve "No transaction is currently active" when complex strings in explication and App Activity
         FacadeFactory.getInstance().getSequenceFacade().persist(sv);
 
         this.setName(null);

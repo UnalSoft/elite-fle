@@ -79,12 +79,12 @@ public class Sequence implements Serializable, IEntity<SequenceVo> {
     @NotNull
     @Column(name = "supports")
     private short supports;
-    @Size(max = 1250)
+    @Size(max = 2500)
     @Column(name = "applicationActivity")
     private String applicationActivity;
     @Basic(optional = false)
     @NotNull
-    @Size(max = 1250)
+    @Size(max = 2500)
     @Column(name = "explication")
     private String explication;
     @Basic(optional = false)

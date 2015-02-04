@@ -32,7 +32,7 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class SupportBean implements Serializable {
 
-    private final String SUPORTED_FORMAT = "^.*(pdf|docx?|odt|pptx?|odp)$";
+    private final String SUPPORTED_FORMAT = "^.*(pdf|docx?|odt|pptx?|odp)$";
 
     private List<SupportVo> supportList;
     private List<SupportVo> filteredSupports;
@@ -68,7 +68,7 @@ public class SupportBean implements Serializable {
         vo.setSubNotion(getSubNotion().getDescription());
         vo.setIdAuthor(getUser().getIdTeacher());
         if (getFile() != null) {
-            if (getFile().getFileName().matches(SUPORTED_FORMAT)) {
+            if (getFile().getFileName().matches(SUPPORTED_FORMAT)) {
                 try {
                     String pathFile = uploadFile(getFile().getFileName(), getFile().getInputstream());
                     vo.setUrlSupport(pathFile);
