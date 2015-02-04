@@ -24,6 +24,7 @@
 
     <ui:define name="content">
         <h2>Activité de Repérage</h2>
+
         <p class="text-justify">
             En suivant la même démarche, organisez maintenant les
             éléments en deux groupes selon leur caractéristiques communes.
@@ -102,7 +103,16 @@
             <br/>
 
             <div class="row">
-                <div id="message" style="display: none;"></div>
+                <div class="row">
+                    <div id="message" style="display: none;"></div>
+                </div>
+                <div class="span3">
+                    <div id="next" style="display: none;margin: 10px 0px;">
+                        <h:link id="nextButton" outcome="supports" value="Continuer" styleClass="btn btn-danger">
+                            <f:param name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
+                        </h:link>
+                    </div>
+                </div>
             </div>
             <div class="row" id="columns">
                 <div class="span1">
@@ -195,13 +205,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="span3">
-                <div id="next" style="display: none;margin: 10px 0px;">
-                    <h:link id="nextButton" outcome="supports" value="Continuer" styleClass="btn btn-danger">
-                        <f:param name="idSequence" value="#{spottingActivityBean3.idSequence}"/>
-                    </h:link>
                 </div>
             </div>
         </h:form>
