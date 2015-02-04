@@ -7,6 +7,7 @@ package com.unalsoft.elitefle.presentation.controller;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
 *
@@ -77,6 +78,7 @@ this.password = password;
         username = null;
         idTeacher = null;
         loggedIn = false;
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "logout";
     }
 }

@@ -7,6 +7,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
 
+    <f:metadata>
+        <f:viewParam name="idSequence" value="#{sequenceSupportsBean.idSequence}"/>
+        <f:event type="preRenderView" listener="#{sequenceSupportsBean.preRenderView()}" />
+    </f:metadata>
+
     <ui:define name="title">
         Supports
     </ui:define>
@@ -14,7 +19,45 @@
     <ui:define name="head">
     </ui:define>
 
-    <ui:define name="content">        
+    <ui:define name="content">   
+        <h2>Support théorique linguistique et/ou didactique</h2>
+        <h:form>
+            <ui:fragment rendered="#{sequenceSupportsBean.linguistic}">
+                <h3>Support théorique linguistique :</h3>
+                <ul>
+                    <ui:repeat value="#{sequenceSupportsBean.supports}" var="support">
+                        <p:column>
+                            <li><h:commandButton id="supportLin"  action="#{sequenceSupportsBean.changeDoc(support.urlSupport)}" 
+                                                 value="#{support.title}" rendered="#{support.type == 'Linguistique'}" 
+                                                 style="background:none!important;border:none;padding:0!important;color:#069;text-decoration:underline;cursor:pointer;">
+                                </h:commandButton></li>
+                        </p:column>
+                    </ui:repeat>
+                </ul>
+            </ui:fragment>
+            <ui:fragment rendered="#{sequenceSupportsBean.didactic}">
+                <h3>Support théorique didactique :</h3>
+                <ul>
+                    <ui:repeat value="#{sequenceSupportsBean.supports}" var="support">
+                        <li><h:commandButton id="supportLin"  action="#{sequenceSupportsBean.changeDoc(support.urlSupport)}" 
+                                             value="#{support.title}" rendered="#{support.type == 'Didactique'}"
+                                             style="background:none!important;border:none;padding:0!important;color:#069;text-decoration:underline;cursor:pointer;">                                
+                            </h:commandButton></li>
+                    </ui:repeat>
+                </ul>
+            </ui:fragment>
+
+            <p:media id="doc" value="#{sequenceSupportsBean.stream}" width="100%" height="500px" player="pdf">
+                <f:param name="id" value="#{sequenceSupportsBean.activeSupport}" />
+            </p:media>
+            <br/><br/>
+            <div clas="row">
+                <div class="offset8">
+                    <h:commandButton id="nextButton2" action="#{sequenceSupportsBean.next()}" value="Continuer" styleClass="btn btn-danger">
+                    </h:commandButton>
+                </div>
+            </div>
+        </h:form>
     </ui:define>
 
 </ui:composition>
