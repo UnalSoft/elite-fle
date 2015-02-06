@@ -30,12 +30,11 @@ ENGINE = InnoDB;
 -- Table `elitefle`.`User`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `elitefle`.`User` (
-  `idUser` INT NOT NULL,
+  `idUser` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `mail` VARCHAR(255) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
-  `DTYPE` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idUser`))
 ENGINE = InnoDB;
 
@@ -58,17 +57,18 @@ ENGINE = InnoDB;
 -- Table `elitefle`.`Sequence`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `elitefle`.`Sequence` (
-  `idSequence` INT NOT NULL,
+  `idSequence` INT NOT NULL AUTO_INCREMENT,
   `nameSequence` VARCHAR(60) NOT NULL,
+  `date` date DEFAULT NULL,
   `notion` VARCHAR(60) NOT NULL,
   `subNotion` VARCHAR(60) NOT NULL,
   `level` VARCHAR(15) NOT NULL,
   `supports` TINYINT NOT NULL,
   `spottingActivity` INT UNSIGNED NOT NULL,
   `systematizationActivity` INT UNSIGNED NOT NULL,
-  `applicationActivity` VARCHAR(500) NULL,
+  `applicationActivity` VARCHAR(2500) NULL,
   `idAuthor` INT NOT NULL,
-  `urlExplication` VARCHAR(100) NOT NULL,
+  `explication` varchar(2500) DEFAULT NULL,
   PRIMARY KEY (`idSequence`),
   INDEX `fk_Sequence_Activity1_idx` (`spottingActivity` ASC),
   INDEX `fk_Sequence_Activity2_idx` (`systematizationActivity` ASC),
