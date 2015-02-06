@@ -43,14 +43,14 @@ ENGINE = InnoDB;
 -- Table `elitefle`.`Teacher`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `elitefle`.`Teacher` (
-  `idTeacher` INT NOT NULL,
-  PRIMARY KEY (`idTeacher`),
-  CONSTRAINT `fk_Teacher_User1`
-    FOREIGN KEY (`idTeacher`)
-    REFERENCES `elitefle`.`User` (`idUser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ `idUser` int(11) NOT NULL AUTO_INCREMENT,
+  `idTeacher` int(11) DEFAULT NULL,
+  `mail` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idUser`)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
@@ -115,14 +115,14 @@ ENGINE = InnoDB;
 -- Table `elitefle`.`Student`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `elitefle`.`Student` (
-  `idStudent` INT NOT NULL,
-  PRIMARY KEY (`idStudent`),
-  CONSTRAINT `fk_Student_User1`
-    FOREIGN KEY (`idStudent`)
-    REFERENCES `elitefle`.`User` (`idUser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  `idUser` int(11) NOT NULL AUTO_INCREMENT,
+  `idStudent` int(11) DEFAULT NULL,
+  `mail` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idUser`)
+) ENGINE=InnoDB;
 
 
 -- -----------------------------------------------------
