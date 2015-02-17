@@ -83,6 +83,7 @@ public class SupportBean implements Serializable {
                 } catch (PersistException ex) {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Database Erreur: " + ex.getMessage());
                     FacesContext.getCurrentInstance().addMessage(null, message);
+                    Logger.getLogger(SupportBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Type de fichier invalide");

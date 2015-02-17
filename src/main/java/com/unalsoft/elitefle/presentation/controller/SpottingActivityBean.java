@@ -42,7 +42,7 @@ public class SpottingActivityBean implements Serializable {
                 if (text != null) {
                     initElements();
                 }else {
-                    throw new Exception("File not found");
+                    throw new Exception("File not found : " + activity.getUrl());
                 }
             }
         } else {
