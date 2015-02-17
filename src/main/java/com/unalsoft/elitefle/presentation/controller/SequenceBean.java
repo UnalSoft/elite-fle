@@ -68,10 +68,10 @@ public class SequenceBean implements Serializable {
      */
     private void setInitialValues() {
         setNotion(Notion.textualStructuring);
-        setSpottingActivity(TypeOfActivity.activity1);
-        setSpottingText(Text.text1);
-        setSystematisationActivity(TypeOfActivity.activity2);
-        setSystematisationText(Text.text2);
+        setSpottingActivity(TypeOfActivity.activity2);
+        setSpottingText(Text.text2);
+        setSystematisationActivity(TypeOfActivity.activity1);
+        setSystematisationText(Text.text1);
     }
 
     /**
@@ -131,6 +131,7 @@ public class SequenceBean implements Serializable {
      */
     public void changeSystematisationTexts() {
         fillSystematisationTextList(getSpottingText());
+        fillSpottingTexts(getSystematisationText());
     }
 
     /**
@@ -153,6 +154,7 @@ public class SequenceBean implements Serializable {
      */
     public void changeSystematisationActivities() {
         fillSystematisationActivities(getSpottingActivity());
+        fillSpottingActivities(getSystematisationActivity());
     }
 
     /**
@@ -174,6 +176,7 @@ public class SequenceBean implements Serializable {
      */
     public void changeSpottingTexts() {
         fillSpottingTexts(getSystematisationText());
+        fillSystematisationTextList(getSpottingText());
     }
 
     /**
@@ -195,6 +198,7 @@ public class SequenceBean implements Serializable {
      */
     public void changeSpottingActivities() {
         fillSpottingActivities(getSystematisationActivity());
+        fillSystematisationActivities(getSpottingActivity());
     }
 
     /**

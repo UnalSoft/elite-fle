@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
  *
  * @author juanmanuelmartinezromero
  */
-@ManagedBean(name="loginBean")
+@ManagedBean(name = "loginBean")
 @RequestScoped
 public class LoginBean implements Serializable {
 
@@ -28,7 +28,7 @@ public class LoginBean implements Serializable {
     private String password;
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean user;
-    
+
     private String target;
 
     public LoginBean() {
@@ -79,7 +79,7 @@ public class LoginBean implements Serializable {
             user.setUsername(login.getUserName());
             user.setIdTeacher(login.getIdUser());
             user.setLoggedIn(true);
-            
+
             TeacherFacade teacherFacade = FacadeFactory.getInstance().getTeacherFacade();
             TeacherVo teacher = teacherFacade.find(login.getIdUser());
             if (teacher != null) {
@@ -87,20 +87,24 @@ public class LoginBean implements Serializable {
             } else {
                 user.setStudent(true);
             }
-            
+
             if (getTarget() == null) {
-                return "success";
+                if (user.isStudent()) {
+                    return "index";
+                } else {
+                    return "success";
+                }
             } else {
                 target = target.replaceAll("_", "&");
                 return target;
             }
-        } else {        
+        } else {
             FacesContext.getCurrentInstance().addMessage(
                     "loginForm:username", new FacesMessage(
-                    "Nombre de usuario o contraseña inválidos"));
+                            "Nombre de usuario o contraseña inválidos"));
             FacesContext.getCurrentInstance().addMessage(
                     "loginForm:password", new FacesMessage(
-                    "Nombre de usuario o contraseña inválidos"));
+                            "Nombre de usuario o contraseña inválidos"));
             return "failure";
         }
     }

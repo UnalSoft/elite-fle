@@ -9,10 +9,12 @@
 
     <name>elite-fle</name>
 
+<!-- The absolute path to the Glassfish Server, please change this... -->
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <glassfish.directory>/opt/glassfish4/</glassfish.directory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    </properties>          
 
     <dependencies>
         <dependency>
@@ -105,6 +107,31 @@
                     </execution>
                 </executions>
             </plugin>
+<!--            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <user>admin</user>
+                    <adminPassword>adminadmin</adminPassword>
+                    <glassfishDirectory>${glassfish.directory}</glassfishDirectory>
+                    <domainDirectory>${glassfish.directory}/glassfish/domains/</domainDirectory>
+                    <echo>true</echo>
+                    <domain>
+                        <name>domain1</name>
+                        <host>localhost</host>
+                        <adminPort>4848</adminPort>
+                        <httpPort>8080</httpPort>
+                        <httpsPort>8181</httpsPort>
+                    </domain>
+                    <components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                        </component>
+                    </components>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
     <repositories>
