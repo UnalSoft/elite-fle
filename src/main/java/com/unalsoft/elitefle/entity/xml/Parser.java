@@ -22,7 +22,7 @@ public class Parser {
      * @param url XML file url
      * @return doc Object representation of the XML File
      */
-    public static DocumentTexte parseXML(String url) {
+    public static DocumentTexte parseXML(String url) throws Exception {
         DocumentTexte doc = null;
         try {
 
@@ -92,6 +92,7 @@ public class Parser {
             
         } catch (Exception e) {
             Logger.getLogger(SpottingActivityBean.class.getName()).log(Level.SEVERE, null, e);
+            throw e;
         }
 
         return doc;
