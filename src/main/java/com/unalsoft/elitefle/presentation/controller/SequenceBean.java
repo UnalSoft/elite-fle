@@ -53,7 +53,7 @@ public class SequenceBean implements Serializable {
     private List<SelectItem> spottingTexts;
     private List<SelectItem> systematisationActivities;
     private List<SelectItem> systematisationTexts;
-    private Text selectedPreviewText;
+    private List<Text> levelTexts;
     private DocumentTexte text;
 
     @PostConstruct
@@ -69,11 +69,14 @@ public class SequenceBean implements Serializable {
     private void setInitialValues() {
         setNotion(Notion.textualStructuring);
         setSpottingActivity(TypeOfActivity.activity2);
-        setSpottingText(Text.text1);
         setSystematisationActivity(TypeOfActivity.activity1);
-        setSystematisationText(Text.text2);
-        setSelectedPreviewText(Text.text1);
-        parseSelectedText(spottingText);
+        setLevelTexts(Text.getByLevel(Level.delfB1));
+        setSpottingText(getLevelTexts().get(0));
+        if (getLevelTexts().size() >= 2) {
+            setSystematisationText(getLevelTexts().get(1)); //List must have at least 2 texts
+        } else {
+            setSystematisationText(null); 
+        }
     }
 
     /**
@@ -143,7 +146,7 @@ public class SequenceBean implements Serializable {
      */
     private void fillSystematisationTextList(Text selectedText) {
         setSystematisationTexts(new ArrayList<SelectItem>());
-        for (Text t : Text.values()) {
+        for (Text t : getLevelTexts()) {
             if (!t.equals(selectedText)) {
                 getSystematisationTexts().add(new SelectItem(t, t.getText()));
             }
@@ -188,7 +191,7 @@ public class SequenceBean implements Serializable {
      */
     private void fillSpottingTexts(Text selectedText) {
         setSpottingTexts(new ArrayList<SelectItem>());
-        for (Text t : Text.values()) {
+        for (Text t : getLevelTexts()) {
             if (!t.equals(selectedText)) {
                 getSpottingTexts().add(new SelectItem(t, t.getText()));
             }
@@ -215,6 +218,18 @@ public class SequenceBean implements Serializable {
                 getSpottingActivities().add(new SelectItem(t, t.getActivityName()));
             }
         }
+    }
+
+    public void changeLevel() {
+        setLevelTexts(Text.getByLevel(getLevel()));
+        setSpottingText(getLevelTexts().get(0));
+        if (getLevelTexts().size() >= 2) {
+            setSystematisationText(getLevelTexts().get(1)); //List must have at least 2 texts
+        } else {
+            setSystematisationText(null); 
+        }
+        changeSpottingTexts();
+//        changeSystematisationTexts();
     }
 
     public boolean validateSequence() throws PersistException {
@@ -561,20 +576,20 @@ public class SequenceBean implements Serializable {
         this.systematisationTexts = systematisationTexts;
     }
 
-    public Text getSelectedPreviewText() {
-        return selectedPreviewText;
-    }
-
-    public void setSelectedPreviewText(Text selectedPreviewText) {
-        this.selectedPreviewText = selectedPreviewText;
-    }
-
     public DocumentTexte getText() {
         return text;
     }
 
     public void setText(DocumentTexte text) {
         this.text = text;
+    }
+
+    public List<Text> getLevelTexts() {
+        return levelTexts;
+    }
+
+    public void setLevelTexts(List<Text> levelTexts) {
+        this.levelTexts = levelTexts;
     }
 
     public List<ElementXML> getTitleElems() {
@@ -641,7 +656,7 @@ public class SequenceBean implements Serializable {
         }
         return elems;
     }
-    
+
     public String getElementsFromReferent(ElementXML element) {
         String elements = new String();
         List<Element> elems = null;
@@ -655,33 +670,35 @@ public class SequenceBean implements Serializable {
         }
         return elements;
     }
-    
+
     public void setSpottingTextAsSelected() {
-        setSelectedPreviewText(getSpottingText());
-        parseSelectedText(getSelectedPreviewText());
+        parseSelectedText(getSpottingText());
     }
-    
+
     public void setSystematisationTextAsSelected() {
-        setSelectedPreviewText(getSystematisationText());
-        parseSelectedText(getSelectedPreviewText());
+        parseSelectedText(getSystematisationText());
     }
 
     public DocumentTexte parseSelectedText(Text selectedText) {
         if (selectedText != null) {
-            text = Parser.parseXML(selectedText.getUrl());
-            if (text != null) {                
-                return text;
+            try {
+                text = Parser.parseXML(selectedText.getUrl());
+                if (text != null) {
+                    return text;
+                }
+            } catch (Exception ex) {
+                text = null;
             }
         }
         return null;
     }
-    
+
     public void buttonAction(ActionEvent actionEvent) {
         addMessage("Welcome to Primefaces!!");
     }
-    
+
     public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 

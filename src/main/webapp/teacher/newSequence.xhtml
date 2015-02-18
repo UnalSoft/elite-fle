@@ -72,6 +72,9 @@
                         <h:panelGroup>
                             <p:selectOneMenu id="seqLevel" 
                                              value="#{sequenceBean.level}">
+                                <p:ajax event="change"
+                                        listener="#{sequenceBean.changeLevel}" 
+                                        update="seqSpottingText seqSystematisationText" />
                                 <f:selectItems value="#{sequenceBean.levels}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -81,10 +84,10 @@
                         </h:panelGroup>
                         <h:panelGroup id="spottingTextPanel">
                             <p:selectOneMenu id="seqSpottingText" 
-                                             value="#{sequenceBean.spottingText}">
+                                             value="#{sequenceBean.spottingText}" required="true">
                                 <p:ajax event="change"
                                         listener="#{sequenceBean.changeSystematisationTexts}" 
-                                        update="seqSystematisationText" />
+                                        update="seqSpottingText seqSystematisationText" />
                                 <f:selectItems value="#{sequenceBean.spottingTexts}" />
                             </p:selectOneMenu>   
                             <p:commandButton update=":dialogForm:textPreview" oncomplete="showSpottingText();PF('textDialog').show();" 
@@ -97,7 +100,7 @@
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSpottingActivity" 
                                              value="#{sequenceBean.spottingActivity}">
-                                <p:ajax listener="#{sequenceBean.changeSystematisationActivities}" update="seqSystematisationActivity" />
+                                <p:ajax listener="#{sequenceBean.changeSystematisationActivities}" update="seqSpottingActivity seqSystematisationActivity" />
                                 <f:selectItems value="#{sequenceBean.spottingActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>
@@ -133,8 +136,8 @@
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationText" 
-                                             value="#{sequenceBean.systematisationText}">
-                                <p:ajax listener="#{sequenceBean.changeSpottingTexts}" update="seqSpottingText" />
+                                             value="#{sequenceBean.systematisationText}" required="true">
+                                <p:ajax listener="#{sequenceBean.changeSpottingTexts}" update="seqSpottingText seqSystematisationText" />
                                 <f:selectItems 
                                     value="#{sequenceBean.systematisationTexts}" />
                             </p:selectOneMenu>
@@ -148,7 +151,7 @@
                         <h:panelGroup>
                             <p:selectOneMenu id="seqSystematisationActivity" 
                                              value="#{sequenceBean.systematisationActivity}">
-                                <p:ajax listener="#{sequenceBean.changeSpottingActivities}" update="seqSpottingActivity" />
+                                <p:ajax listener="#{sequenceBean.changeSpottingActivities}" update="seqSpottingActivity seqSystematisationActivity" />
                                 <f:selectItems value="#{sequenceBean.systematisationActivities}" />
                             </p:selectOneMenu>
                         </h:panelGroup>

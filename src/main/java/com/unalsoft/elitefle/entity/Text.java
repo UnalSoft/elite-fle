@@ -6,6 +6,8 @@
 package com.unalsoft.elitefle.entity;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author juanmanuelmartinezromero
@@ -14,13 +16,13 @@ public enum Text {
 
     //@TODO Get text location from DB
     //@TODO Change server location to ../applications/__internal/elite-fle-1.0-SNAPSHOT/
-    text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml", "B1"),
-    text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml", "B1"),
-    text3("Texte d'essai", "Url/Text/3", "B2");
+    text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml", Level.delfB1),
+    text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml", Level.delfB1),
+    text3("Texte d'essai", "Url/Text/3", Level.delfB2);
 
     private final String text;
     private final String url;
-    private final String level;
+    private final Level level;
 
     /**
      * Text constructor
@@ -28,7 +30,7 @@ public enum Text {
      * @param text
      */
 
-    private Text(String text, String url, String level) {
+    private Text(String text, String url, Level level) {
         this.text = text;
         this.url = url;
         this.level = level;
@@ -57,7 +59,17 @@ public enum Text {
      *
      * @return
      */
-    public String getLevel() {
+    public Level getLevel() {
         return level;
+    }
+    
+    public static List<Text> getByLevel(Level level) {
+        List<Text> list = new ArrayList<Text>();
+        for (Text t : Text.values()) {
+            if (t.getLevel().equals(level)){
+                list.add(t);
+            }
+        }        
+        return list;
     }
 }
