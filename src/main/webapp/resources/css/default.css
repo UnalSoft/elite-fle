@@ -34,3 +34,9 @@ body {
     background-image: url('../images/icons/red-18.png') !important;
     background-size: 100%; 
 }
+
+.text {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+}

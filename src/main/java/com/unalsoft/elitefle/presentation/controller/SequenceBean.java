@@ -1,10 +1,5 @@
-//@TODO: Add a preview of the selected text
 //@TODO: Add a preview of the sequence when created
 //@TODO: Add toolTip Tutorial text
-//@TODO: Add a preview of the text
-//@TODO: Add actions buttons
-//@TODO: Add icons in the buttons
-//@TODO: Validation screen, came back and confirm button
 package com.unalsoft.elitefle.presentation.controller;
 
 import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
@@ -13,18 +8,21 @@ import com.unalsoft.elitefle.entity.Level;
 import com.unalsoft.elitefle.entity.Notion;
 import com.unalsoft.elitefle.entity.Text;
 import com.unalsoft.elitefle.entity.TypeOfActivity;
+import com.unalsoft.elitefle.entity.xml.*;
 import com.unalsoft.elitefle.vo.ActivityVo;
 import com.unalsoft.elitefle.vo.SequenceVo;
 import com.unalsoft.elitefle.vo.SupportVo;
-
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 /**
  * @author juanmanuelmartinezromero
@@ -55,6 +53,8 @@ public class SequenceBean implements Serializable {
     private List<SelectItem> spottingTexts;
     private List<SelectItem> systematisationActivities;
     private List<SelectItem> systematisationTexts;
+    private Text selectedPreviewText;
+    private DocumentTexte text;
 
     @PostConstruct
     public void init() {
@@ -69,9 +69,11 @@ public class SequenceBean implements Serializable {
     private void setInitialValues() {
         setNotion(Notion.textualStructuring);
         setSpottingActivity(TypeOfActivity.activity2);
-        setSpottingText(Text.text2);
+        setSpottingText(Text.text1);
         setSystematisationActivity(TypeOfActivity.activity1);
-        setSystematisationText(Text.text1);
+        setSystematisationText(Text.text2);
+        setSelectedPreviewText(Text.text1);
+        parseSelectedText(spottingText);
     }
 
     /**
@@ -98,9 +100,9 @@ public class SequenceBean implements Serializable {
 
         fillSubNotions();
         fillSpottingActivities(getSpottingActivity());
-        fillSpottingTexts(getSpottingText());
+        fillSpottingTexts(getSystematisationText());
         fillSystematisationActivities(getSystematisationActivity());
-        fillSystematisationTextList(getSystematisationText());
+        fillSystematisationTextList(getSpottingText());
 
         // Fill the levels list
         for (Level l : Level.values()) {
@@ -230,9 +232,9 @@ public class SequenceBean implements Serializable {
         sv.setIdSystematizationActivity(idSystematisationActivity);
 
         String cuttedAppAct = getKnowledgeApp().length() <= 2500
-                ? getKnowledgeApp() : getKnowledgeApp().substring(0, 2500-1);
+                ? getKnowledgeApp() : getKnowledgeApp().substring(0, 2500 - 1);
         String cuttedexp = getExplication().length() <= 2500
-                ? getExplication() : getExplication().substring(0, 2500-1);
+                ? getExplication() : getExplication().substring(0, 2500 - 1);
 
         sv.setApplicationActivity(cuttedAppAct);
         sv.setIdAuthor(getAuthor().getIdTeacher());
@@ -557,6 +559,130 @@ public class SequenceBean implements Serializable {
      */
     public void setSystematisationTexts(List<SelectItem> systematisationTexts) {
         this.systematisationTexts = systematisationTexts;
+    }
+
+    public Text getSelectedPreviewText() {
+        return selectedPreviewText;
+    }
+
+    public void setSelectedPreviewText(Text selectedPreviewText) {
+        this.selectedPreviewText = selectedPreviewText;
+    }
+
+    public DocumentTexte getText() {
+        return text;
+    }
+
+    public void setText(DocumentTexte text) {
+        this.text = text;
+    }
+
+    public List<ElementXML> getTitleElems() {
+        List<ElementXML> elems = new ArrayList<ElementXML>();
+        if (text != null && text.getContenu().getTitre() != null) {
+            List<Phrase> phrases = text.getContenu().getTitre().getPhrase();
+            for (Phrase phrase : phrases) {
+                addPhraseElems(phrase, elems);
+            }
+        }
+        return elems;
+    }
+
+    private void addPhraseElems(Phrase phrase, List<ElementXML> elems) {
+        List<ElementXML> propOrElement = phrase.getPropOrElement();
+        for (ElementXML elementXML : propOrElement) {
+            if (elementXML.isProp()) {
+                List<ElementXML> propElems = getPropElems(elementXML);
+                elems.addAll(propElems);
+            } else if (elementXML.isElem()) {
+                elems.add(elementXML);
+            }
+        }
+    }
+
+    private List<ElementXML> getPropElems(ElementXML prop) {
+        List<ElementXML> elems = new ArrayList<ElementXML>();
+        if (prop != null) {
+            List<ElementXML> propElems = ((Prop) prop).getReferentOrCoreferentOrElementOrProp();
+            for (ElementXML elementXML : propElems) {
+                if (elementXML.isProp()) {
+                    List<ElementXML> subPropElems = getPropElems(elementXML);
+                    elems.addAll(subPropElems);
+                } else {
+                    elems.add(elementXML);
+                }
+            }
+        }
+        return elems;
+    }
+
+    public List<ElementXML> getSubtitleElems(ElementXML subtitle) {
+        List<ElementXML> elems = new ArrayList<ElementXML>();
+        if (subtitle != null) {
+            List<Phrase> phrases = ((SousTitre) subtitle).getPhrase();
+            for (Phrase phrase : phrases) {
+                addPhraseElems(phrase, elems);
+            }
+        }
+        return elems;
+    }
+
+    public List<ElementXML> getParagraphElems(ElementXML paragraph) {
+        List<ElementXML> elems = new ArrayList<ElementXML>();
+        if (paragraph != null) {
+            List<ElementXML> phraseOrElement = ((Paragraphe) paragraph).getPhraseOrElement();
+            for (ElementXML elementXML : phraseOrElement) {
+                if (elementXML.isElem()) {
+                    elems.add(elementXML);
+                } else {
+                    addPhraseElems((Phrase) elementXML, elems);
+                }
+            }
+        }
+        return elems;
+    }
+    
+    public String getElementsFromReferent(ElementXML element) {
+        String elements = new String();
+        List<Element> elems = null;
+        if (element.isReferent()) {
+            elems = ((Referent) element).getElement();
+        } else if (element.isCoreferent()) {
+            elems = ((Coreferent) element).getElement();
+        }
+        for (Element el : elems) {
+            elements = elements.concat(el.getvalue() + " ");
+        }
+        return elements;
+    }
+    
+    public void setSpottingTextAsSelected() {
+        setSelectedPreviewText(getSpottingText());
+        parseSelectedText(getSelectedPreviewText());
+    }
+    
+    public void setSystematisationTextAsSelected() {
+        setSelectedPreviewText(getSystematisationText());
+        parseSelectedText(getSelectedPreviewText());
+    }
+
+    public DocumentTexte parseSelectedText(Text selectedText) {
+        if (selectedText != null) {
+            text = Parser.parseXML(selectedText.getUrl());
+            if (text != null) {                
+                return text;
+            }
+        }
+        return null;
+    }
+    
+    public void buttonAction(ActionEvent actionEvent) {
+        addMessage("Welcome to Primefaces!!");
+    }
+    
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
 }

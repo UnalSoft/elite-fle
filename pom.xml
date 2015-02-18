@@ -53,6 +53,13 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.2.1</version>
         </dependency>
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -131,8 +138,9 @@
                         </component>
                     </components>
                 </configuration>
-            </plugin>-->
+            </plugin>-->            
         </plugins>
+        <finalName>elite-fle</finalName>
     </build>
     <repositories>
         <repository>

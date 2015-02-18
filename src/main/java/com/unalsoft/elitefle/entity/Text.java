@@ -14,12 +14,13 @@ public enum Text {
 
     //@TODO Get text location from DB
     //@TODO Change server location to ../applications/__internal/elite-fle-1.0-SNAPSHOT/
-    text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml"),
-    text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml"),
-    text3("Texte d'essai", "Url/Text/3");
+    text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml", "B1"),
+    text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml", "B1"),
+    text3("Texte d'essai", "Url/Text/3", "B2");
 
     private final String text;
     private final String url;
+    private final String level;
 
     /**
      * Text constructor
@@ -27,9 +28,10 @@ public enum Text {
      * @param text
      */
 
-    private Text(String text, String url) {
+    private Text(String text, String url, String level) {
         this.text = text;
         this.url = url;
+        this.level = level;
     }
 
     /**
@@ -48,5 +50,14 @@ public enum Text {
      */
     public String getUrl() {
         return url;
+    }
+    
+    /**
+     * get the text's level
+     *
+     * @return
+     */
+    public String getLevel() {
+        return level;
     }
 }

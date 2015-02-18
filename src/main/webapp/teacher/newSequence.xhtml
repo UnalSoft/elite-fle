@@ -83,10 +83,12 @@
                             <p:selectOneMenu id="seqSpottingText" 
                                              value="#{sequenceBean.spottingText}">
                                 <p:ajax event="change"
-                                    listener="#{sequenceBean.changeSystematisationTexts}" 
-                                    update="seqSystematisationText" />
+                                        listener="#{sequenceBean.changeSystematisationTexts}" 
+                                        update="seqSystematisationText" />
                                 <f:selectItems value="#{sequenceBean.spottingTexts}" />
-                            </p:selectOneMenu>
+                            </p:selectOneMenu>   
+                            <p:commandButton update=":dialogForm:textPreview" oncomplete="showSpottingText();PF('textDialog').show();" 
+                                             icon="ui-icon-search" title="Aperçu"/>                                
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSpottingActivity" 
@@ -136,6 +138,8 @@
                                 <f:selectItems 
                                     value="#{sequenceBean.systematisationTexts}" />
                             </p:selectOneMenu>
+                            <p:commandButton update=":dialogForm:textPreview" oncomplete="showSystematizationText();PF('textDialog').show();" 
+                                             icon="ui-icon-search" title="Aperçu"/>  
                         </h:panelGroup>
                         <h:panelGroup>
                             <p:outputLabel for="seqSystematisationActivity" 
@@ -196,9 +200,61 @@
                     </div>
                 </h:panelGroup>
             </h:panelGrid>
-            <!--@TODO: Change the button "support" if necessary or not cute ;)-->
-            <!--@TODO: Add button go back if necessary -->
         </h:form>
+
+        <h:form id='dialogForm'>
+            <p:dialog widgetVar="textDialog" modal="true" showEffect="fade" hideEffect="fade" width="80%"  height="400" 
+                      closeOnEscape='true' draggable="true" resizable="false" >
+                <p:outputPanel id="textPreview" >
+                    <div class="text text-justify">
+                        <div class="title">
+                            <h4>
+                                <ui:repeat value="#{sequenceBean.titleElems}" var="elem">
+                                    <ui:fragment rendered="#{elem.elem}">
+                                        <h:outputText value=" #{elem.value} "/>
+                                    </ui:fragment>
+                                    <ui:fragment rendered="#{!elem.elem}">
+                                        <h:outputText value=" #{sequenceBean.getElementsFromReferent(elem)} "/>
+                                    </ui:fragment>
+                                </ui:repeat>
+                            </h4>
+                        </div>
+                        <div class="text-justify">
+                            <ui:repeat value="#{sequenceBean.text.contenu.sousTitreOrParagraphe}" var="element">
+                                <ui:fragment rendered="#{element.sousTitre}">
+                                    <div class="subtitle">
+                                        <ui:repeat value="#{sequenceBean.getSubtitleElems(element)}" var="elem">
+                                            <ui:fragment rendered="#{elem.elem}">
+                                                <h:outputText value=" #{elem.value} "/>
+                                            </ui:fragment>
+                                            <ui:fragment rendered="#{!elem.elem}">
+                                                <h:outputText value=" #{sequenceBean.getElementsFromReferent(elem)} "/>
+                                            </ui:fragment>
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                                <ui:fragment rendered="#{element.paragraphe}">
+                                    <div class="paragraph">
+                                        <ui:repeat value="#{sequenceBean.getParagraphElems(element)}" var="elem">
+                                            <ui:fragment rendered="#{elem.elem}">
+                                                <h:outputText value=" #{elem.value} "/>
+                                            </ui:fragment>
+                                            <ui:fragment rendered="#{!elem.elem}">
+                                                <h:outputText value=" #{sequenceBean.getElementsFromReferent(elem)} "/>
+                                            </ui:fragment>                                       
+                                        </ui:repeat>
+                                    </div>
+                                </ui:fragment>
+                                <br/>
+                            </ui:repeat>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </p:dialog>
+            <p:remoteCommand name="showSpottingText" update=":dialogForm:textPreview" actionListener="#{sequenceBean.setSpottingTextAsSelected}" />                             
+            <p:remoteCommand name="showSystematizationText" update=":dialogForm:textPreview" actionListener="#{sequenceBean.setSystematisationTextAsSelected}" />                             
+        </h:form>
+
     </ui:define>
 
 </ui:composition>
