@@ -29,6 +29,10 @@ public class AllSequencesBean implements Serializable {
     public void init() {
         setSequences(FacadeFactory.getInstance().getSequenceFacade().getList());
     }
+    
+    public void deleteSequence(SequenceVo sequence) {
+        FacadeFactory.getInstance().getSequenceFacade().delete(sequence.getIdSequence());
+    }
 
     /**
      * @return the selectedSequence

@@ -81,17 +81,24 @@
                 <p:commandButton id="editCmdButton" disabled="true"
                                  icon="img-button-edit" title="Modifier séquence">
                 </p:commandButton>
-                <p:commandButton id="deleteCmdButton" disabled="true"
-                                 icon="img-button-delete" title="Supprimer séquence">
+                <p:commandButton id="deleteCmdButton" disabled="#{teacherBean.idTeacher != sequence.idAuthor}"
+                                 update=":tableSequences" oncomplete="location.reload();" 
+                                 icon="img-button-delete" title="Supprimer séquence"
+                                 actionListener="#{allSequencesBean.deleteSequence(sequence)}">
+                    <p:confirm header="Supprimer séquence ?" message="Tous les données de la séquence seront supprimées. Vous êtes sûr de vouloir la supprimer ?" icon="ui-icon-alert" />
                 </p:commandButton>
                 <p:button id="sendCmdButton"
-                                 icon="img-button-send" title="Envoyer séquence"
-                                 outcome="/teacher/sendSequence.xhtml">
+                          icon="img-button-send" title="Envoyer séquence"
+                          outcome="/teacher/sendSequence.xhtml">
                     <f:param name="idSequence" value="#{sequence.idSequence}"/>
                     <f:param name="sequenceName" value="#{sequence.nameSequence}"/>
                 </p:button>
             </p:column>            
         </p:dataTable>
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
         <div class="form-actions">
             <h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger"/>            
         </div>

@@ -85,7 +85,7 @@ public class SequenceService implements IService<SequenceVo> {
     
     @Override
     public void delete(Object id, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DAOFactory.getInstance().getSequenceDAO().delete(id, em);
     }
     
     @Override
