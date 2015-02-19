@@ -43,7 +43,7 @@ public class ActivityDAO implements IDAO<Activity> {
                 + "AND a.type LIKE :typeActivity AND a.urlText LIKE :url")
                 .setParameter("nameText", vo.getName())
                 .setParameter("typeActivity", vo.getType())
-                .setParameter("url", vo.getUrl());
+                .setParameter("url", vo.getUrl().replaceAll("\\\\", "\\\\\\\\")); //To fix problem with windows file path
         try {
             id = (Integer) q.getSingleResult();
         } catch (NonUniqueResultException e) {
