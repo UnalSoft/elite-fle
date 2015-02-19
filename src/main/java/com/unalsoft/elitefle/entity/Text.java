@@ -18,7 +18,10 @@ public enum Text {
     //@TODO Change server location to ../applications/__internal/elite-fle-1.0-SNAPSHOT/
     text1("Aider les handicapés dans le monde du travail", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB101test.xml", Level.delfB1),
     text2("Les Thibault, tome 1, le cahier gris (fragment)", new File("").getAbsolutePath() + File.separator + "texts" + File.separator + "texte_corefB105test.xml", Level.delfB1),
-    text3("Texte d'essai", "Url/Text/3", Level.delfB2);
+    text3("Une lueur d'espoir", "Url/Text/3", Level.delfB1),
+    text4("Une génération inoxydable", "Url/Text/4", Level.delfB2),
+    text5("Le compte à rebours", "Url/Text/5", Level.delfB2),
+    text6("Surdoués : trop intelligents pour être heureux", "Url/Text/6", Level.delfB2);
 
     private final String text;
     private final String url;

@@ -73,7 +73,7 @@ $(function() {
                 revert: "invalid",
                 cursor: "pointer"
             });
-            if (ui.draggable.attr("subtype") === "GN") {
+            if (ui.draggable.attr("subtype") === "GN" || ui.draggable.attr("type") === "Nom") {
                 wrongC1Pron -= 1;
             } else {
                 wrongC1GN += 1;
@@ -145,7 +145,7 @@ $(function() {
                 revert: "invalid",
                 cursor: "pointer"
             });
-            if (ui.draggable.attr("subtype") === "GN") {
+            if (ui.draggable.attr("subtype") === "GN" || ui.draggable.attr("type") === "Nom") {
                 wrongC2Pron -= 1;
             } else {
                 wrongC2GN += 1;
@@ -217,7 +217,7 @@ $(function() {
                 revert: "invalid",
                 cursor: "pointer"
             });
-            if (ui.draggable.attr("subtype") === "GN") {
+            if (ui.draggable.attr("subtype") === "GN" || ui.draggable.attr("type") === "Nom") {
                 wrongC3Pron -= 1;
             } else {
                 wrongC3GN += 1;

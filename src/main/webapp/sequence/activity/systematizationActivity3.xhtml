@@ -52,11 +52,11 @@
                             <h:outputText value=" #{elem.value} "/>
                         </ui:fragment>
                         <ui:fragment rendered="#{elem.referent}">
-                            <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                            <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                           style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                         </ui:fragment>
                         <ui:fragment rendered="#{elem.coreferent}">
-                            <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                            <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                           style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                         </ui:fragment>
                     </ui:repeat>
@@ -70,11 +70,11 @@
                                         <h:outputText value=" #{elem.value} "/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.referent}">
-                                        <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                                        <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                                       style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.coreferent}">
-                                        <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                                        <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                                       style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                                     </ui:fragment>
                                 </ui:repeat>
@@ -87,11 +87,11 @@
                                         <h:outputText value=" #{elem.value} "/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.referent}">
-                                        <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                                        <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                                       style="color:#{systematizationActivityBean3.getRefColor(elem.idn)}"/>
                                     </ui:fragment>
                                     <ui:fragment rendered="#{elem.coreferent}">
-                                        <h:outputText value=" #{spottingActivityBean2.getElementsFromReferent(elem)} "
+                                        <h:outputText value=" #{systematizationActivityBean3.getElementsFromReferent(elem)} "
                                                       style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"/>
                                     </ui:fragment>
                                 </ui:repeat>
@@ -157,10 +157,10 @@
                                  style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
                                 <ui:repeat value="#{systematizationActivityBean3.coreferent1}" var="elem">
                                     <div class="coreferent"
-                                         style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
+                                         style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
                                          selectable="true"
-                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         onclick="changeStyle('#{elem.idn}')">#{systematizationActivityBean3.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>
@@ -177,10 +177,10 @@
                                  style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
                                 <ui:repeat value="#{systematizationActivityBean3.coreferent2}" var="elem">
                                     <div class="coreferent"
-                                         style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
+                                         style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
                                          selectable="true"
-                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         onclick="changeStyle('#{elem.idn}')">#{systematizationActivityBean3.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>
@@ -197,10 +197,10 @@
                                  style="height: #{20 * systematizationActivityBean3.coreferent1.size() - 30}px;width: 100%;">
                                 <ui:repeat value="#{systematizationActivityBean3.coreferent3}" var="elem">
                                     <div class="coreferent"
-                                         style="color:#{spottingActivityBean2.getCoRefColor(elem.chaine, elem.idn)}"
+                                         style="color:#{systematizationActivityBean3.getCoRefColor(elem.chaine, elem.idn)}"
                                          idn="#{elem.idn}" type="#{elem.type}" subtype="#{elem.sousType}"
                                          selectable="true"
-                                         onclick="changeStyle('#{elem.idn}')">#{spottingActivityBean2.getElementsFromReferent(elem)}</div>
+                                         onclick="changeStyle('#{elem.idn}')">#{systematizationActivityBean3.getElementsFromReferent(elem)}</div>
                                 </ui:repeat>
                             </div>
                         </div>

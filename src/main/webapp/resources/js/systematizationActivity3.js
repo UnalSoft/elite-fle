@@ -38,7 +38,7 @@ function finished(element, isGN, isPron, isN, len) {
         if (element.attr("right") === "true" && !(isGN || isPron || isN)) {
             element.attr("right", "false");
             rightAnswers--;
-            if (element.attr("subtype") === "GN" || element.attr("subtype") === "N")rightGN--;
+            if (element.attr("subtype") === "GN" || element.attr("type") === "Nom")rightGN--;
             else if (element.attr("type") === "Pron") rightPron--;
         } else if (element.attr("right") === "false" && (isGN || isPron || isN)) {
             element.attr("right", "true");
@@ -60,13 +60,13 @@ function changeStyle(id) {
         var element = $(".coreferent[idn=" + id + "]");
         var selected = $('input[name=corefSelection]:checked');
         var len = $("div").filter(".coreferent").length;
-        var totalGN = $("[subtype=GN]").length + $("[subtype=N]").length;
-        var totalPron = $("[type=Pron]").length;
+        totalGN = $("[type=Nom]").length;
+        totalPron = $("[type=Pron]").length;
 
         // Verify if the selection is correct or not
         var isGN = element.attr("subtype") === selected.val();
         var isPron = element.attr("type") === selected.val();
-        var isN = element.attr("subtype") === "N" && selected.val() == "GN";
+        var isN = element.attr("type") === "Nom" && selected.val() === "GN";
 
         // Set the same style to the element
         element.attr("style", selected.attr("style") + "; cursor: pointer");
@@ -98,7 +98,7 @@ function errorMessage(len, totalGN, totalPron) {
     var hits = len - errors;
     var wrongGn = totalGN - rightGN;
     var wrongPron = totalPron - rightPron;
-    return "Attention vous vous êtes Préjugés trompé " +
+    return "Attention vous vous êtes trompé " +
         errors + " fois: " +
         "\n1- (" + wrongPron + ")de catégorie pron " +
         "\n2- (" + wrongGn + ") de catégorie GN";
