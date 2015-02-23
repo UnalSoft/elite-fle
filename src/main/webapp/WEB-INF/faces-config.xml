@@ -28,14 +28,16 @@
     <navigation-rule>
         <from-view-id>/teacher/newSequence.xhtml</from-view-id>
         <navigation-case>
-            <from-action>#{sequenceBean.isSupports()}</from-action>
+            <from-action>#{sequenceBean.next()}</from-action>
             <from-outcome>true</from-outcome>
             <to-view-id>/teacher/support.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-action>#{sequenceBean.isSupports()}</from-action>
+            <from-action>#{sequenceBean.next()}</from-action>
             <from-outcome>false</from-outcome>
             <to-view-id>/teacher/summary.xhtml</to-view-id>
+            <redirect/>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>

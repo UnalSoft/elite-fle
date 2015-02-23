@@ -75,4 +75,13 @@ public enum Text {
         }        
         return list;
     }
+    
+    public static Text getByTextName(String textName) {
+        for (Text text : Text.values()) {
+            if (text.getText().equals(textName)) {
+                return text;
+            }
+        }
+        return null;
+    }
 }

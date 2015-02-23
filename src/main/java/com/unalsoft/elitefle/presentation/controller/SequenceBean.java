@@ -16,12 +16,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -55,59 +52,79 @@ public class SequenceBean implements Serializable {
     private List<SelectItem> systematisationTexts;
     private List<Text> levelTexts;
     private DocumentTexte text;
+    private Integer idSequence;
+    private Boolean load;
+    private Boolean newSeq;
 
     @PostConstruct
     public void init() {
         setInitialValues();
-        allocateLists();
         fillFields();
+    }
+
+    public void preRenderView() {
+        if (idSequence != null && !load) {
+            SequenceVo sequence = FacadeFactory.getInstance().getSequenceFacade().find(idSequence);
+            ActivityVo spottingActivity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSpottingActivity());
+            ActivityVo systematizationActivity = FacadeFactory.getInstance().getActivityFacade().find(sequence.getIdSystematizationActivity());
+
+            setName(sequence.getNameSequence());
+            setKnowledgeApp(sequence.getApplicationActivity());
+            setExplication(sequence.getExplication());
+
+            setNotion(Notion.getByDescription(sequence.getNotion()));
+            setSpottingActivity(TypeOfActivity.getByActivityName(spottingActivity.getType()));
+            setSystematisationActivity(TypeOfActivity.getByActivityName(systematizationActivity.getType()));
+
+            setSpottingText(Text.getByTextName(spottingActivity.getName()));
+            setSystematisationText(Text.getByTextName(systematizationActivity.getName()));
+            setLevelTexts(Text.getByLevel(getSpottingText().getLevel()));
+            setLevel(getSpottingText().getLevel());
+            setSupports(sequence.isSupports());
+
+            //allocateLists();
+            fillFields();
+            setLoad(true);
+        }
     }
 
     /**
      * Set the initial values to the Notion, texts and activities
      */
     private void setInitialValues() {
+        setName("");
+        setKnowledgeApp("");
+        setExplication("");
         setNotion(Notion.textualStructuring);
-        setSpottingActivity(TypeOfActivity.activity2);
-        setSystematisationActivity(TypeOfActivity.activity1);
+        setSpottingActivity(TypeOfActivity.activity1);
+        setSystematisationActivity(TypeOfActivity.activity2);
         setLevelTexts(Text.getByLevel(Level.delfB1));
         setSpottingText(getLevelTexts().get(0));
         if (getLevelTexts().size() >= 2) {
             setSystematisationText(getLevelTexts().get(1)); //List must have at least 2 texts
         } else {
-            setSystematisationText(null); 
+            setSystematisationText(null);
         }
-    }
-
-    /**
-     * Allocate the arrayLists
-     */
-    private void allocateLists() {
-        setNotions(new ArrayList<SelectItem>());
-        setLevels(new ArrayList<SelectItem>());
-        setSpottingActivities(new ArrayList<SelectItem>());
-        setSpottingTexts(new ArrayList<SelectItem>());
-        setSystematisationActivities(new ArrayList<SelectItem>());
-        setSystematisationTexts(new ArrayList<SelectItem>());
     }
 
     /**
      * Fill the bean fields
      */
     private void fillFields() {
-        //@TODO Fix bug when trying to select the first text in the first field.
         // Fill the Notions and SubNotions list
+        setNotions(new ArrayList<SelectItem>());
         for (Notion n : Notion.values()) {
             getNotions().add(new SelectItem(n, n.getDescription()));
         }
 
         fillSubNotions();
-        fillSpottingActivities(getSpottingActivity());
+        fillSpottingActivities(getSystematisationActivity());
         fillSpottingTexts(getSystematisationText());
-        fillSystematisationActivities(getSystematisationActivity());
+        fillSystematisationActivities(getSpottingActivity());
         fillSystematisationTextList(getSpottingText());
 
         // Fill the levels list
+        setLevels(new ArrayList<SelectItem>());
         for (Level l : Level.values()) {
             getLevels().add(new SelectItem(l, l.getLevel()));
         }
@@ -226,7 +243,7 @@ public class SequenceBean implements Serializable {
         if (getLevelTexts().size() >= 2) {
             setSystematisationText(getLevelTexts().get(1)); //List must have at least 2 texts
         } else {
-            setSystematisationText(null); 
+            setSystematisationText(null);
         }
         changeSpottingTexts();
 //        changeSystematisationTexts();
@@ -262,7 +279,12 @@ public class SequenceBean implements Serializable {
         }
         sv.setSupportIdList(supportsIds);
         //@TODO Solve "No transaction is currently active" when complex strings in explication and App Activity
-        FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+        if (getNewSeq()) {
+            FacadeFactory.getInstance().getSequenceFacade().persist(sv);
+        } else {
+            sv.setIdSequence(getIdSequence());
+            FacadeFactory.getInstance().getSequenceFacade().update(sv);
+        }
 
         this.setName(null);
         this.setExplication(null);
@@ -294,6 +316,13 @@ public class SequenceBean implements Serializable {
                     getActivityFacade().findByAll(activityVo);
         }
         return idActivity;
+    }
+
+    public String next() {
+        getSupportBean().setIdSequence(getIdSequence());
+        getSupportBean().setNewSeq(getNewSeq());
+        getSupportBean().setLoad(false);
+        return String.valueOf(isSupports());
     }
 
     /**
@@ -592,6 +621,30 @@ public class SequenceBean implements Serializable {
         this.levelTexts = levelTexts;
     }
 
+    public Integer getIdSequence() {
+        return idSequence;
+    }
+
+    public void setIdSequence(Integer idSequence) {
+        this.idSequence = idSequence;
+    }
+
+    public Boolean getLoad() {
+        return load;
+    }
+
+    public void setLoad(Boolean load) {
+        this.load = load;
+    }
+
+    public Boolean getNewSeq() {
+        return newSeq;
+    }
+
+    public void setNewSeq(Boolean newSeq) {
+        this.newSeq = newSeq;
+    }
+
     public List<ElementXML> getTitleElems() {
         List<ElementXML> elems = new ArrayList<ElementXML>();
         if (text != null && text.getContenu().getTitre() != null) {
@@ -691,15 +744,6 @@ public class SequenceBean implements Serializable {
             }
         }
         return null;
-    }
-
-    public void buttonAction(ActionEvent actionEvent) {
-        addMessage("Welcome to Primefaces!!");
-    }
-
-    public void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
 }

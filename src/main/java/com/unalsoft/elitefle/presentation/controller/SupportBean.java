@@ -4,6 +4,7 @@ import com.unalsoft.elitefle.businesslogic.facade.FacadeFactory;
 import com.unalsoft.elitefle.businesslogic.facade.PersistException;
 import com.unalsoft.elitefle.entity.Notion;
 import com.unalsoft.elitefle.entity.Notion.SubNotion;
+import com.unalsoft.elitefle.vo.SequenceVo;
 import com.unalsoft.elitefle.vo.SupportVo;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,6 +50,9 @@ public class SupportBean implements Serializable {
     @ManagedProperty(value = "#{teacherBean}")
     private TeacherBean user;
     String sRootPath;
+    private Integer idSequence;
+    private Boolean load;
+    private Boolean newSeq;
 
     @PostConstruct
     public void init() {
@@ -58,6 +62,20 @@ public class SupportBean implements Serializable {
         sRootPath = new File("").getAbsolutePath() + File.separator + "support";
         notions = Arrays.asList(Notion.values());
         subNotions = getNotions().get(0).getSubNotions();
+    }
+    
+    public void preRenderView() {
+        if (!getNewSeq() && !getLoad()) {
+            SequenceVo seq = FacadeFactory.getInstance().getSequenceFacade().find(getIdSequence());
+            List<String> supportIdList = seq.getSupportIdList();
+            selectedSupports=new ArrayList<SupportVo>();
+            for (String supportUrl : supportIdList) {
+                SupportVo support = FacadeFactory.getInstance().getSupportFacade().find(supportUrl);
+                selectedSupports.add(support);
+            }
+            
+            setLoad(true);
+        }
     }
 
     public String addSupport() {
@@ -206,6 +224,30 @@ public class SupportBean implements Serializable {
 
     public void setSubNotion(SubNotion subNotion) {
         this.subNotion = subNotion;
+    }
+
+    public Integer getIdSequence() {
+        return idSequence;
+    }
+
+    public void setIdSequence(Integer idSequence) {
+        this.idSequence = idSequence;
+    }
+
+    public Boolean getNewSeq() {
+        return newSeq;
+    }
+
+    public void setNewSeq(Boolean newSeq) {
+        this.newSeq = newSeq;
+    }
+
+    public Boolean getLoad() {
+        return load;
+    }
+
+    public void setLoad(Boolean load) {
+        this.load = load;
     }
 
 }

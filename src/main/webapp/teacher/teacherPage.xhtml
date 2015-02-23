@@ -18,7 +18,9 @@
             Vous pouvez :
         </p>
         <ul>
-            <li><h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger" style="margin: 5px"/></li>
+            <li><h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger" style="margin: 5px">
+                    <f:param name="new" value="true"/>
+                </h:button></li>
             <li><h:graphicImage value="/resources/images/icons/red-22.png" style="margin-right: 10px"/>Voir une explication;</li>
             <li><h:graphicImage value="/resources/images/icons/red-37.png" style="margin-right: 10px"/>la tester;</li>
             <li><h:graphicImage value="/resources/images/icons/red-41.png" style="margin-right: 10px"/>la modifier;</li>
@@ -78,9 +80,13 @@
                           outcome="/sequence/activity/spottingActivity.xhtml">
                     <f:param name="idSequence" value="#{sequence.idSequence}"/>
                 </p:button>
-                <p:commandButton id="editCmdButton" disabled="true"
-                                 icon="img-button-edit" title="Modifier séquence">
-                </p:commandButton>
+                <p:button id="editCmdButton" disabled="#{teacherBean.idTeacher != sequence.idAuthor}"
+                          icon="img-button-edit" title="Modifier séquence"
+                          outcome="/teacher/newSequence">
+                    <f:param name="idSequence" value="#{sequence.idSequence}"/>
+                    <f:param name="flag" value="false"/>
+                    <f:param name="new" value="false"/>
+                </p:button>
                 <p:commandButton id="deleteCmdButton" disabled="#{teacherBean.idTeacher != sequence.idAuthor}"
                                  update=":tableSequences" oncomplete="location.reload();" 
                                  icon="img-button-delete" title="Supprimer séquence"
@@ -100,7 +106,9 @@
             <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
         </p:confirmDialog>
         <div class="form-actions">
-            <h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger"/>            
+            <h:button outcome="newSequence" value="Créer une séquence" class="btn btn-danger">
+                <f:param name="new" value="true"/>
+            </h:button>
         </div>
     </ui:define>
 </ui:composition>

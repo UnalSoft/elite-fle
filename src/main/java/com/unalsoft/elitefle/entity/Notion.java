@@ -39,6 +39,15 @@ public enum Notion {
             subNotions.add(SubNotion.themeAndRheme);
         }
     }
+    
+    public static Notion getByDescription(String description) {
+        for (Notion notion : Notion.values()) {
+            if (notion.getDescription().equals(description)) {
+                return notion;
+            }
+        }
+        return null;
+    }
 
     /**
      * get the Notion's description

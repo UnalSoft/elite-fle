@@ -80,7 +80,41 @@ public class SequenceService implements IService<SequenceVo> {
     
     @Override
     public void update(SequenceVo vo, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Sequence sequence = new Sequence();
+        sequence.setIdSequence(vo.getIdSequence());
+        sequence.setNameSequence(vo.getNameSequence());
+        sequence.setNotion(vo.getNotion());
+        sequence.setSubNotion(vo.getSubNotion());
+        sequence.setLevel(vo.getLevel());
+        sequence.setSupports((short) (vo.isSupports() ? 1 : 0));
+        
+        Activity spActivity = DAOFactory.getInstance().getActivityDAO()
+                .find(vo.getIdSpottingActivity(), em);
+        Activity sysActivity = DAOFactory.getInstance().getActivityDAO()
+                .find(vo.getIdSystematizationActivity(), em);
+        
+        sequence.setSpottingActivity(spActivity);
+        sequence.setSystematizationActivity(sysActivity);
+        sequence.setApplicationActivity(vo.getApplicationActivity());
+        
+        Teacher author = DAOFactory.getInstance().getTeacherDAO()
+                .find(vo.getIdAuthor(), em);
+        sequence.setIdAuthor(author);
+        
+        sequence.setExplication(vo.getExplication());
+        sequence.setCreationDate(new GregorianCalendar().getTime());
+        
+        List<Support> supports = new ArrayList<Support>(vo.getSupportIdList().size());
+        
+        for (String supportId : vo.getSupportIdList()) {
+            Support support = DAOFactory.getInstance().getSupportDAO().find(supportId, em);
+            support.getSequenceList().add(sequence);    
+            supports.add(support);
+        }
+        sequence.setSupportList(supports);
+        
+        DAOFactory.getInstance().getSequenceDAO().update(sequence, em);
+        
     }
     
     @Override

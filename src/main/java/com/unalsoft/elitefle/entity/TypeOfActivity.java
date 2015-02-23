@@ -35,4 +35,13 @@ public enum TypeOfActivity {
     public String getActivityName() {
         return activity;
     }
+    
+    public static TypeOfActivity getByActivityName(String activityName) {
+        for (TypeOfActivity toa : TypeOfActivity.values()) {
+            if (toa.getActivityName().equals(activityName)) {
+                return toa;
+            }
+        }
+        return null;
+    }
 }

@@ -7,6 +7,13 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
 
+    <f:metadata>
+        <f:viewParam name="idSequence" value="#{sequenceBean.idSequence}"/>
+        <f:viewParam name="flag" value="#{sequenceBean.load}"/>
+        <f:viewParam name="new" value="#{sequenceBean.newSeq}"/>
+        <f:event type="preRenderView" listener="#{sequenceBean.preRenderView()}"/>
+    </f:metadata>
+    
     <ui:define name="title">
         Nouvelle séquence
     </ui:define>
@@ -197,7 +204,7 @@
                 <h:panelGroup>
                     <div class="form-actions">
                         <h:button outcome="teacherPage" value="Retourner" class="btn btn-danger" style="margin-right:5%"/>
-                        <h:commandButton action="#{sequenceBean.isSupports()}" 
+                        <h:commandButton action="#{sequenceBean.next()}" 
                                          value="Suivant" 
                                          class="btn btn-danger"/>
                     </div>
