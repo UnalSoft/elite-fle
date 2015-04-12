@@ -1,5 +1,5 @@
 // encapsulation
-!(function() {
+(function() {
 
   var getTextNodesIn = function(el) {
     return $(el).find(":not(iframe)").addBack().contents().filter(function() {
@@ -22,4 +22,4 @@
       .replace(/\s*\?\s*/g, " \? ") // space around interrogation
       .replace(/\s*\!\s*/g, " \! "); // space around exclamation
   });
-)();
+})();
