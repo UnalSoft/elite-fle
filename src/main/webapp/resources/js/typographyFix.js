@@ -9,9 +9,13 @@
 
   var textNodes = getTextNodesIn(document.getElementById("spottingActivityForm"));
 
+  var fakeApostropheChar = String.fromCharCode(8217);
+  var reFakeApostrophe = new RegExp(fakeApostropheChar, 'g');
+
   // format all text node according to french typography
   _.forEach(textNodes, function(node) {
-    node.data = node.data.replace(/\s*\;\s*/g, " \; ") // space around semi-colon
+    node.data = node.data.replace(reFakeApostrophe, "\'") // replace fake apostrophe by true apostrophe
+      .replace(/\s*\;\s*/g, " \; ") // space around semi-colon
       .replace(/\s*\:\s*/g, " \: ") // space around colon
       .replace(/\s*\?\s*/g, " \? ") // space around interrogation
       .replace(/\s*\!\s*/g, " \! ") // space around exclamation
